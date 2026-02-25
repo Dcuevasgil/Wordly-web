@@ -1,3 +1,4 @@
+-- Active: 1771793694776@@127.0.0.1@3306@wordly
 /*
 BBDD para el proyecto de vocabulario
 */
@@ -14,11 +15,28 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role ENUM('usuario','admin') DEFAULT 'usuario',
+    role ENUM('user','admin') DEFAULT 'user',
     is_user_active BOOLEAN DEFAULT TRUE,
     last_access DATETIME NULL,
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     update_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DROP TABLE password_resets;
+CREATE TABLE password_resets (
+    id_password_reset BIGINT AUTO_INCREMENT PRIMARY KEY,
+    
+    user_id BIGINT NOT NULL,
+    
+    reset_token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    used BOOLEAN DEFAULT FALSE,
+
+    register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    update_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+
+    FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE
 );
 
 -- ==============================
@@ -182,3 +200,5 @@ CREATE TABLE study_sessions (
 
 
 
+-- Indices
+CREATE INDEX idx_password_reset_token ON password_resets(reset_token);
