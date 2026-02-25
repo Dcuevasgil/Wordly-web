@@ -12,3 +12,6 @@ frontend/.env
 # General
 .env
 .DS_Store
+
+# Internal development logs
+docs/INFO-*.md
