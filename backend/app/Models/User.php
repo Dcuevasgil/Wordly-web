@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-class User extends Model {
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+class User extends Authenticatable implements JWTSubject {
 
     protected $table = 'users';
     protected $primaryKey = 'id_users';
-    public $timestamps_register_date = 'register_date';
-    public $timestamps_update_date = 'update_date';
+    
+    // const TIMESTAMPS_REGISTER_DATE = 'register_date';
+    // const TIMESTAMPS_UPDATE_DATE = 'update_date';
 
 
-    // Que raro que solo sean estos campos en esta variable jajajaj
-    // El id_users tambien se pone aqui?
-    // No tengo ni idea xd
     protected $fillable = [
         'name',
         'email',
@@ -106,4 +108,14 @@ class User extends Model {
     //         $fecha->update_date = now();
     //     });
     // }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }
