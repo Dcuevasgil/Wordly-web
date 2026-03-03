@@ -15,3 +15,8 @@ frontend/.env
 
 # Internal development logs
 docs/INFO-*.md
+frontend/docs/
+backend/docs/
+
+frontend/docs/INFO-*.md
+backend/docs/INFO-*.md
