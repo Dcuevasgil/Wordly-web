@@ -23,7 +23,9 @@ return new class extends Migration
 
             $table->timestamp('last_access')->nullable();
 
-            $table->timestamps();
+            $table->timestamp('register_date')->useCurrent();
+            $table->timestamp('updated_date')->useCurrent()->useCurrentOnUpdate();
+            
         });
     }
 
