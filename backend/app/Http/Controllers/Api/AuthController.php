@@ -17,11 +17,66 @@ class AuthController extends Controller
 
 
     /**
+     * Enpoint /api/register
+     * 
+     * Método
+     * POST
+     * 
+     * Ruta
+     * /api/register
+     * 
+     * Parámetros de entrada
+     * Body (JSON)
+     * {
+     *  "name": "Test2",
+     *  "email": "test2@test.com",
+     *  "password": "password1234"
+     * }
+     * 
+     * 
      * Campos minimos para el registro:
      * 
-     * 1. name
-     * 2. email
-     * 3. password
+     * 1. name (string)
+     * 2. email (string)
+     * 3. password (string)
+     * 
+     * Qué debe hacer el endpoint
+     * 1. Recibir los datos del usuario
+     * 2. Validar campos obligatorios
+     * 3. Crear el usuario en la base de datos
+     * 4. Hashear la contraseña
+     * 5. Generar el token
+     * 6. Devolver el usuario + el token
+     * 
+     * 
+     * Respuesta esperada
+     * {
+     *   "message": "User correctly registered",
+     *   "data": {
+     *       "id_users": 2,
+     *       "name": "Test2",
+     *       "email": "test2@test.com",
+     *       "role": "user",
+     *       "is_user_active": true,
+     *       "register_date": "2026-03-10T11:43:55.000000Z",
+     *       "updated_date": "2026-03-10T11:43:55.000000Z"
+     *   },
+     *   "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.*    eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNzczMTQzMDM4LCJleHAiOjE3NzMxNDY2MzgsIm5iZiI6MTc3MzE0MzAzOCwianRpIjoiMndmUW9wWTBUY2NXS3BudyIsInN1YiI6IjIiLCJwcnYiOiIyM2JkNWM4OT * }
+     *  
+     * Posibles errores
+     * Campos faltantes
+     * 400 Bad Request
+     * {
+     *   "error": "Missing required fields"
+     * }
+     * 
+     * 
+     * Email ya registrado
+     * 409 Conflict
+     * {
+     *   "error": "Email already registered"
+     * }
+     *  
      */
 
     public function register(Request $request) {
@@ -150,11 +205,60 @@ class AuthController extends Controller
 
 
     /**
+     * 
+     * Endpoint /api/login
+     * 
+     * Método
+     * POST
+     * 
+     * Ruta
+     * /api/login
+     * 
+     * Parámetros de entrada
+     * Body (JSON)
+     * {
+     *   "email": "test2@test.com",
+     *   "password": "password1234"
+     * }
+     * 
+     * 
      * Campos minimos para el login:
      * 
-     * 1. email
-     * 2. password
-     * 3. confirm password (validacion si es == a la password original)
+     * 1. email (string)
+     * 2. password (string)
+     * 3. confirm password (validacion si es == a la password original, solo en frontend)
+     * 
+     * 
+     * 
+     * Qué debe hacer el endpoint
+     * 1. Recibir credenciales del usuario registrado
+     * 2. Buscar el campo del usuario por el email
+     * 3. Verificar que la contraseña sea correcta
+     * 4. Generar el token
+     * 5. Devolver el token + los datos del usuario logueado
+     * 
+     * Respuesta esperada
+     * {
+         * "message": "User correctly logged in",
+         * "data": {
+         *    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.     * eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzczMTQzMDY2LCJleHAiOjE3NzMxNDY2NjYsIm5iZiI6MTc3MzE0MzA2NiwianRpIjoiTTFFQXcxQ05sNW51NFk1ZCIsInN1YiI6IjIiLCJwcnYiOiIyM2JkNWM4OT     *Q5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.Oh_ywRAtEAfWhgRDKTBbfBLciy6tu3F9oEq2_necNCw",
+         *    "token_type": "bearer",
+         *    "expires_in": 3600,
+         *    "user": {
+         *        "id_users": 2,
+         *        "name": "Test2",
+         *        "email": "test2@test.com",
+         *        "role": "user",
+         *        "is_user_active": 1,
+         *        "last_access": null,
+         *        "register_date": "2026-03-10T11:43:55.000000Z",
+         *        "updated_date": "2026-03-10T11:43:55.000000Z"
+         *    }
+         * }
+     * }
+     * 
+     * 
+     * 
      */
 
 
@@ -193,14 +297,170 @@ class AuthController extends Controller
 
 
 
+    /**
+     * ----------------------------------------------------------
+     * Endpoint: GET /api/me
+     * ----------------------------------------------------------
+     *
+     * Devuelve la información del usuario actualmente autenticado.
+     *
+     * Este endpoint se utiliza para:
+     * - Obtener los datos del perfil del usuario
+     * - Verificar si el token actual del usuario logueado es válido
+     * - Mantener sesión en el frontend
+     *
+     * ----------------------------------------------------------
+     * Método HTTP
+     * ----------------------------------------------------------
+     * GET
+     *
+     * ----------------------------------------------------------
+     * Ruta
+     * ----------------------------------------------------------
+     * /api/me
+     *
+     * ----------------------------------------------------------
+     * Parámetros de entrada
+     * ----------------------------------------------------------
+     * Ninguno en el body.
+     *
+     * El único dato necesario es el token JWT enviado en el header:
+     *
+     * Authorization: Bearer <JWT_TOKEN>
+     *
+     * ----------------------------------------------------------
+     * Qué hace el endpoint
+     * ----------------------------------------------------------
+     * 1. Lee el token JWT enviado en la petición
+     * 2. Valida el token
+     * 3. Obtiene el usuario autenticado
+     * 4. Devuelve sus datos de perfil
+     *
+     * ----------------------------------------------------------
+     * Respuesta esperada
+     * ----------------------------------------------------------
+     * {
+     *   "id_users": 1,
+     *   "name": "David",
+     *   "email": "david@email.com",
+     *   "role": "user",
+     *   "is_user_active": true,
+     *   "last_access": null,
+     *   "register_date": "2026-03-06T12:00:00",
+     *   "updated_date": "2026-03-06T12:00:00"
+     * }
+     *
+     * ----------------------------------------------------------
+     * Posibles errores
+     * ----------------------------------------------------------
+     *
+     * 401 Unauthorized
+     *
+     * {
+     *   "message": "Token not provided"
+     * }
+     *
+     * o
+     *
+     * {
+     *   "message": "Invalid token"
+     * }
+     *
+     * ----------------------------------------------------------
+     * Nota de arquitectura Wordly
+     * ----------------------------------------------------------
+     * Este endpoint no recibe parámetros porque
+     * el usuario ya viene identificado dentro del JWT.
+    */
 
     public function me() {
-
-        return response()->json(auth()->user());
-
+        $user = auth('api')->user();
+               
+        
+        return response()->json([
+            'data' => $user       
+        ]);
     }
 
 
-
+    /**
+     * ----------------------------------------------------------
+     * Endpoint: POST /api/logout
+     * ----------------------------------------------------------
+     *
+     * Cierra la sesión del usuario actualmente autenticado
+     * invalidando su token JWT.
+     *
+     * Este endpoint se utiliza para:
+     * - Cerrar la sesión del usuario
+     * - Invalidar el token JWT actual
+     * - Añadir el token a la blacklist para evitar su reutilización
+     *
+     * ----------------------------------------------------------
+     * Método HTTP
+     * ----------------------------------------------------------
+     * POST
+     *
+     * ----------------------------------------------------------
+     * Ruta
+     * ----------------------------------------------------------
+     * /api/logout
+     *
+     * ----------------------------------------------------------
+     * Parámetros de entrada
+     * ----------------------------------------------------------
+     * Ninguno en el body.
+     *
+     * El único dato necesario es el token JWT enviado en el header:
+     *
+     * Authorization: Bearer <JWT_TOKEN>
+     *
+     * ----------------------------------------------------------
+     * Qué hace el endpoint
+     * ----------------------------------------------------------
+     * 1. Lee el token JWT enviado en la petición
+     * 2. Valida el token
+     * 3. Invalida el token actual
+     * 4. Añade el token a la blacklist
+     * 5. Devuelve confirmación de cierre de sesión
+     *
+     * ----------------------------------------------------------
+     * Respuesta esperada
+     * ----------------------------------------------------------
+     * {
+     *   "message": "Successfully logged out"
+     * }
+     *
+     * ----------------------------------------------------------
+     * Posibles errores
+     * ----------------------------------------------------------
+     *
+     * 401 Unauthorized
+     *
+     * {
+     *   "message": "Token not provided" (Unauthenticated)
+     * }
+     *
+     * o
+     *
+     * {
+     *   "message": "Invalid token"
+     * }
+     * 
+     * ----------------------------------------------------------
+     * Nota de arquitectura Wordly
+     * ----------------------------------------------------------
+     * Este endpoint invalida el token actual del usuario
+     * para impedir que vuelva a utilizarse en futuras
+     * peticiones a la API.
+     */
+    public function logout() {
+        auth('api')->user();
+               
+        
+        return response()->json([
+            'message' => 'User correctly logout'
+        ]);
+    }
 
 }
