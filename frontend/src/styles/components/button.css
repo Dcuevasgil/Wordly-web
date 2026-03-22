@@ -1,0 +1,46 @@
+.button {
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: var(--radius-lg);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    font-family: var(--font-main);
+    font-size: var(--text-md);
+    font-weight: var(--weight-semi-bold);
+
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ICONO */
+.button img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+/* VARIANTES */
+.button-success {
+    background-color: var(--color-success);
+    color: var(--color-text);
+}
+
+.button-progress {
+    background-color: var(--color-progress);
+    color: var(--color-text);
+}
+
+/* HOVER PRO */
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* CLICK */
+.button:active {
+    transform: scale(0.95);
+}
