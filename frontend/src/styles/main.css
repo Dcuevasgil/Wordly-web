@@ -1,8 +1,30 @@
+/* ===================== */
+/* 🔹 TOKENS (PRIMERO) */
+/* ===================== */
+
+@import './tokens/variables.css';
+@import './tokens/colors.css';
+@import './tokens/spacing.css';
+
+/* ===================== */
+/* 🔹 BASE */
+/* ===================== */
+
 @import './base/reset.css';
 @import './base/typography.css';
+
+/* ===================== */
+/* 🔹 COMPONENTES */
+/* ===================== */
+
 @import './components/button.css';
 @import './components/inputs.css';
 @import './components/titles.css';
+
+/* ===================== */
+/* 🔹 LAYOUT */
+/* ===================== */
+
 @import './layout/containers.css';
 @import './layout/flex.css';
 @import './layout/grid.css';
