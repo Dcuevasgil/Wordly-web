@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Modules\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\User;
+use App\Modules\Auth\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -83,12 +83,7 @@ class AuthController extends Controller
 
 
         // Validar variables de entrada
-        $data = $request->only([
-            'name',
-            'email',
-            'password'
-        ]);
-
+        $data = $request->validated();
 
         // Validaciones previas
         $name = $data['name'] ?? null;
@@ -111,7 +106,7 @@ class AuthController extends Controller
 
         $user->name = $name;
         $user->email = $email;
-        $user->password = $password;
+        $user->password = Hash::make($password);
         // $user->$email;
         // $user->$password;
 
@@ -264,10 +259,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $data = $request->validate([
-            'email' => ['required','email'],
-            'password' => ['required','string'],
-        ]);
+        $data = $request->validated();
 
         $credentials = ['email' => $data['email'], 'password' => $data['password']];
 

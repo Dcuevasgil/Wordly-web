@@ -129,7 +129,7 @@ CREATE TABLE user_words (
 
     times_correct INT DEFAULT 0,
     times_failed INT DEFAULT 0,
-    veces_reviewed INT DEFAULT 0,
+    times_reviewed INT DEFAULT 0,
 
     days_interval INT DEFAULT 1,
     ease_factor DECIMAL(3,2) DEFAULT 2.50,
