@@ -28,8 +28,9 @@ export async function handleLogin(credentials) {
 }
 
 export async function handleRegister(userData) {
+
     // Respuesta de la API
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         
         headers: {

@@ -1,16 +1,19 @@
-import { StrictMode } from 'react'
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client'
-import App from './modules/auth/pages/LoginPage.jsx'
+
+import App from './App.jsx';
+
 import './styles/main.css'
 
 function main() {
   console.log("Aplicacion lista");
 }
 
-main(); // 👈 LLAMADA AQUÍ
+main();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
+  
 )

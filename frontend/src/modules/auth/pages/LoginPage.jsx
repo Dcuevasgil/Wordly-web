@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 // CSS
 import '../../../LoginPage.css'
@@ -11,19 +12,22 @@ import {
 
 
 // SVGs
-import WordlyLogo from '../../../assets/svg/logo.svg';
-import Bombilla from '../../../assets/svg/bulb.svg';
-import Trofeo from '../../../assets/svg/trophy.svg';
-import Sobre from '../../../assets/svg/mail.svg';
-import Candado from '../../../assets/svg/lock-closed.svg';
-import Persona from '../../../assets/svg/person.svg';
+import WordlyLogo from '../../../assets/svg/loginpage/logo.svg';
+import Bombilla from '../../../assets/svg/loginpage/bulb.svg';
+import Trofeo from '../../../assets/svg/loginpage/trophy.svg';
+import Sobre from '../../../assets/svg/loginpage/mail.svg';
+import Candado from '../../../assets/svg/loginpage/lock-closed.svg';
+import Persona from '../../../assets/svg/loginpage/person.svg';
 
 // Components
 import ButtonLogin from "../components/ButtonLogin";
 import Input from "../components/Input";
 import Modal from '../components/Modal';
 
-function App() {
+function LoginPage() {
+
+  // Navigation
+  const navigate = useNavigate();
 
 
   // Refs
@@ -35,7 +39,7 @@ function App() {
   const [activeTab, setActiveTab] = useState("login");
 
   // Modal de cursos y logros
-  const [active, setOpenModal] = useState(null);
+  // const [openModal, setOpenModal] = useState(null);
 
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const [contentHeight, setContentHeight] = useState("auto");
@@ -89,6 +93,14 @@ function App() {
 
   }, [activeTab]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+
   // Handles
   const handleLogin = async () => {
 
@@ -100,9 +112,11 @@ function App() {
 
       setModal({
         isOpen: true,
-        message: "Login successful",
+        message: "Login successful, you have successfully logged in",
         type: "success"
       });
+
+      navigate("/dashboard");
 
     } catch (error) {
 
@@ -125,11 +139,15 @@ function App() {
 
       console.log("Register success:", data);
 
+      localStorage.setItem("token", data.token);
+
       setModal({
         isOpen: true,
-        message: "Register successful",
+        message: "Register successful, you have successfully registered",
         type: "success"
       });
+
+      navigate("/dashboard");
 
     } catch (error) {
 
@@ -257,7 +275,11 @@ function App() {
                   
                   />
                   
-                  <button type="submit">Inicia sesión</button>
+                  <button 
+                    type="submit"
+                    >
+                      Inicia sesión
+                  </button>
 
                 </form>
 
@@ -313,7 +335,11 @@ function App() {
                     }
                   
                   />
-                  <button type="submit">Crear cuenta</button>
+                  <button 
+                    type="submit"
+                    >
+                      Crear cuenta
+                  </button>
 
                 </form>
               
@@ -333,11 +359,16 @@ function App() {
           type={modal.type}
           onClose={() => setModal({ ...modal, isOpen: false })}
         >
-          {modal.message}
+          <div 
+            style={{ padding: "var(--space-md)" }}
+            >
+              {modal.message}
+          </div>
+          {/* <ChargeIndicator /> */}
         </Modal>
       )}
     </>
   )
 }
 
-export default App
+export default LoginPage;

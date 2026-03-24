@@ -1,0 +1,26 @@
+
+.left-column {
+  background-color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.right-column {
+  background-color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+
+/* dashboard container */
+.dash-container {
+    width: 500px;
+    height: 500px;
+    background-color: var(--color-bg-dash);
+}
+
+
+
+

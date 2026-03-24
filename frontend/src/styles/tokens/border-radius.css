@@ -1,0 +1,12 @@
+:root {
+
+    /* ===================== */
+    /* 🔵 BORDER RADIUS */
+    /* ===================== */
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 30px;
+
+}

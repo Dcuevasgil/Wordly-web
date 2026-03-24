@@ -1,7 +1,7 @@
 import '../../../styles/components/inputs.css';
 
 // SVG
-import Bombilla from '../../../assets/svg/bulb.svg';
+import Bombilla from '../../../assets/svg/loginpage/bulb.svg';
 
 export default function Input({
     icon,

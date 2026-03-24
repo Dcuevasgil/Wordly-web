@@ -67,7 +67,7 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(106, 90, 249, 0.3);
+  box-shadow: 0 4px 12px rgba(106, 90, 249, 0.25);
 }
 
 button[type="submit"]:active {

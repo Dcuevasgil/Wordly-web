@@ -2,7 +2,7 @@
 import '../../../styles/components/button.css';
 
 // SVG
-import Bombilla from '../../../assets/svg/bulb.svg';
+import Bombilla from '../../../assets/svg/loginpage/bulb.svg';
 
 export default function ButtonLogin({
     icon,
