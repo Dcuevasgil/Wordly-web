@@ -1,18 +1,29 @@
+md-icon {
+  font-size: 28px;
+  line-height: 1;
+  display: block;
+}
+
 .circle-icon {
-    padding: 20px;
-    
-    width: 100px;
-    height: 100px;
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    border-radius: 50%;
-    border: 1px solid #ccc;
+  width: 64px;
+  height: 64px;
 
-    cursor: pointer;
+  display: grid;
+  place-items: center;
 
-    flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #ccc;
 
+  cursor: pointer;
+  flex-shrink: 0;
+
+  position: relative;
+  overflow: hidden;
+}
+
+md-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
 }

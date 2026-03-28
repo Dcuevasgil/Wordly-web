@@ -5,6 +5,9 @@ import App from './App.jsx';
 
 import './styles/main.css'
 
+import '@material/web/icon/icon.js';
+import '@material/web/ripple/ripple.js';
+
 function main() {
   console.log("Aplicacion lista");
 }
