@@ -19,6 +19,8 @@
 /* ===================== */
 
 @import './components/button.css';
+@import './components/header.css';
+@import './components/icons.css';
 @import './components/inputs.css';
 @import './components/titles.css';
 @import './components/tabs.css';
@@ -31,3 +33,10 @@
 @import './layout/containers.css';
 @import './layout/flex.css';
 @import './layout/grid.css';
+
+/* ===================== */
+/* 🔹 UTILITIES */
+/* ===================== */
+
+@import './utilities/flex.css';
+@import './utilities/typography.css';

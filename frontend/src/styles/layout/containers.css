@@ -6,6 +6,15 @@
   padding: 20px;
 }
 
+.left-column-style-1 {
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  height: 100vh;
+  gap: 35px;
+}
+
 .right-column {
   background-color: var(--color-white);
   display: flex;
@@ -13,14 +22,17 @@
   padding: 20px;
 }
 
-
-/* dashboard container */
-.dash-container {
-    width: 500px;
-    height: 500px;
-    background-color: var(--color-bg-dash);
+.right-column-style-1 {
+  background-color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 
-
+.simple-container {
+  width: 250px;
+  height: 250px;
+  background: var(--color-bg);
+}
 

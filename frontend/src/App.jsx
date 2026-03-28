@@ -12,13 +12,16 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         
         <Route 
-            path="/dashboard" 
-            element={
-                <PrivateRoute>
-                    <Dashboard />
-                </PrivateRoute>
-            } 
+          path="/dashboard" 
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          } 
         />
+
+        {/* Navegacion del dashboard */}
+        
 
 
       </Routes>

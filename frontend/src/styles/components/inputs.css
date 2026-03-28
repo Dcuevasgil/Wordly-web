@@ -24,3 +24,16 @@
   outline: none;
   width: 100%;
 }
+
+.search-dashboard input {
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: white;
+  font-size: 24px;
+}
+
+.search-dashboard input::placeholder {
+  color: white;
+}
