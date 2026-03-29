@@ -24,7 +24,7 @@ function Dashboard() {
     // const navigate = useNavigate();
 
     // States animations
-    const [openNotifications, setOpenNotifications] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(null);
 
     const unreadMessages = [
         { id: 1, from: "Juan" },
@@ -61,11 +61,31 @@ function Dashboard() {
 
     // Toggle Notifications
     const toggleNotifications = () => {
-        setOpenNotifications(prev => !prev);
+        setOpenDropdown(prev => prev === "notifications" ? null : "notifications");
+    }
+
+    // Toggle Profile
+    const toggleProfile = () => {
+        setOpenDropdown(prev => prev === "profile" ? null : "profile");
     }
 
 
     const notifications = generateNotifications();
+
+
+    // UseEffects
+
+    useEffect(() => {
+        const handleClickOutside = () => {
+            setOpenDropdown(null);
+        }
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        }
+    })
 
 
     return (
@@ -123,28 +143,96 @@ function Dashboard() {
                             {/* 🔔 NOTIFICATIONS */}
                             <div className="notifications-wrapper">
 
-                                <div className="circle-icon border-color-black ripple-icon interaction-press interaction-hover" onClick={toggleNotifications}>
+                                <div 
+                                    className="circle-icon border-color-black ripple-icon interaction-press interaction-hover" 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleNotifications();
+                                    }}
+                                    >
                                     <md-icon>notifications</md-icon>
                                     <md-ripple></md-ripple>
                                 </div>
-                                {openNotifications ? (
-                                    <div className="notifications-dropdown">
-                                        <p>No tienes notificaciones</p>
+                                {openDropdown === "notifications" && (
+                                    <div className="dropdown dropdown--notifications">
+
+                                        {notifications.length === 0 ? (
+                                            <p>No tienes notificaciones</p>
+                                        ) : (
+                                            notifications.map(notification => (
+                                                <div key={notification.id} className="notification-item">
+                                                    {notification.message}
+                                                </div>
+                                            ))
+                                        )}
+
                                     </div>
-                                ) : (
-                                    notifications.map(notification => {
-                                        <div key={notification.id} className="notification-item">
-                                            {notification.message}
-                                        </div>
-                                    })
-                                    
                                 )}
                             </div>
 
                             {/* 👤 PROFILE */}
-                            <div className="circle-icon border-color-black ripple-icon interaction-press interaction-hover">
-                                <md-icon>person</md-icon>
-                                <md-ripple></md-ripple>
+                            <div className="profile-wrapper">
+
+                                <div 
+                                    className="circle-icon border-color-black ripple-icon interaction-press interaction-hover" 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleProfile();
+                                    }}
+                                    >
+                                    <md-icon>person</md-icon>
+                                    <md-ripple></md-ripple>
+                                </div>
+                                {/* {openDropdownProfile ? (
+                                    <nav className="simple-container">
+                                        <ul>
+                                            <li>Ver Perfil</li>
+                                            <li>Mi progreso</li>
+                                            <hr />
+                                            <li>Cerrar sesión</li>
+                                        </ul>
+                                    </nav>
+                                )} */}
+                                {openDropdown === "profile" && (
+                                    <nav className="dropdown dropdown--profile">
+
+
+                                        <div className="dropdown-container">
+
+                                            {/* SECTION 1*/}
+                                            <ul className="dropdown-section">
+
+                                                <li className="dropdown-title">Perfil</li>
+
+                                                <li className="dropdown-item">Mi perfil</li>
+                                                <li className="dropdown-item">Cambiar curso</li>
+
+                                            </ul>
+
+                                            {/* SECTION 2*/}
+                                            <ul className="dropdown-section">
+
+                                                <li className="dropdown-title">Mi avance</li>
+
+                                                <li className="dropdown-item">Logros</li>
+                                                <li className="dropdown-item">Mi progreso</li>
+
+                                            </ul>
+
+                                            {/* SECTION 3 */}
+                                            {/* <ul className="dropdown-section">
+
+                                                <li className="dropdown-title">Perfil</li>
+
+                                                <li className="dropdown-item">Mi perfil</li>
+                                                <li className="dropdown-item">Cambiar curso</li>
+
+                                            </ul> */}
+
+                                        </div>
+
+                                    </nav>
+                                )}
                             </div>
 
                         </div>

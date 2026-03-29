@@ -1,4 +1,4 @@
-.notifications-dropdown {
+.dropdown {
   position: absolute;
   top: 110%;
   right: 0;
@@ -6,22 +6,52 @@
   width: 220px;
   padding: 12px;
 
-  background: white;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 
   z-index: 100;
 }
 
-.notifications-dropdown p {
-    font-family: var(--font-main);
-    position: relative;
-    padding-left: 16px;
+.dropdown--profile {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
-.notifications-dropdown p::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    top: 0;
+.dropdown--notifications {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.dropdown-section {
+  margin-bottom: 10px;
+  list-style-type: none;
+}
+
+.dropdown-title {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-bottom: 6px;
+  list-style: none;
+}
+
+
+.dropdown-list-unorder-wrapper ul {
+  list-style: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+
+
+.dropdown-item {
+  list-style: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: rgba(255,255,255,0.1);
 }
