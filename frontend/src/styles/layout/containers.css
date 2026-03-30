@@ -1,36 +1,46 @@
+.left-column { 
+  background-color: var(--color-primary); 
+  
+  display: flex; 
+  flex-direction: column; 
+  
+  padding: 20px; 
+} 
 
-.left-column {
-  background-color: var(--color-primary);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
+.left-column-style-1 { 
+  background-color: var(--color-bg); 
+  
+  display: flex; 
+  flex-direction: column; 
+  gap: 35px; 
+  
+  padding: 20px; 
+  
+  height: 100vh; 
+  
 
-.left-column-style-1 {
-  background-color: var(--color-bg);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  height: 100vh;
-  gap: 35px;
-}
+} 
 
-.right-column {
-  background-color: var(--color-white);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
+.right-column { 
+  background-color: var(--color-white); 
+  
+  display: flex; 
+  flex-direction: column; 
+  
+  padding: 20px; 
+} 
 
-.right-column-style-1 {
-  background-color: var(--color-primary);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
+.right-column-style-1 { 
+  background-color: var(--color-primary); 
+  
+  display: flex; 
+  flex-direction: column; 
+  
+  padding: 20px; 
+} 
 
-
-.notifications-wrapper {
+.notifications-wrapper,
+.profile-wrapper {
   position: relative;
 }
 
@@ -39,45 +49,34 @@
 
 
 
-
-
-
-.simple-container {
-  width: 340px;
-  height: 230px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  margin-top: 20px;
-  padding: 0;
-
-  background: var(--color-info);
-
-  border-radius: 20px;
+.simple-container { 
+  width: 340px; 
+  height: 230px; 
   
-}
-
-.box-container {
-  width: 340px;
-  height: 230px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 20px;
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 20px;
-
-  background: var(--color-info);
-
-  border-radius: 20px;
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start; 
+  justify-content: center; 
   
-}
+  margin-top: 20px; 
+  padding: 0; 
+  
+  background: var(--color-info); 
+  border-radius: 20px; 
+} 
 
+.box-container { 
+  width: 340px; 
+  height: 230px; 
+  
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  
+  margin-top: 20px;
+  padding: 20px 20px;
+  
+  background: var(--color-info); 
+  border-radius: 20px; 
+}
