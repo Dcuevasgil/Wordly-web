@@ -19,6 +19,7 @@
 /* ===================== */
 
 @import './fonts/dashboard-fonts.css';
+@import './fonts/size/size.css';
 
 /* ===================== */
 /* 🔹 ANIMACIONES */
@@ -54,3 +55,7 @@
 
 @import './utilities/flex.css';
 @import './utilities/typography.css';
+
+body {
+    user-select: none;
+}

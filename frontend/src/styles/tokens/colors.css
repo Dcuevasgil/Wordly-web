@@ -22,6 +22,9 @@
     --color-info: #38bdf8;      /* botón azul (Progresa) */
     --color-danger: #ef4444;
     --color-progress: #16aae9;
+    --color-first-card-modal-user: #50c878;
+    --color-second-card-modal-user: #50a0ff;
+    --color-third-card-modal-user: #ff8c3c;
 
 
     /* ===================== */
@@ -51,4 +54,24 @@
 
 .border-color-black {
     border-color: var(--color-black);
+}
+
+.border-color-white {
+    border-color: var(--color-white);
+}
+
+.border-color-brd {
+    border-color: var(--color-border);
+}
+
+.background-color-first-card-user-modal {
+    background: var(--color-first-card-modal-user);
+}
+
+.background-color-second-card-user-modal {
+    background: var(--color-second-card-modal-user);
+}
+
+.background-color-third-card-user-modal {
+    background: var(--color-third-card-modal-user);
 }

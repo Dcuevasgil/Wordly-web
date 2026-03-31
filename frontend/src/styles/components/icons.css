@@ -24,6 +24,6 @@ md-icon {
 md-ripple {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
+  border-radius: inherit;
   pointer-events: none;
 }

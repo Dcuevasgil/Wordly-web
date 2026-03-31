@@ -131,7 +131,7 @@ function Dashboard() {
                                     className="circle-icon border-color-black ripple-icon interaction-press interaction-hover" 
                                     onClick={(e) => { 
                                         e.stopPropagation(); 
-                                        toggleNotifications(); 
+                                        toggleNotifications();
                                     }}
                                     > 
                                     <md-icon>notifications</md-icon> 
@@ -140,7 +140,12 @@ function Dashboard() {
 
                                 {/* <div className={dropdown dropdown--notifications ${openDropdown === "notifications" ? "active" : ""}}> */} 
                                 
-                                <div className={`dropdown dropdown--notifications ${openDropdown === "notifications" ? "active" : ""}`}> 
+                                <div 
+                                    className={`dropdown dropdown--notifications ${openDropdown === "notifications" ? "active" : ""}`}
+                                    onClick={(e) => { 
+                                        e.stopPropagation();
+                                    }}
+                                    > 
                                 
                                     <div className="dropdown-content"> 
                                         {notifications.length === 0 ? (
@@ -164,8 +169,8 @@ function Dashboard() {
                                 <div 
                                     className="circle-icon border-color-black ripple-icon interaction-press interaction-hover" 
                                     onClick={(e) => { 
-                                        e.stopPropagation(); 
-                                        toggleProfile(); 
+                                        e.stopPropagation();
+                                        toggleProfile();
                                     }}
                                     > 
                                     <md-icon>person</md-icon> 
@@ -174,7 +179,12 @@ function Dashboard() {
                                 
                                 {/* {openDropdownProfile ? ( <nav className="simple-container"> <ul> <li>Ver Perfil</li> <li>Mi progreso</li> <hr /> <li>Cerrar sesión</li> </ul> </nav> )} */} 
                                 
-                                <div className={`dropdown dropdown--profile ${openDropdown === "profile" ? "active" : ""}`}> 
+                                <div 
+                                    className={`dropdown dropdown--profile ${openDropdown === "profile" ? "active" : ""}`}
+                                    onClick={(e) => { 
+                                        e.stopPropagation();
+                                    }}
+                                    > 
                                     <div className="dropdown-content"> 
                                         
                                         {/* SECTION 1*/} 

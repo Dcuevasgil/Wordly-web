@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./modules/auth/pages/LoginPage";
 import Dashboard from "./modules/learn/pages/Dashboard";
 import PrivateRoute from "./router/PrivateRoute";
+import UserLevelModal from "./modules/onboarding/components/modals/UserLevelModal";
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       <Routes>
         
         <Route path="/" element={<LoginPage />} />
+
+        <Route path="/onboarding" element={<UserLevelModal />} />
         
         <Route 
           path="/dashboard" 
