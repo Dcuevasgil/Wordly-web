@@ -81,24 +81,45 @@ function LoginPage() {
   }, [activeTab]);
 
   useEffect(() => {
+    if (!contentRef.current) return;
 
-    const activeForm = 
-      activeTab === "login" 
-      ? contentRef.current.children[0] 
-      : contentRef.current.children[1];
+    const activeForm =
+      activeTab === "login"
+        ? contentRef.current.children[0]
+        : contentRef.current.children[1];
 
-    if (activeForm) {
-      setContentHeight(activeForm.offsetHeight + "px");
-    }
+    if (!activeForm) return;
 
+    setContentHeight(activeForm.offsetHeight + "px");
   }, [activeTab]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
 
-    if (token) {
-      navigate("/dashboard");
-    }
+      if (!token) return; // no haces nada → te quedas en login
+
+      try {
+        const res = await fetch("/api/me", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (res.status === 200) {
+          navigate("/dashboard");
+        } else {
+          localStorage.removeItem("token");
+        }
+
+      } catch (error) {
+        if (!localStorage.removeItem("token")){
+          console.log("The token could not be deleted successfully", error.message);
+        }
+      }
+    };
+
+    checkAuth();
   }, [navigate]);
 
   // Handles
