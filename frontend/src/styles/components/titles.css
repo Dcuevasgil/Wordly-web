@@ -1,0 +1,15 @@
+.title-dashboard {
+    letter-spacing: 1px;
+}
+
+.title {
+    color: var(--color-white);
+    font-family: var(--font-main);
+    font-size: 24px;
+}
+
+
+/* Modal Configuración Usuario */
+.title-modal-button {
+    font-family: var(--font-main);
+}

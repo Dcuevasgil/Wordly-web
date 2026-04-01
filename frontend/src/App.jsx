@@ -10,6 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route 
           path="/" 
           element={
@@ -20,7 +21,7 @@ function App() {
         />
 
         <Route path="/onboarding" element={<UserLevelModal />} />
-                
+        
         <Route 
           path="/dashboard" 
           element={

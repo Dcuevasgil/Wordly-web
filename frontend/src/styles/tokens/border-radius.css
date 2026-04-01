@@ -1,12 +1,5 @@
-:root {
+.rounded-full { border-radius: 999px;}
 
-    /* ===================== */
-    /* 🔵 BORDER RADIUS */
-    /* ===================== */
+.border-width-2 { border-width: 2px;}
 
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 20px;
-    --radius-xl: 30px;
-
-}
+.border-state-s { border-style: solid;}

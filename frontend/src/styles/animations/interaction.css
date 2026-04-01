@@ -1,0 +1,26 @@
+:root {
+    --ease-ios: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --duration-fast: 0.15s;
+    --duration-normal: 0.25s;
+}
+
+.interaction-press {
+    transition: transform var(--duration-fast) var(--ease-ios), opacity var(--duration-fast) var(--ease-ios);
+}
+
+.interaction-press:active {
+    transform: scale(0.94);
+    opacity: 0.75;
+}
+
+.interaction-hover {
+    transition: background var(--duration-fast) var(--ease-ios);
+}
+
+.interaction-hover:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.interacion-smooth {
+    transition: all var(--duration-normal) var(--ease-ios);
+}

@@ -1,0 +1,21 @@
+.list-unorder {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.list-unorder .item {
+    /* padding: 10px; */
+    border-radius: 10px;
+    cursor: pointer;
+
+    list-style-type:circle;
+
+    transition: all 0.2s ease;
+}
+
+.list-unorder .item .link {
+    text-decoration: none;
+    color: var(--color-white);
+}

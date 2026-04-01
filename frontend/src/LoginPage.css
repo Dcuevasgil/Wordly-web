@@ -1,14 +1,12 @@
-/* 
-.container-home {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-} */
-
 .left-column {
   background-color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.right-column {
+  background-color: var(--color-white);
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -20,20 +18,7 @@
   gap: 20px;
 
   padding: 20px;
-
-
-  /* flex-direction: row; */
-  /* justify-content: flex-start; */
 }
-
-/* .container-logo-word {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  padding: 20px;
-} */
 
 .logo {
   width: 100px;
@@ -64,8 +49,6 @@
   font-size: var(--text-xl);
   color: var(--color-white);
   margin-top: 15%;
-  
-  /* align-items: center; */
 }
 
 .paragraph {
@@ -86,12 +69,7 @@
   gap: 50px;
 }
 
-.right-column {
-  background-color: var(--color-white);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
+
 
 .container-login-register-form {
   display: flex;
@@ -111,12 +89,6 @@
   
 
 }
-
-/* .line {
-  height: 3px;
-  background: var(--color-border);
-  width: 100%;
-} */
 
 .form-container {
   display: flex;

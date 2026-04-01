@@ -1,0 +1,148 @@
+.dropdown { 
+  position: absolute; 
+  top: calc(10% + 5px); 
+  right: 0; 
+  
+  width: 220px; 
+  
+  padding: 12px; 
+  
+  border-radius: 12px; 
+  
+  z-index: 999; 
+  
+  transform-origin: top right; 
+} 
+
+.dropdown-content { 
+  opacity: 0; 
+  transition: opacity 0.15s ease; 
+} 
+
+.dropdown--notifications,
+.dropdown--profile {
+  position: absolute;
+
+  top: 50%;
+  right: 50%;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+
+  transform: translate(50%, -50%) scale(0.2);
+  opacity: 0;
+
+  transform-origin: center;
+
+  will-change: transform, width, height;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+
+/* 
+.dropdown--notifications {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+
+  👇 MISMO tamaño que el botón
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+
+  transform: scale(1); 👈 importante
+  opacity: 0;
+  pointer-events: none;
+
+  will-change: transform, width, height;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  overflow: hidden;
+} */
+
+.dropdown-section { 
+  margin-bottom: 10px; 
+  list-style-type: none; 
+} 
+
+.dropdown-title { 
+  font-size: 12px; 
+  
+  opacity: 0.6;
+  
+  margin-bottom: 6px; 
+  list-style: none; 
+} 
+
+.dropdown-list-unorder-wrapper ul { 
+  list-style: none; 
+  padding: 8px 12px; 
+  border-radius: 8px; 
+} 
+
+.dropdown-item { 
+  list-style: none; 
+  padding: 8px 12px; 
+  
+  border-radius: 8px; 
+  
+  cursor: pointer; 
+} 
+
+.dropdown-item:hover { 
+  background: rgba(255,255,255,0.1); 
+} 
+
+/* ANIMACIONES */ 
+
+.dropdown--notifications.active,
+.dropdown--profile.active {
+  top: calc(100% + 8px);
+  right: 0;
+
+  width: 220px;
+  height: auto;
+
+  border-radius: 12px;
+
+  transform: translate(0, 0) scale(1);
+
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dropdown--notifications.active .dropdown-content { 
+  opacity: 1;
+  top: 100%;
+  right: 0;
+}
+
+/* .dropdown--profile.active {
+  width: 220px;
+  height: auto;
+
+  border-radius: 12px;
+
+  transform: translateY(10px);
+  
+  opacity: 1;
+  pointer-events: auto;
+} */
+
+.dropdown--profile.active .dropdown-content { 
+  opacity: 1;
+  top: 100%;
+  right: 0;
+}
