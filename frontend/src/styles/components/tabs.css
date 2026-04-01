@@ -1,0 +1,66 @@
+.tab-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semi-bold);
+
+  padding: 10px 0;
+}
+
+/* TAB ACTIVA */
+.tab-button.active {
+  color: var(--color-primary);
+}
+
+/* LÍNEA INFERIOR ANIMADA */
+.tab-indicator {
+  position: absolute;
+  bottom: -2px;
+  height: 3px;
+  background: var(--color-primary);
+
+  transition: all 0.3s ease;
+}
+
+
+.tab-content {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  transition: height 0.3s ease; /* 🔥 magia */
+}
+
+/* EFECTO IOS EXPANSION */
+.form-slide {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+}
+
+.form-slide:not(.active) {
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* FADE SUAVE */
+.tab-content.login .form-slide:nth-child(2),
+.tab-content.register .form-slide:nth-child(1) {
+    opacity: 0;
+}
+
+.tab-content.login .form-slide:nth-child(1),
+.tab-content.register .form-slide:nth-child(2) {
+    opacity: 1;
+}

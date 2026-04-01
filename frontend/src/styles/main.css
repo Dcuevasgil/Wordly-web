@@ -5,6 +5,7 @@
 @import './tokens/variables.css';
 @import './tokens/colors.css';
 @import './tokens/spacing.css';
+@import './tokens/border-radius.css';
 
 /* ===================== */
 /* 🔹 BASE */
@@ -20,6 +21,8 @@
 @import './components/button.css';
 @import './components/inputs.css';
 @import './components/titles.css';
+@import './components/tabs.css';
+@import './components/modal.css';
 
 /* ===================== */
 /* 🔹 LAYOUT */

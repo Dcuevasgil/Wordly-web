@@ -44,3 +44,32 @@
 .button:active {
     transform: scale(0.95);
 }
+
+button[type="submit"] {
+  width: 100%;
+
+  padding: var(--space-md);
+
+  border: none;
+  border-radius: 999px;
+
+  background: var(--color-primary-light);
+
+  color: white;
+
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: var(--weight-semi-bold);
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 90, 249, 0.25);
+}
+
+button[type="submit"]:active {
+  transform: scale(0.97);
+}

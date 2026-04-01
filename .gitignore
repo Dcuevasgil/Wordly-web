@@ -20,3 +20,6 @@ backend/docs/
 
 frontend/docs/INFO-*.md
 backend/docs/INFO-*.md
+
+frontend/objetivos-diarios/INFO-*.md
+frontend/src/modules/auth/pruebas/INFO-*.md

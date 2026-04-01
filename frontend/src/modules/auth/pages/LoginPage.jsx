@@ -1,24 +1,187 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 // CSS
 import '../../../LoginPage.css'
 
+// Backend conexion
+import { 
+  handleLogin as loginRequest, 
+  handleRegister as registerRequest 
+} from '../services/authService';
+
 
 // SVGs
-import WordlyLogo from '../../../assets/svg/logo.svg';
-import Bombilla from '../../../assets/svg/bulb.svg';
-import Trofeo from '../../../assets/svg/trophy.svg';
-import Sobre from '../../../assets/svg/mail.svg';
-import Candado from '../../../assets/svg/lock-closed.svg';
+import WordlyLogo from '../../../assets/svg/loginpage/logo.svg';
+import Bombilla from '../../../assets/svg/loginpage/bulb.svg';
+import Trofeo from '../../../assets/svg/loginpage/trophy.svg';
+import Sobre from '../../../assets/svg/loginpage/mail.svg';
+import Candado from '../../../assets/svg/loginpage/lock-closed.svg';
+import Persona from '../../../assets/svg/loginpage/person.svg';
 
 // Components
 import ButtonLogin from "../components/ButtonLogin";
+import Input from "../components/Input";
+import Modal from '../components/Modal';
 
-function App() {
+function LoginPage() {
+
+  // Navigation
+  const navigate = useNavigate();
+
+
+  // Refs
+  const loginRef = useRef(null);
+  const registerRef = useRef(null);
+  const contentRef = useRef(null);
 
   // States for animations
-  const [openModal, setOpenModal] = useState(null);
-  const [activeButton, setActiveButton] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
+
+  // Modal de cursos y logros
+  // const [openModal, setOpenModal] = useState(null);
+
+  const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [contentHeight, setContentHeight] = useState("auto");
+
+
+  // Modal del sistema
+  const [modal, setModal] = useState({
+    isOpen: false,
+    message: "",
+    type: "", // success | error | warning
+  });
+
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [registerForm, setRegisterForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  // UseEffects
+  
+  useEffect(() => {
+    
+    const current = activeTab === "login" ? loginRef.current : registerRef.current;
+
+    if (current) {
+      
+      setIndicatorStyle({
+        width: current.offsetWidth + "px",
+        left: current.offsetLeft + "px",
+      });
+    
+    }
+  
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const activeForm =
+      activeTab === "login"
+        ? contentRef.current.children[0]
+        : contentRef.current.children[1];
+
+    if (!activeForm) return;
+
+    setContentHeight(activeForm.offsetHeight + "px");
+  }, [activeTab]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) return; // no haces nada → te quedas en login
+
+      try {
+        const res = await fetch("/api/me", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (res.status === 200) {
+          navigate("/dashboard");
+        } else {
+          localStorage.removeItem("token");
+        }
+
+      } catch (error) {
+        if (!localStorage.removeItem("token")){
+          console.log("The token could not be deleted successfully", error.message);
+        }
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
+
+  // Handles
+  const handleLogin = async () => {
+
+    try {
+
+      const data = await loginRequest(loginForm);
+
+      console.log("Login success:", data);
+
+      setModal({
+        isOpen: true,
+        message: "Login successful, you have successfully logged in",
+        type: "success"
+      });
+
+      navigate("/dashboard");
+
+    } catch (error) {
+
+      console.log("Login failed:", error);  
+      setModal({
+        isOpen: true,
+        message: error.message,
+        type: "error"
+      })
+
+    }
+
+  }
+
+  const handleRegister = async () => {
+
+    try {
+
+      const data = await registerRequest(registerForm);
+
+      console.log("Register success:", data);
+
+      localStorage.setItem("token", data.token);
+
+      setModal({
+        isOpen: true,
+        message: "Register successful, you have successfully registered",
+        type: "success"
+      });
+
+      navigate("/dashboard");
+
+    } catch (error) {
+
+      console.log("Register failed:", error);  
+      setModal({
+        isOpen: true,
+        message: error.message,
+        type: "error"
+      })
+
+    }
+
+  }
 
 
   return (
@@ -66,48 +229,167 @@ function App() {
 
           <div className="container-login-register-form">
 
-            <div className="login-register-container">
+            <div className={`tab-container ${activeTab === "login" ? "login" : "register"}`}>
 
-              <h2 className="log-in">Inicia sesión</h2>
-              <h2 className="create-account">Crear cuenta</h2>
+              <button
+                ref={loginRef}
+                className={`tab-button ${activeTab === "login" ? "active" : ""}`}
+                onClick={() => setActiveTab("login")}
+              >
+                Inicia sesión
+              </button>
 
-              <div className="line"></div>
+              <button
+                ref={registerRef}
+                className={`tab-button ${activeTab === "register" ? "active" : ""}`}
+                onClick={() => setActiveTab("register")}
+              >
+                Crear cuenta
+              </button>
+              
+              <span className="tab-indicator" style={indicatorStyle}></span>
 
             </div>
 
-            <form className="log-in">
-              <p className="welcome">Bienvenido de nuevo</p>
-              
-              <fieldset className="inputs-container">
+            {/* Sistema de pestañas */}
+            
+            <div 
+              ref={contentRef}
+              className={`tab-content ${activeTab}`}
+              style={{ height: contentHeight }}
+            >
+              {/* pestaña login */}
+              <div className={`form-slide ${activeTab === "login" ? "active" : ""}`}>
                 
-                <div className="input-email">
+                <form 
+                  className="form-container login-form" 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleLogin();
+                  }}
+                >
+                  <p className="welcome">Bienvenido de nuevo</p>
                   
-                  <img src={Sobre} alt="Email Icon" />
-                  <input type="email" placeholder="Correo electrónico" />
+                  <Input 
+                  
+                    icon={Sobre}
+                    type="email"
+                    placeholder="Correo electrónico"
+                    name="email"
+                    value={loginForm.email}
+                    onChange={(e) =>
+                      setLoginForm({ ...loginForm, email: e.target.value })
+                    }
+                  
+                  />
 
-                </div>
+                  <Input 
 
-                <div className="input-password">
+                    icon={Candado}
+                    type="password"
+                    placeholder="Contraseña"
+                    name="password"
+                    value={loginForm.password}
+                    onChange={(e) =>
+                      setLoginForm({ ...loginForm, password: e.target.value })
+                    }
+                  
+                  />
+                  
+                  <button 
+                    type="submit"
+                    >
+                      Inicia sesión
+                  </button>
 
-                  <img src={Candado} alt="Password Icon" />
-                  <input type="password" placeholder="Contraseña" />
+                </form>
 
-                </div>
-                
-                <button type="submit">Inicia sesión</button>
+              </div>
               
-              </fieldset>
+              {/* pestaña registro */}
+              <div className={`form-slide ${activeTab === "register" ? "active" : ""}`}>
+                
+                <form 
+                  className="form-container register-form" 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleRegister();
+                  }}
+                >
+                  <p className="begin-your-journey">Empieza tu camino</p>
+                  
+                  <Input 
+                    
+                    icon={Persona}
+                    type="text"
+                    placeholder="Nombre"
+                    name="name"
+                    value={registerForm.name}
+                    onChange={(e) =>
+                      setRegisterForm({ ...registerForm, name: e.target.value })
+                    }
+                  
+                  />
 
-            </form>
+                  <Input 
 
+                    icon={Sobre}                    
+                    type="email"
+                    placeholder="Correo electrónico"
+                    name="email"
+                    value={registerForm.email}
+                    onChange={(e) =>
+                      setRegisterForm({ ...registerForm, email: e.target.value })
+                    }
+                  
+                  />
+
+                  <Input 
+                    
+                    icon={Candado}
+                    type="password"
+                    placeholder="Contraseña"
+                    name="password"
+                    value={registerForm.password}
+                    onChange={(e) =>
+                      setRegisterForm({ ...registerForm, password: e.target.value })
+                    }
+                  
+                  />
+                  <button 
+                    type="submit"
+                    >
+                      Crear cuenta
+                  </button>
+
+                </form>
+              
+              </div>
+            
+            </div>
 
           </div>
 
         </div>
 
       </div>
+
+      {/* MODAL GLOBAL */}
+      {modal.isOpen && (
+        <Modal
+          type={modal.type}
+          onClose={() => setModal({ ...modal, isOpen: false })}
+        >
+          <div 
+            style={{ padding: "var(--space-md)" }}
+            >
+              {modal.message}
+          </div>
+          {/* <ChargeIndicator /> */}
+        </Modal>
+      )}
     </>
   )
 }
 
-export default App
+export default LoginPage;

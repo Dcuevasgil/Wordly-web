@@ -1,0 +1,48 @@
+:root {
+
+
+
+    /* ===================== */
+    /* 🎨 COLORES PRINCIPALES */
+    /* ===================== */
+
+    --color-primary: #6D5CF6;          /* morado principal */
+    --color-primary-light: #8B7CFF;    /* morado claro */
+    --color-primary-dark: #4B3FD6;     /* morado oscuro */
+
+    /* Gradiente morado (lado izquierdo) */
+    --gradient-primary: linear-gradient(135deg, #6D5CF6, #5A4BDB);
+
+
+    /* ===================== */
+    /* 🎯 COLORES DE ACCIÓN */
+    /* ===================== */
+
+    --color-success: #22c55e;   /* botón verde (Aprende) */
+    --color-info: #38bdf8;      /* botón azul (Progresa) */
+    --color-danger: #ef4444;
+    --color-progress: #16aae9;
+
+
+    /* ===================== */
+    /* ⚪ COLORES BASE */
+    /* ===================== */
+
+    --color-white: #ffffff;
+    --color-bg: #f3f4f6;        /* fondo gris claro */
+    --color-card: #ffffff;      /* tarjetas */
+
+    --color-text: #1f2937;      /* texto principal */
+    --color-text-light: #6b7280;/* texto secundario */
+
+
+    /* ===================== */
+    /* 🔘 INPUTS / BORDES */
+    /* ===================== */
+
+    --color-border: #e5e7eb;
+    --color-input-bg: #f9fafb;
+    --color-input-text: #111827;
+
+
+}
