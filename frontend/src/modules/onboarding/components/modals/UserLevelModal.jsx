@@ -7,7 +7,7 @@ import Subida from '../../../../assets/svg/modal/nivel/trending-up-outline.svg';
 import Fuego from '../../../../assets/svg/modal/nivel/flame-outline.svg';
 
 function UserLevelModal() {
-    const [step, setStep] = useState(0);
+    const [currentModal, setCurrentModal] = useState("level");
 
     const [userConfig, setUserConfig] = useState({
         level: null,
@@ -19,17 +19,47 @@ function UserLevelModal() {
         "learningType",
     ];
 
+
+
+    const handleSelectLevel = (level) => {
+
+        // Guardo el nivel seleccionado en la configuracion del usuario
+        setUserConfig((prev) => {
+            return {
+                ...prev, // copia superficial del objeto userConfig
+                level
+            }
+        });
+
+        setCurrentModal("learningType");
+
+    }
+
+    const handleSelectLearningType = (learningType) => {
+
+        // Guardo el nivel seleccionado en la configuracion del usuario
+        setUserConfig((prev) => {
+            return {
+                ...prev, // copia superficial del objeto userConfig
+                learningType
+            }
+        });
+
+        setCurrentModal("confirm");
+
+    }
+
     return (
         <>
+        {currentModal === "level" ? (
 
-            {/* Botón Modal Configuración Primeros pasos */}
             <div className="box-container flex direction-column items-center justify-center border-width-2px border-state-s">
 
                 <div className="modal-container">
 
                     <button 
                         className="simple-container-style-1 card background-color-first-card-user-modal"
-                        onClick={() => console.log("click")}
+                        onClick={() => handleSelectLevel("beginner")}
                         >
 
                         <img 
@@ -48,7 +78,7 @@ function UserLevelModal() {
 
                     <button 
                         className="simple-container-style-2 card background-color-second-card-user-modal"
-                        onClick={() => console.log("click")}
+                        onClick={() => handleSelectLevel("intermediate")}
                         >
 
                         <img 
@@ -67,7 +97,7 @@ function UserLevelModal() {
 
                     <button 
                         className="simple-container-style-3 card background-color-third-card-user-modal"
-                        onClick={() => console.log("click")}
+                        onClick={() => handleSelectLevel("advanced")}
                         >
 
                         <img 
@@ -86,8 +116,15 @@ function UserLevelModal() {
                 </div>
             
             </div>
-
+            
+        ) : (
+            // <button type="button">
+            //     <p>Continuar</p>
+            // </button>
+            <h1>Step 2</h1>
+        )}
         </>
+
     );
 }
 
