@@ -13,12 +13,17 @@ import '../../../Dashboard.css';
 import Logo from '../../../assets/svg/dashboard/logo-dashboard.svg';
 
 // Navegación
-// import naviate from 
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
 
+    const navigate = useNavigate();
+
     // States animations 
     const [openDropdown, setOpenDropdown] = useState(null);
+
+    // Global state
+    const [currentView, setCurrentView] = useState("dashboard");
 
     const unreadMessages = [
         { id: 1, from: "Juan" },
@@ -52,6 +57,31 @@ function Dashboard() {
         return resultNotifications;
     }
 
+    // Change view
+
+    // const renderView = (currentView) => {
+
+
+    //     if (currentView === "dashboard") {
+    //         setCurrentView("dashboard");
+    //     }
+
+    //     if (currentView === "settings") {
+    //         setCurrentView("settings");
+    //     }
+
+    //     if (currentView === "messages") {
+    //         setCurrentView("messages");
+    //     }
+
+    //     if (currentView === "practiceExercises") {
+    //         setCurrentView("practiceExercises");
+    //     }
+
+    // }
+
+    
+
 
     // Toggle Notifications 
     const toggleNotifications = () => {
@@ -84,38 +114,55 @@ function Dashboard() {
             <div className="grid">
 
                 <nav className="left-column-style-1 flex direction-column gap-12 pad-16"> {/* Navegación entre pestañas */}
+                    <button 
+                        className={`nav-item flex direction-row items-center gap-8 ${currentView === "dashboard" ? "is-active" : ""}`} 
+                        onClick={() => setCurrentView("dashboard")}
+                        >
 
-                    <div className="nav-item flex direction-row items-center gap-8 is-active">
                         <span className="nav-icon flex justify-center items-center primary">
                             <img src={Logo} alt="Wordly logo in dashboard navigation" />
                         </span>
 
                         <span className="text-16 font-md-sans weight-600 color-black">Dashboard</span>
-                    </div>
+                    </button>
 
-                    <div className="nav-item flex direction-row items-center gap-8">
+                    
+                    <button 
+                        className={`nav-item flex direction-row items-center gap-8 ${currentView === "settings" ? "is-active" : ""}`} 
+                        onClick={() => setCurrentView("settings")}
+                        >
 
                         <span className="nav-icon flex justify-center items-center primary">
                             <md-icon>settings</md-icon>
                         </span>
 
                         <span className="text-16 font-md-sans weight-600 color-black">Configuración</span>
-                    </div>
+                    </button>
 
-                    <div className="nav-item flex direction-row items-center gap-8">
+
+                    <button 
+                        className={`nav-item flex direction-row items-center gap-8 ${currentView === "messages" ? "is-active" : ""}`} 
+                        onClick={() => setCurrentView("messages")}
+                        >
+
                         <span className="nav-icon flex justify-center items-center primary">
                             <md-icon>chat_bubble</md-icon> 
                         </span> 
                         <span className="text-16 font-md-sans weight-600 color-black">Mensajes</span> 
-                    </div>
+                    </button>
 
-                    <div className="nav-item flex direction-row items-center gap-8">
+
+                    <button 
+                        className={`nav-item flex direction-row items-center gap-8 ${currentView === "practiceExercises" ? "is-active" : ""}`} 
+                        onClick={() => setCurrentView("practiceExercises")}
+                        >
+
                         <span className="nav-icon flex justify-center items-center primary">
                             <md-icon>school-outline</md-icon> 
                         </span> 
                         <span className="text-16 font-md-sans weight-600 color-black">Ejercicios de práctica</span>
-                    </div>
-                </nav> 
+                    </button>
+                </nav>
                 
                 {/* Dashboard */}
                 <div className="right-column-style-1">
@@ -230,106 +277,184 @@ function Dashboard() {
                     
                     <main className="grid-main"> 
                         
-                        <div className="simple-container pad-16 flex direction column gap-12 interaction-hover interaction-press"> 
+                        {currentView === "dashboard" && (
+                            <>
                             
-                            <h3 className="title text-8 weight-500">¿Qué estudiar hoy?</h3> 
-                            <nav> 
-                                <ul className="list-unorder flex direction-column gap-8"> 
+                                <div className="simple-container pad-16 flex direction column gap-12 interaction-hover interaction-press"> 
                                     
-                                    <li className="item interaction-press interaction-hover"> 
-                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
-                                            Phrasal Verbs
-                                        </a> 
-                                    </li> 
+                                    <h3 className="title text-8 weight-500">¿Qué estudiar hoy?</h3> 
+                                    <nav> 
+                                        <ul className="list-unorder flex direction-column gap-8"> 
+                                            
+                                            <li className="item interaction-press interaction-hover"> 
+                                                <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                    Phrasal Verbs
+                                                </a> 
+                                            </li> 
+                                            
+                                            <li className="item interaction-press interaction-hover"> 
+                                                <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                    Present simple 
+                                                </a> 
+                                            </li> 
+                                            
+                                            <li className="item interaction-press interaction-hover"> 
+                                                <a href="#" className="link text-7 weight-500 font-dm-sans"> 
+                                                    Past continous 
+                                                </a> 
+                                            </li> 
+                                        
+                                        </ul> 
                                     
-                                    <li className="item interaction-press interaction-hover"> 
-                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
-                                            Present simple 
-                                        </a> 
-                                    </li> 
-                                    
-                                    <li className="item interaction-press interaction-hover"> 
-                                        <a href="#" className="link text-7 weight-500 font-dm-sans"> 
-                                            Past continous 
-                                        </a> 
-                                    </li> 
+                                    </nav> 
                                 
-                                </ul> 
-                            
-                            </nav> 
-                        
-                        </div> 
-                        
-                        <div className="simple-container pad-16 flex direction column gap-12 interaction-hover interaction-press"> 
-                            
-                            <h3 className="title text-8 weight-500">¿Qué estudiar hoy?</h3> 
-                            <nav> 
-                                <ul className="list-unorder flex direction-column gap-8"> 
-                                    
-                                    <li className="item interaction-press interaction-hover"> 
-                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
-                                            Phrasal Verbs
-                                        </a> 
-                                    </li> 
-                                    
-                                    <li className="item interaction-press interaction-hover"> 
-                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
-                                            Present simple 
-                                        </a> 
-                                    </li> 
-                                    
-                                    <li className="item interaction-press interaction-hover"> 
-                                        <a href="#" className="link text-7 weight-500 font-dm-sans"> 
-                                            Past continous 
-                                        </a> 
-                                    </li> 
+                                </div> 
                                 
-                                </ul> 
-                            
-                            </nav> 
-                        
-                        </div> 
-                        
-                        <div className="simple-container-style-1"> 
-                            
-                            <h3>Racha diaria...</h3> 
-                            
-                            <div className="number-text"> 
-                                <h1>0</h1> 
-                                <h3>días</h3> 
-                            </div> 
+                                <div className="simple-container pad-16 flex direction column gap-12 interaction-hover interaction-press"> 
+                                    
+                                    <h3 className="title text-8 weight-500">¿Qué estudiar hoy?</h3> 
+                                    <nav> 
+                                        <ul className="list-unorder flex direction-column gap-8"> 
+                                            
+                                            <li className="item interaction-press interaction-hover"> 
+                                                <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                    Phrasal Verbs
+                                                </a> 
+                                            </li> 
+                                            
+                                            <li className="item interaction-press interaction-hover"> 
+                                                <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                    Present simple 
+                                                </a> 
+                                            </li> 
+                                            
+                                            <li className="item interaction-press interaction-hover"> 
+                                                <a href="#" className="link text-7 weight-500 font-dm-sans"> 
+                                                    Past continous 
+                                                </a> 
+                                            </li> 
+                                        
+                                        </ul> 
+                                    
+                                    </nav> 
+                                
+                                </div>
+                                
+                                <div className="simple-container-style-1"> 
+                                    
+                                    <h3>Racha diaria...</h3> 
+                                    
+                                    <div className="number-text"> 
+                                        <h1>0</h1> 
+                                        <h3>días</h3> 
+                                    </div> 
 
-                        </div> 
+                                </div> 
+                                
+                                <div className="simple-container-style-1"> 
+                                    <p>Precisión</p> 
+                                    
+                                    <div className="precision-number"> 
+                                        <span>0%</span>
+                                    </div> 
+                                    
+                                </div> 
+                                
+                                <div className="simple-container-style-1"> 
+                                    
+                                    <p>Revisiones pendientes</p> 
+                                    
+                                    <div className="number-pending-reviews"> 
+                                        <span>0%</span>
+                                    </div> 
+                                    
+                                </div>
+                            </>
+                        )}
                         
-                        <div className="simple-container-style-1"> 
-                            <p>Precisión</p> 
-                            
-                            <div className="precision-number"> 
-                                <span>0%</span>
-                            </div> 
-                            
-                        </div> 
-                        
-                        <div className="simple-container-style-1"> 
-                            
-                            <p>Revisiones pendientes</p> 
-                            
-                            <div className="number-pending-reviews"> 
-                                <span>0%</span>
-                            </div> 
-                            
-                        </div> 
-                        
-                        <div className="simple-container-style-1"> 
-                            
-                            <h3>Racha diaria...</h3> 
-                            
-                            <div className="number-text"> 
-                                <h1>0</h1> 
-                                <h3>días</h3> 
-                            </div> 
+                        {currentView === "messages" && (
+                            <h1 style={{ color: "white" }}>Mensajes</h1>
+                        )}
 
-                        </div> 
+                        {currentView === "settings" && (
+                            <>
+                                <h1 style={{ color: "white" }}>Configuración</h1>
+
+                                <div
+                                    className="settings-container" 
+                                    style={{ width: "100%", marginTop: "24px" }}
+                                    >
+
+                                    <div
+                                        className="grid grid-cols-2 gap-12" 
+                                        style={{ justifyContent: "start", justifyItems: "start", width: "fit-content", marginLeft: "0" }}
+                                    >
+
+                                        {/* CARD 1 */}
+                                        <div className="simple-container pad-10-20 interaction-hover interaction-press">
+                                            <h3 className="title text-8 weight-500">Tipo de aprendizaje</h3>
+
+                                            <nav>
+                                                <ul className="list-unorder flex direction-column gap-4">
+                                                    <li className="item interaction-press interaction-hover">
+                                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                            Phrasal Verbs
+                                                        </a>
+                                                    </li>
+
+                                                    <li className="item interaction-press interaction-hover">
+                                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                            Present simple
+                                                        </a>
+                                                    </li>
+
+                                                    <li className="item interaction-press interaction-hover">
+                                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                            Past continous
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                        
+                                        {/* CARD 2 */}
+                                        <div className="simple-container pad-16 interaction-hover interaction-press">
+                                            <h3 className="title text-8 weight-500">¿Qué estudiar hoy?</h3>
+
+                                            <nav>
+                                                <ul className="list-unorder flex direction-column gap-8">
+                                                    <li className="item interaction-press interaction-hover">
+                                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                            Phrasal Verbs
+                                                        </a>
+                                                    </li>
+
+                                                    <li className="item interaction-press interaction-hover">
+                                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                            Present simple
+                                                        </a>
+                                                    </li>
+
+                                                    <li className="item interaction-press interaction-hover">
+                                                        <a href="#" className="link text-7 weight-500 font-dm-sans">
+                                                            Past continous
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+
+                                        
+
+                                    </div>
+
+                                </div>
+                            </>
+                        )}
+
+                        {currentView === "practiceExercises" && (
+                            <h1 style={{ color: "white" }}>Ejercicios</h1>
+                        )}
 
                     </main> 
                 

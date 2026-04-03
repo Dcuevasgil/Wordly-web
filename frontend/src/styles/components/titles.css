@@ -8,6 +8,15 @@
     font-size: 24px;
 }
 
+.title-card-learning-settings {
+    color: var(--color-white);
+    font-family: var(--font-main);
+    font-size: 24px;
+
+    display: flex;
+    
+}
+
 
 /* Modal Configuración Usuario */
 .title-modal-button {
