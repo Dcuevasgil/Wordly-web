@@ -51,14 +51,22 @@ function UserLevelModal() {
 
     return (
         <>
-        {currentModal === "level" ? (
+        {/* {currentModal === "level" ? (
+            
+        ) : (
+            // <button type="button">
+            //     <p>Continuar</p>
+            // </button>
+            <h1>Step 2</h1>
+        )} */}
 
-            <div className="box-container flex direction-column items-center justify-center border-width-2px border-state-s">
+        {currentModal === "level" && (
+            <div className="modal-overlay">
 
-                <div className="modal-container">
+                <div className="box-container flex border-width-2px border-state-s">
 
                     <button 
-                        className="simple-container-style-1 card background-color-first-card-user-modal"
+                        className="card background-color-first-card-user-modal"
                         onClick={() => handleSelectLevel("beginner")}
                         >
 
@@ -77,7 +85,7 @@ function UserLevelModal() {
                     </button>
 
                     <button 
-                        className="simple-container-style-2 card background-color-second-card-user-modal"
+                        className="card background-color-second-card-user-modal"
                         onClick={() => handleSelectLevel("intermediate")}
                         >
 
@@ -96,7 +104,7 @@ function UserLevelModal() {
                     </button>
 
                     <button 
-                        className="simple-container-style-3 card background-color-third-card-user-modal"
+                        className="card background-color-third-card-user-modal"
                         onClick={() => handleSelectLevel("advanced")}
                         >
 
@@ -113,16 +121,149 @@ function UserLevelModal() {
                         
                     <md-ripple></md-ripple>
                     </button>
+                
                 </div>
-            
             </div>
-            
-        ) : (
-            // <button type="button">
-            //     <p>Continuar</p>
-            // </button>
-            <h1>Step 2</h1>
         )}
+
+
+        {currentModal === "learningType" && (
+
+            <div className="modal-overlay">
+
+                <div className="box-container border-width-2px border-state-s step-enter">
+
+                    <div className="modal-container">
+
+                        <button 
+                            className="card background-color-first-card-user-modal"
+                            onClick={() => handleSelectLearningType("option1")}
+                            >
+
+                            <img 
+                                src={Hoja} 
+                                alt="Leaf icon" 
+                                style={{ 
+                                    width: "100px", 
+                                    aspectRatio: 1, 
+                                    objectFit: "contain" 
+                                }} 
+                            />
+                            <h2 className="title-modal-button">Opción 1</h2>
+                            
+                        <md-ripple></md-ripple>
+                        </button>
+
+                        <button 
+                            className="card background-color-second-card-user-modal"
+                            onClick={() => handleSelectLearningType("option2")}
+                            >
+
+                            <img 
+                                src={Hoja} 
+                                alt="Leaf icon" 
+                                style={{ 
+                                    width: "100px", 
+                                    aspectRatio: 1, 
+                                    objectFit: "contain" 
+                                }} 
+                            />
+                            <h2 className="title-modal-button">Opción 2</h2>
+                            
+                        <md-ripple></md-ripple>
+                        </button>
+
+                        <button 
+                            className="card background-color-third-card-user-modal"
+                            onClick={() => handleSelectLearningType("option3")}
+                            >
+
+                            <img 
+                                src={Hoja} 
+                                alt="Leaf icon" 
+                                style={{ 
+                                    width: "100px", 
+                                    aspectRatio: 1, 
+                                    objectFit: "contain" 
+                                }} 
+                            />
+                            <h2 className="title-modal-button">Opción 3</h2>
+                            
+                        <md-ripple></md-ripple>
+                        </button>
+                    </div>
+                
+                </div>
+            </div>
+        )}
+
+
+        {currentModal === "confirm" && (
+            <div className="modal-overlay">
+
+                <div className="box-container flex border-width-2px border-state-s">
+
+                    <button 
+                        className="card background-color-first-card-user-modal"
+                        onClick={() => handleSelectLevel("beginner")}
+                        >
+
+                        <img 
+                            src={Hoja} 
+                            alt="Leaf icon" 
+                            style={{ 
+                                width: "100px", 
+                                aspectRatio: 1, 
+                                objectFit: "contain" 
+                            }} 
+                        />
+                        <h2 className="title-modal-button">Primeros pasos</h2>
+                        
+                    <md-ripple></md-ripple>
+                    </button>
+
+                    <button 
+                        className="card background-color-second-card-user-modal"
+                        onClick={() => handleSelectLevel("intermediate")}
+                        >
+
+                        <img 
+                            src={Subida} 
+                            alt="Leaf icon" 
+                            style={{ 
+                                width: "100px", 
+                                aspectRatio: 1, 
+                                objectFit: "contain" 
+                            }} 
+                        />
+                        <h2 className="title-modal-button">Ya me defiendo</h2>
+                        
+                    <md-ripple></md-ripple>
+                    </button>
+
+                    <button 
+                        className="card background-color-third-card-user-modal"
+                        onClick={() => handleSelectLevel("advanced")}
+                        >
+
+                        <img 
+                            src={Fuego} 
+                            alt="Leaf icon" 
+                            style={{ 
+                                width: "100px", 
+                                aspectRatio: 1, 
+                                objectFit: "contain" 
+                            }} 
+                        />
+                        <h2 className="title-modal-button">Tengo nivel</h2>
+                        
+                    <md-ripple></md-ripple>
+                    </button>
+                
+                </div>
+            </div>
+        )}
+
         </>
 
     );

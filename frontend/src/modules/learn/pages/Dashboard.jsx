@@ -12,6 +12,9 @@ import '../../../Dashboard.css';
 // SVGs 
 import Logo from '../../../assets/svg/dashboard/logo-dashboard.svg';
 
+// Navegación
+// import naviate from 
+
 function Dashboard() {
 
     // States animations 
@@ -104,7 +107,14 @@ function Dashboard() {
                             <md-icon>chat_bubble</md-icon> 
                         </span> 
                         <span className="text-16 font-md-sans weight-600 color-black">Mensajes</span> 
-                    </div> 
+                    </div>
+
+                    <div className="nav-item flex direction-row items-center gap-8">
+                        <span className="nav-icon flex justify-center items-center primary">
+                            <md-icon>school-outline</md-icon> 
+                        </span> 
+                        <span className="text-16 font-md-sans weight-600 color-black">Ejercicios de práctica</span>
+                    </div>
                 </nav> 
                 
                 {/* Dashboard */}
@@ -192,6 +202,7 @@ function Dashboard() {
                                             <li className="dropdown-title">Perfil</li> 
                                             <li className="dropdown-item">Mi perfil</li> 
                                             <li className="dropdown-item">Cambiar curso</li> 
+                                            <li className="dropdown-item">Apariencia</li>
                                         </ul>
                                         
                                         {/* SECTION 2*/} 
