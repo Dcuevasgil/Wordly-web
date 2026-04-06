@@ -12,24 +12,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_words', function (Blueprint $table) {
-            $table->id('id_user_words');
-            $table->foreignId('user_id');
-            $table->foreignId('word_id');
+            $table->bigIncrements('id_user_words');
 
-            $table->integer('times_correct');
-            $table->integer('times_failed');
-            $table->integer('times_reviewed');
-            $table->integer('days_interval');
-            $table->integer('mastered_level');
+            $table->foreignId('user_id')->constrained('users', 'id_users')->onDelete('cascade');
+            $table->foreignId('word_id')->constrained('words', 'id_words')->onDelete('cascade');
 
-            $table->decimal('ease_factor');
+            $table->integer('times_correct')->default(0);
+            $table->integer('times_failed')->default(0);
+            $table->integer('times_reviewed')->default(0);
+            $table->integer('days_interval')->default(1);
+            $table->integer('mastered_level')->default(0);
 
-            $table->dateTime('last_review');
-            $table->dateTime('next_review');
+            $table->decimal('ease_factor', 3,2)->default(2.50);
+
+            $table->dateTime('last_review')->nullable();
+            $table->dateTime('next_review')->nullable();
 
 
             $table->timestamp('register_date')->useCurrent();
             $table->timestamp('updated_date')->useCurrent()->useCurrentOnUpdate();
+
+            // UNIQUE (user_id, word_id)
+            $table->unique(['user_id', 'word_id']);
         });
     }
 

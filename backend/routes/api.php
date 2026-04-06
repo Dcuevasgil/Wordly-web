@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Modules\Auth\Controllers\AuthController;
 
-require base_path('app/Modules/Auth/route.php');
-require base_path('app/Modules/Learning/route.php');
 /*
  |----------------------------------------------------------
  | Test API Endpoint

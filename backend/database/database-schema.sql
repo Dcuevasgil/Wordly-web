@@ -85,8 +85,10 @@ CREATE TABLE user_path (
 -- DROP TABLE languages;
 CREATE TABLE languages (
     id_languages BIGINT AUTO_INCREMENT PRIMARY KEY,
+    
     name VARCHAR(100) NOT NULL,
     code VARCHAR(10) NOT NULL UNIQUE,
+    
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -97,8 +99,10 @@ CREATE TABLE languages (
 CREATE TABLE words (
     id_words BIGINT AUTO_INCREMENT PRIMARY KEY,
     origin_language_id BIGINT NOT NULL,
+    
     text VARCHAR(255) NOT NULL,
     difficult INT DEFAULT 1,
+    
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
@@ -113,8 +117,10 @@ CREATE TABLE translations (
     id_translations BIGINT AUTO_INCREMENT PRIMARY KEY,
     word_id BIGINT NOT NULL,
     target_language_id BIGINT NOT NULL,
+    
     translation VARCHAR(255) NOT NULL,
     example TEXT NULL,
+    
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     

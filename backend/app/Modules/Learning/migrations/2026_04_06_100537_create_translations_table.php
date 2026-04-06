@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('words', function (Blueprint $table) {
-            $table->bigIncrements('id_words');
+        Schema::create('translations', function (Blueprint $table) {
+            $table->bigIncrements('id_translations');
 
-            $table->foreignId('origin_language_id')->constrained('languages', 'id_languages')->onDelete('cascade');
-            
-            $table->string('text', 255);
-            $table->integer('difficult')->default(1);
-            
+            $table->foreignId('word_id')->constrained('words', 'id_words')->onDelete('cascade');
+            $table->foreignId('target_language_id')->constrained('languages', 'id_languages')->onDelete('cascade');
+
+            $table->string('translation', 255);
+
+            $table->text('example')->nullable();
+
+
             $table->timestamp('register_date')->useCurrent();
             $table->timestamp('updated_date')->useCurrent()->useCurrentOnUpdate();
         });
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('words');
+        Schema::dropIfExists('user_words');
     }
 };
