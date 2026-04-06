@@ -37,5 +37,3 @@ class RegisterRequest extends FormRequest {
     }
 
 }
-
-

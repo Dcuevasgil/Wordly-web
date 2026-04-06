@@ -6,7 +6,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class User extends Authenticatable implements JWTSubject {
+
+    use HasFactory;
 
     protected $table = 'users';
     protected $primaryKey = 'id_users';
@@ -37,13 +41,16 @@ class User extends Authenticatable implements JWTSubject {
     ];
     
     
-    public function getJWTIdentifier()
-    {
+    public function getJWTIdentifier() {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims()
-    {
+    public function getJWTCustomClaims() {
         return [];
+    }
+
+    // Factory
+    protected static function newFactory() {
+        return \Database\Factories\UserFactory::new();
     }
 }
