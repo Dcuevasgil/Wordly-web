@@ -356,7 +356,7 @@ function LoginPage() {
                     type="password"
                     placeholder="Contraseña"
                     name="password"
-                    value={loginForm.password}
+                    value={registerForm.password}
                     onChange={(e) =>
                       setLoginForm({ ...loginForm, password: e.target.value })
                     }
