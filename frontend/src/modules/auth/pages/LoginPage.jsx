@@ -18,6 +18,8 @@ import Trofeo from '../../../assets/svg/loginpage/trophy.svg';
 import Sobre from '../../../assets/svg/loginpage/mail.svg';
 import Candado from '../../../assets/svg/loginpage/lock-closed.svg';
 import Persona from '../../../assets/svg/loginpage/person.svg';
+import MostrarContraseña from '../../../assets/svg/loginpage/eye.svg';
+import OcultarContraseña from '../../../assets/svg/loginpage/eye-off.svg';
 
 // Components
 import ButtonLogin from "../components/ButtonLogin";
@@ -286,6 +288,8 @@ function LoginPage() {
                   <Input 
 
                     icon={Candado}
+                    toggleIconOpen={MostrarContraseña}
+                    toggleIconClose={OcultarContraseña}
                     type="password"
                     placeholder="Contraseña"
                     name="password"
@@ -345,14 +349,16 @@ function LoginPage() {
                   />
 
                   <Input 
-                    
+
                     icon={Candado}
+                    toggleIconOpen={MostrarContraseña}
+                    toggleIconClose={OcultarContraseña}
                     type="password"
                     placeholder="Contraseña"
                     name="password"
-                    value={registerForm.password}
+                    value={loginForm.password}
                     onChange={(e) =>
-                      setRegisterForm({ ...registerForm, password: e.target.value })
+                      setLoginForm({ ...loginForm, password: e.target.value })
                     }
                   
                   />
@@ -380,11 +386,7 @@ function LoginPage() {
           type={modal.type}
           onClose={() => setModal({ ...modal, isOpen: false })}
         >
-          <div 
-            style={{ padding: "var(--space-md)" }}
-            >
-              {modal.message}
-          </div>
+          <span>{modal.message}</span>
           {/* <ChargeIndicator /> */}
         </Modal>
       )}
