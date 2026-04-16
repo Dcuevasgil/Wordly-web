@@ -380,11 +380,7 @@ function LoginPage() {
           type={modal.type}
           onClose={() => setModal({ ...modal, isOpen: false })}
         >
-          <div 
-            style={{ padding: "var(--space-md)" }}
-            >
-              {modal.message}
-          </div>
+          <span>{modal.message}</span>
           {/* <ChargeIndicator /> */}
         </Modal>
       )}
