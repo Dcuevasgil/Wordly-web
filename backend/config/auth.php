@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'jwt',
+            'driver' => 'jwt',       // ← debe ser 'jwt', no 'sanctum' ni 'token'
             'provider' => 'users',
         ],
     ],

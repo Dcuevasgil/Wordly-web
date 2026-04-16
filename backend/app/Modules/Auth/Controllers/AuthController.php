@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Hash;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+// Requests
+use App\Modules\Auth\Requests\RegisterRequest;
+use App\Modules\Auth\Requests\LoginRequest;
+
+
 class AuthController extends Controller
 {
 
@@ -79,7 +84,7 @@ class AuthController extends Controller
      *  
      */
 
-    public function register(Request $request) {
+    public function register(RegisterRequest $request) {
 
 
         // Validar variables de entrada
@@ -257,7 +262,7 @@ class AuthController extends Controller
      */
 
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $data = $request->validated();
 
