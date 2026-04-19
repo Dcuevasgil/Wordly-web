@@ -133,6 +133,9 @@ function LoginPage() {
 
       console.log("Login success:", data);
 
+      // 🔥 GUARDAR TOKEN
+      localStorage.setItem("token", data.access_token);
+
       setModal({
         isOpen: true,
         message: "Login successful, you have successfully logged in",
@@ -142,14 +145,12 @@ function LoginPage() {
       navigate("/dashboard");
 
     } catch (error) {
-
       console.log("Login failed:", error);  
       setModal({
         isOpen: true,
         message: error.message,
         type: "error"
-      })
-
+      });
     }
 
   }
