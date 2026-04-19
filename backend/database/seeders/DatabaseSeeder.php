@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 use Database\Seeders\Modules\Learning\WordsSeeder;
+use Database\Seeders\Modules\Learning\LanguagesSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +25,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        $this->call(WordsSeeder::class);
+        $this->call(
+            LanguagesSeeder::class,
+            WordsSeeder::class
+        );
     }
 }

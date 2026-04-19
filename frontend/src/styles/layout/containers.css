@@ -33,11 +33,13 @@
 .right-column-style-1 { 
   background-color: var(--color-primary); 
   
-  display: flex; 
-  flex-direction: column; 
-  
-  padding: 20px; 
-} 
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  /* ❌ quita esto */
+  /* height: 100vh; */
+}
 
 .notifications-wrapper,
 .profile-wrapper {
@@ -46,7 +48,12 @@
 
 
 
-
+/* DashboardHome */
+.dashboard-home {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
 
 
 
@@ -92,7 +99,7 @@
   align-items: flex-start; 
   justify-content: center; 
   
-  margin-top: 20px; 
+  margin-top: 0;
   padding: 0; 
   
   background: var(--color-info); 

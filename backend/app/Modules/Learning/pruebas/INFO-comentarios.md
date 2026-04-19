@@ -97,3 +97,109 @@
  *   "error": "Server error while creating word"
  * }
  */
+
+
+ /**
+* Endpoint /api/learning/exercises
+* 
+* Método
+* GET
+* 
+* Ruta
+* /api/learning/exercises
+* 
+* Autenticación
+* Bearer Token (JWT)
+* Header:
+* Authorization: Bearer {token}
+* 
+* Parámetros de entrada
+* Query params (opcionales):
+* - topic (string) → filtrar ejercicios por tema
+*   Ejemplo: /api/learning/exercises?topic=future-going-to
+* 
+* 
+* Qué debe hacer el endpoint
+* 
+* 1. Obtener el usuario autenticado a partir del token
+* 
+* 2. Validar si se ha recibido el parámetro 'topic'
+* 
+* 3. Si se recibe 'topic':
+*    - Filtrar los ejercicios por ese tema
+* 
+* 4. Si NO se recibe 'topic':
+*    - Obtener ejercicios en base al contexto del usuario:
+*        - Tema activo (learning_path / user_path)
+*        - Progreso actual
+* 
+* 5. Limitar la cantidad de ejercicios (ej: 5–10 por sesión)
+* 
+* 6. Obtener la información necesaria de cada ejercicio:
+*    - id
+*    - question (frase a traducir)
+*    - correct_answers (array de respuestas válidas)
+*    - explanation (explicación del ejercicio)
+*    - topic (tema)
+* 
+* 7. (Opcional - nivel pro)
+*    - Priorizar ejercicios en base a:
+*        - errores previos del usuario
+*        - dificultad
+*        - spaced repetition (más adelante)
+* 
+* 8. Devolver la lista de ejercicios lista para practicar
+* 
+* 
+* Respuesta esperada
+* 200 OK
+* 
+* {
+*   "message": "Exercises retrieved successfully",
+*   "data": [
+*     {
+*       "id": 1,
+*       "question": "Voy a estudiar esta noche",
+*       "correct_answers": [
+*         "I am going to study tonight",
+*         "I'm going to study tonight"
+*       ],
+*       "explanation": "Se usa 'going to' porque es un plan decidido.",
+*       "topic": "future-going-to"
+*     },
+*     {
+*       "id": 2,
+*       "question": "Creo que lloverá",
+*       "correct_answers": [
+*         "I think it will rain"
+*       ],
+*       "explanation": "Se usa 'will' porque es una opinión.",
+*       "topic": "future-will"
+*     }
+*   ]
+* }
+* 
+* 
+* Posibles errores
+* 
+* Usuario no autenticado
+* 401 Unauthorized
+* {
+*   "error": "Unauthorized"
+* }
+* 
+* 
+* No se encuentran ejercicios para el tema indicado
+* 404 Not Found
+* {
+*   "error": "No exercises found for the specified topic"
+* }
+* 
+* 
+* Error interno del servidor
+* 500 Internal Server Error
+* {
+*   "error": "Server error while retrieving exercises"
+* }
+* 
+*/
