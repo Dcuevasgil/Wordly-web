@@ -203,12 +203,45 @@ CREATE TABLE study_sessions (
 );
 
 
+-- ==============================
+-- TABLA: ejercicios
+-- ==============================
+CREATE TABLE exercises (
+    id_exercises BIGINT AUTO_INCREMENT NOT NULL,
+
+    type_exercise VARCHAR(50) NOT NULL,
+    topic_exercise VARCHAR(100) NOT NULL,
+
+    question TEXT NOT NULL,
+
+    explanation TEXT NOT NULL,
+
+    register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
+
+
+-- ==============================
+-- TABLA: respuestas_ejercicios
+-- ==============================
+CREATE TABLE exercise_answers (
+    id_exercise_answers BIGINT AUTO_INCREMENT NOT NULL,
+    exercise_id BIGINT NOT NULL,
+
+    answer TEXT NOT NULL,
+    is_correct_answer BOOLEAN DEFAULT true,
+
+    explanation TEXT NOT NULL,
+
+    FOREIGN KEY (exercise_id) REFERENCES exercises(id_exercises) ON DELETE CASCADE
+);
 
 -- Alter tables
 
 
 
-
+-- Renames
+RENAME TABLE exercises_answer TO exercise_answers;
 
 
 -- Indices
