@@ -180,7 +180,8 @@ class ExerciseController extends Controller {
                         ->pluck('answer')
                         ->values(),
                     'explanation' => $exercise->explanation,
-                    'topic' => $exercise->topic_exercise
+                    'topic' => $exercise->topic_exercise,
+                    'type' => $exercise->type_exercise
                 ];
             });
 

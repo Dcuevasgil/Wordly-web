@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 export default function Practice() {
 
-  // 📦 STATE
   const [exercises, setExercises] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -11,14 +10,16 @@ export default function Practice() {
 
   const [loading, setLoading] = useState(true);
 
-  // 🔑 TOKEN (ajústalo a tu sistema)
   const token = localStorage.getItem("token");
 
-  // 📡 FETCH EJERCICIOS
+  const API_URL = "http://localhost:8000";
+
+
+  console.log("TOKEN:", token);
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const res = await fetch("/api/learning/exercises", {
+        const res = await fetch(`${API_URL}/api/learning/exercises`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json"
@@ -30,6 +31,8 @@ export default function Practice() {
         setExercises(data.data || []);
         setLoading(false);
 
+        console.log(data)
+
       } catch (error) {
         console.error("Error fetching exercises:", error);
         setLoading(false);
@@ -39,10 +42,8 @@ export default function Practice() {
     fetchExercises();
   }, []);
 
-  // 🔄 EJERCICIO ACTUAL
   const exercise = exercises[currentIndex];
 
-  // 🔧 NORMALIZAR
   const normalize = (text) =>
     text
       .toLowerCase()
@@ -50,42 +51,23 @@ export default function Practice() {
       .replace(/[.,!?]/g, "")
       .replace(/\s+/g, " ");
 
-  // ⚖️ COMPROBAR
-  const checkAnswer = () => {
-    const normalizedUser = normalize(userAnswer);
+  // 🔥 CHECK ANSWER (GENÉRICO)
+  const checkAnswer = (answer) => {
+
+    const normalizedUser = normalize(answer);
 
     const isCorrect = exercise.correct_answers.some(
-      (answer) => normalize(answer) === normalizedUser
+      (a) => normalize(a) === normalizedUser
     );
-
-    let feedback = "";
-
-    if (isCorrect) {
-      feedback = "Correcto ✅";
-    } else if (normalizedUser.includes("will")) {
-      feedback =
-        "Casi correcto ⚠️. Has usado 'will', pero aquí se esperaba un plan → 'going to'.";
-    } else if (
-      normalizedUser.includes("going to") &&
-      !normalizedUser.includes("am") &&
-      !normalizedUser.includes("is") &&
-      !normalizedUser.includes("are")
-    ) {
-      feedback =
-        "Casi correcto ⚠️. Te falta el verbo 'to be' (am/is/are).";
-    } else {
-      feedback = "Incorrecto ❌";
-    }
 
     setResult({
       isCorrect,
-      feedback,
+      feedback: isCorrect ? "Correcto ✅" : "Incorrecto ❌",
       correctAnswer: exercise.correct_answers[0],
       explanation: exercise.explanation
     });
   };
 
-  // 🔄 SIGUIENTE EJERCICIO
   const nextExercise = () => {
     setUserAnswer("");
     setResult(null);
@@ -93,49 +75,70 @@ export default function Practice() {
     if (currentIndex < exercises.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // 🔁 Reiniciar o volver a pedir más ejercicios
       setCurrentIndex(0);
     }
   };
 
-  // ⏳ LOADING
   if (loading) return <p>Cargando ejercicios...</p>;
-
   if (!exercise) return <p>No hay ejercicios disponibles</p>;
 
   return (
     <div style={{ padding: "24px", maxWidth: "500px" }}>
 
-      {/* 📄 PREGUNTA */}
       <h2>{exercise.question}</h2>
 
-      {/* 🖊️ INPUT */}
-      <input
-        type="text"
-        value={userAnswer}
-        onChange={(e) => setUserAnswer(e.target.value)}
-        placeholder="Escribe tu respuesta..."
-        style={{
-          width: "100%",
-          padding: "12px",
-          marginTop: "12px",
-          borderRadius: "8px",
-          border: "1px solid #ccc"
-        }}
-      />
+      {/* 🧠 SINGLE CHOICE */}
+      {exercise.type === "single-choice" && (
+        <div style={{ marginTop: "16px" }}>
+          {exercise.correct_answers.map((answer, index) => (
+            <button
+              key={index}
+              onClick={() => checkAnswer(answer)}
+              style={{
+                display: "block",
+                marginBottom: "8px",
+                padding: "10px",
+                width: "100%",
+                borderRadius: "8px",
+                cursor: "pointer"
+              }}
+            >
+              {answer}
+            </button>
+          ))}
+        </div>
+      )}
 
-      {/* 🔘 BOTÓN */}
-      <button
-        onClick={checkAnswer}
-        style={{
-          marginTop: "12px",
-          padding: "10px 16px",
-          borderRadius: "8px",
-          cursor: "pointer"
-        }}
-      >
-        Comprobar
-      </button>
+      {/* 🧠 FILL BLANK */}
+      {exercise.type === "fill-blank" && (
+        <>
+          <input
+            type="text"
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+            placeholder="Escribe tu respuesta..."
+            style={{
+              width: "100%",
+              padding: "12px",
+              marginTop: "12px",
+              borderRadius: "8px",
+              border: "1px solid #ccc"
+            }}
+          />
+
+          <button
+            onClick={() => checkAnswer(userAnswer)}
+            style={{
+              marginTop: "12px",
+              padding: "10px 16px",
+              borderRadius: "8px",
+              cursor: "pointer"
+            }}
+          >
+            Comprobar
+          </button>
+        </>
+      )}
 
       {/* 📊 RESULTADO */}
       {result && (
@@ -152,7 +155,6 @@ export default function Practice() {
             </>
           )}
 
-          {/* 🔄 SIGUIENTE */}
           <button
             onClick={nextExercise}
             style={{

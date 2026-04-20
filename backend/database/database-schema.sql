@@ -207,7 +207,7 @@ CREATE TABLE study_sessions (
 -- TABLA: ejercicios
 -- ==============================
 CREATE TABLE exercises (
-    id_exercises BIGINT AUTO_INCREMENT NOT NULL,
+    id_exercises BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 
     type_exercise VARCHAR(50) NOT NULL,
     topic_exercise VARCHAR(100) NOT NULL,
@@ -217,7 +217,7 @@ CREATE TABLE exercises (
     explanation TEXT NOT NULL,
 
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 
@@ -225,7 +225,7 @@ CREATE TABLE exercises (
 -- TABLA: respuestas_ejercicios
 -- ==============================
 CREATE TABLE exercise_answers (
-    id_exercise_answers BIGINT AUTO_INCREMENT NOT NULL,
+    id_exercise_answers BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     exercise_id BIGINT NOT NULL,
 
     answer TEXT NOT NULL,
