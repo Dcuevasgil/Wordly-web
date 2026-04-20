@@ -129,7 +129,15 @@ class ExerciseSeeder extends Seeder {
                 'type_exercise'   => $item['type_exercise'],
             ]);
 
-            $exercise->answers()->createMany($item['answers']);
+            $answers = array_map(function ($answer) use ($item) {
+                return [
+                    'answer' => $answer['answer'],
+                    'is_correct_answer' => $answer['is_correct_answer'],
+                    'explanation' => $item['explanation'] // ← SOLUCIÓN
+                ];
+            }, $item['answers']);
+
+            $exercise->answers()->createMany($answers);
         }
     }
 }

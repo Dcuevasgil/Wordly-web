@@ -20,6 +20,7 @@ class ExerciseAnswer extends Model {
     ];
 
     protected $casts = [
+        'is_correct_answer' => 'boolean',
         'register_date' => 'datetime',
         'updated_date' => 'datetime',
     ];
