@@ -1,0 +1,21 @@
+.nav-item {
+  background: #d1d1d1;
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+
+  gap: 12px;
+}
+
+.nav-item:hover {
+  background: #c4c4c4;
+}
+
+.nav-item.is-active {
+  background: #bdbdbd;
+}
+
+.nav-label {
+  font-weight: var(--weight-normal-normal);
+}

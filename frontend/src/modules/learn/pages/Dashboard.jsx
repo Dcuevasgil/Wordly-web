@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 
 // CSS
 import "../../../styles/base/reset.css";
@@ -9,7 +9,7 @@ import "../../../Dashboard.css";
 import Logo from "../../../assets/svg/dashboard/logo-dashboard.svg";
 
 function Dashboard() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const unreadMessages = [
@@ -69,53 +69,53 @@ function Dashboard() {
     <div className="grid">
       {/* SIDEBAR */}
       <nav className="left-column-style-1 flex direction-column gap-12 pad-16">
-        <div
-          className="nav-item flex direction-row items-center gap-8"
-          onClick={() => navigate("/dashboard")}
-        >
+        <NavLink 
+          to="/dashboard" 
+          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
+          >
           <span className="nav-icon flex justify-center items-center primary">
             <img src={Logo} alt="Wordly logo" />
           </span>
           <span className="text-16 font-md-sans weight-600 color-black">
             Dashboard
           </span>
-        </div>
+        </NavLink>
 
-        <div
-          className="nav-item flex direction-row items-center gap-8"
-          onClick={() => navigate("/dashboard/settings")}
-        >
+        <NavLink 
+          to="/settings" 
+          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
+          >
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>settings</md-icon>
           </span>
           <span className="text-16 font-md-sans weight-600 color-black">
             Configuración
           </span>
-        </div>
+        </NavLink>
 
-        <div
-          className="nav-item flex direction-row items-center gap-8"
-          onClick={() => navigate("/dashboard/messages")}
-        >
+        <NavLink 
+          to="/messages" 
+          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
+          >
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>chat_bubble</md-icon>
           </span>
           <span className="text-16 font-md-sans weight-600 color-black">
             Mensajes
           </span>
-        </div>
+        </NavLink>
 
-        <div
-          className="nav-item flex direction-row items-center gap-8"
-          onClick={() => navigate("/dashboard/practice")}
-        >
+        <NavLink 
+          to="/practice" 
+          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
+          >
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>create_outline</md-icon>
           </span>
           <span className="text-16 font-md-sans weight-600 color-black">
             Ejercicios para practicar
           </span>
-        </div>
+        </NavLink>
       </nav>
 
       {/* MAIN */}

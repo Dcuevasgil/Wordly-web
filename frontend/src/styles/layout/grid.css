@@ -1,6 +1,19 @@
 /* GRID BASE */
 .grid { display: grid; }
 
+.grid-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  padding: 20px;
+
+  flex: 1;
+  overflow-y: auto;
+
+  align-content: flex-start;
+}
+
 /* Columnas */
 .grid-columns { grid-template-columns: repeat(1, 1fr); }
 .grid-columns-2 { grid-template-columns: repeat(2, 1fr); }
