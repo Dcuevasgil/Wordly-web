@@ -8,9 +8,19 @@ import "../../../Dashboard.css";
 // SVGs
 import Logo from "../../../assets/svg/dashboard/logo-dashboard.svg";
 
+// Components
+import CreateProfileModal from "../components/modals/CreateProfileModal";
+
 function Dashboard() {
   const navigate = useNavigate();
+
+
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0});
+
+  console.log("MODAL OPEN:", isProfileOpen);
+
 
   const unreadMessages = [
     { id: 1, from: "Juan" },
@@ -68,8 +78,9 @@ function Dashboard() {
   return (
     <div className="grid">
       <nav className="left-column-style-1 flex direction-column gap-12 pad-16">
+
         <div
-          className="nav-item flex direction-row items-center gap-8"
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
           onClick={() => navigate("/dashboard")}
         >
           <span className="nav-icon flex justify-center items-center primary">
@@ -82,7 +93,21 @@ function Dashboard() {
         </div>
 
         <div
-          className="nav-item flex direction-row items-center gap-8"
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
+          onClick={() => navigate("/dashboard")}
+        >
+          <span className="nav-icon flex justify-center items-center primary">
+            <img src={Logo} alt="Wordly logo in dashboard navigation" />
+          </span>
+
+          <span className="text-16 font-md-sans weight-600 color-black">
+            Inicio
+          </span>
+        </div>
+
+
+        <div
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
           onClick={() => navigate("/dashboard/settings")}
         >
           <span className="nav-icon flex justify-center items-center primary">
@@ -95,7 +120,7 @@ function Dashboard() {
         </div>
 
         <div
-          className="nav-item flex direction-row items-center gap-8"
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
           onClick={() => navigate("/dashboard/messages")}
         >
           <span className="nav-icon flex justify-center items-center primary">
@@ -108,7 +133,7 @@ function Dashboard() {
         </div>
 
         <div
-          className="nav-item flex direction-row items-center gap-8"
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
           onClick={() => navigate("/dashboard/practice")}
         >
           <span className="nav-icon flex justify-center items-center primary">
@@ -196,17 +221,50 @@ function Dashboard() {
               >
                 <div className="dropdown-content">
                   <ul className="dropdown-section">
-                    <li className="dropdown-title interaction-hover interaction-press">Perfil</li>
-                    <li className="dropdown-item interaction-hover interaction-press">Mi perfil</li>
+                    <li className="dropdown-title">Perfil</li>
+                    <li 
+                      className="dropdown-item interaction-hover interaction-press"
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        setModalOrigin({
+                          x: rect.left + rect.width / 2,
+                          y: rect.top + rect.height / 2
+                        });
+
+                        setIsProfileOpen(true);
+                        setOpenDropdown(null);
+                      }}
+                      >
+                        Mi perfil
+                    </li>
+                    
+                    
                     <li className="dropdown-item interaction-hover interaction-press">Cambiar curso</li>
                   </ul>
 
                   <ul className="dropdown-section">
-                    <li className="dropdown-title interaction-hover interaction-press">Mi avance</li>
+                    <li className="dropdown-title">Mi avance</li>
                     <li className="dropdown-item interaction-hover interaction-press">Logros</li>
                     <li className="dropdown-item interaction-hover interaction-press">Mi progreso</li>
                   </ul>
+
+                  <ul className="dropdown-section">
+                    <li className="dropdown-title">Sesión</li>
+                    <li className="dropdown-item interaction-hover interaction-press">Cerrar sesión</li>
+
+                    {/* <li className="dropdown-item interaction-hover interaction-press">Mi progreso</li> */}
+
+
+                  </ul>
                 </div>
+
+
+                
+
+
+
+
               </div>
             </div>
           </div>
@@ -215,6 +273,12 @@ function Dashboard() {
         <main className="grid-main">
           <Outlet />
         </main>
+
+        <CreateProfileModal
+          isOpen={isProfileOpen}
+          onClose={() => setIsProfileOpen(false)}
+          origin={modalOrigin}
+        />
       </div>
     </div>
   );

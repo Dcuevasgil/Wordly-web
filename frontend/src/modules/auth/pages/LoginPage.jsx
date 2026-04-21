@@ -131,6 +131,8 @@ function LoginPage() {
 
       console.log("Login success:", data);
 
+      localStorage.setItem("token", data.token);
+
       setModal({
         isOpen: true,
         message: "Login successful, you have successfully logged in",
