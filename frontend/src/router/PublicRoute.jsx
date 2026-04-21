@@ -1,9 +1,11 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-function PublicRoute({ children }) {
+export default function PublicRoute() {
   const token = localStorage.getItem("token");
 
-  return !token ? children : <Navigate to="/dashboard" />;
-}
+  if (token) {
+    return <Navigate to="/dashboard" />;
+  }
 
-export default PublicRoute;
+  return <Outlet />;
+}

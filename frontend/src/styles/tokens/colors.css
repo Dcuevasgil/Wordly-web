@@ -50,6 +50,23 @@
     --color-input-text: #111827;
 
 
+    /* ===================== */
+    /* 🤍 MODALES (TONOS BLANCOS) */
+    /* ===================== */
+
+    --color-modal-bg: #ffffff;              /* fondo principal */
+    --color-modal-bg-soft: #f9fafb;         /* fondo secundario */
+    --color-modal-bg-hover: #f3f4f6;        /* hover suave */
+
+    --color-modal-border: #e5e7eb;          /* borde principal */
+    --color-modal-border-strong: #d1d5db;   /* borde más marcado */
+
+    --color-modal-shadow: rgba(0, 0, 0, 0.15); /* sombra base */
+    --color-modal-shadow-strong: rgba(0, 0, 0, 0.25);
+
+    /* Overlay */
+    --color-modal-overlay: rgba(0, 0, 0, 0.4);
+
 }
 
 .border-color-black {
@@ -75,3 +92,53 @@
 .background-color-third-card-user-modal {
     background: var(--color-third-card-modal-user);
 }
+
+
+
+
+
+
+
+
+
+
+.modal-base {
+  background: var(--color-modal-bg);
+  border: 1px solid var(--color-modal-border);
+  border-radius: 24px;
+
+  box-shadow: 0 20px 50px var(--color-modal-shadow);
+}
+
+
+.modal-pro {
+  background: var(--color-modal-bg);
+  border: 1px solid var(--color-modal-border);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.1),
+    0 20px 50px rgba(0,0,0,0.15);
+}
+
+
+.modal-header {
+  border-bottom: 1px solid var(--color-modal-border);
+  background: var(--color-modal-bg-soft);
+}
+
+
+
+.modal-item:hover {
+  background: var(--color-modal-bg-hover);
+}
+
+
+
+
+
+
+
+
+

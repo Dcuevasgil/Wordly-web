@@ -11,35 +11,34 @@ import Practice from "./modules/learn/pages/Practice";
 
 import PrivateRoute from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
+
 import UserLevelModal from "./modules/onboarding/components/modals/UserLevelModal";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
+
+        {/* 🔓 PUBLIC */}
+        <Route element={ <PublicRoute /> }>
+          <Route path="/" element={<LoginPage />} />
+        </Route>
+              
 
         <Route path="/onboarding" element={<UserLevelModal />} />
 
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<DashboardHome />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="messages" element={<Messages />} />
-          <Route path="practice" element={<Practice />} />
+       {/* 🔐 PRIVATE */}
+        <Route element={<PrivateRoute />}>
+
+          <Route path="/dashboard" element={<Dashboard />}>
+
+            <Route index element={<DashboardHome />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="practice" element={<Practice />} />
+
+          </Route>
+
         </Route>
       </Routes>
     </BrowserRouter>

@@ -8,9 +8,13 @@ import "../../../Dashboard.css";
 // SVGs
 import Logo from "../../../assets/svg/dashboard/logo-dashboard.svg";
 
+// Components
+import CreateProfileModal from "../components/modals/CreateProfileModal";
+
 function Dashboard() {
-  // const navigate = useNavigate();
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0 });
 
   const unreadMessages = [
     { id: 1, from: "Juan" },
@@ -25,7 +29,6 @@ function Dashboard() {
     if (unreadMessages.length > 0) {
       resultNotifications.push({
         id: "messages",
-        type: "messages",
         message: `Tienes ${unreadMessages.length} sin leer`
       });
     }
@@ -33,7 +36,6 @@ function Dashboard() {
     if (pendingReviews > 0) {
       resultNotifications.push({
         id: "reviews",
-        type: "review",
         message: `Tienes ${pendingReviews} revisiones pendientes`
       });
     }
@@ -69,10 +71,13 @@ function Dashboard() {
     <div className="grid">
       {/* SIDEBAR */}
       <nav className="left-column-style-1 flex direction-column gap-12 pad-16">
+
         <NavLink 
-          to="/dashboard" 
-          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
-          >
+          to="/dashboard"
+          className={({ isActive }) => 
+            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
+          }
+        >
           <span className="nav-icon flex justify-center items-center primary">
             <img src={Logo} alt="Wordly logo" />
           </span>
@@ -82,9 +87,11 @@ function Dashboard() {
         </NavLink>
 
         <NavLink 
-          to="/settings" 
-          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
-          >
+          to="/dashboard/settings"
+          className={({ isActive }) => 
+            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
+          }
+        >
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>settings</md-icon>
           </span>
@@ -94,9 +101,11 @@ function Dashboard() {
         </NavLink>
 
         <NavLink 
-          to="/messages" 
-          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
-          >
+          to="/dashboard/messages"
+          className={({ isActive }) => 
+            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
+          }
+        >
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>chat_bubble</md-icon>
           </span>
@@ -106,9 +115,11 @@ function Dashboard() {
         </NavLink>
 
         <NavLink 
-          to="/practice" 
-          className={({ isActive }) => `nav-item ${isActive ? "is-active" : ""}`}
-          >
+          to="/dashboard/practice"
+          className={({ isActive }) => 
+            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
+          }
+        >
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>create_outline</md-icon>
           </span>
@@ -116,12 +127,13 @@ function Dashboard() {
             Ejercicios para practicar
           </span>
         </NavLink>
+
       </nav>
 
       {/* MAIN */}
       <div className="right-column-style-1">
-        {/* HEADER */}
         <header className="dashboard-header flex direction-row items-center justify-around pad-12">
+
           <div className="header-left">
             <span className="title-dashboard text-28 weight-700 color-white">
               Wordly
@@ -139,6 +151,7 @@ function Dashboard() {
           </div>
 
           <div className="header-right flex direction-row gap-12">
+
             {/* NOTIFICATIONS */}
             <div className="notifications-wrapper">
               <div
@@ -149,7 +162,6 @@ function Dashboard() {
                 }}
               >
                 <md-icon>notifications</md-icon>
-                <md-ripple></md-ripple>
               </div>
 
               <div
@@ -162,9 +174,9 @@ function Dashboard() {
                   {notifications.length === 0 ? (
                     <p>No tienes notificaciones</p>
                   ) : (
-                    notifications.map((notification) => (
-                      <div key={notification.id} className="notification-item">
-                        {notification.message}
+                    notifications.map((n) => (
+                      <div key={n.id} className="notification-item">
+                        {n.message}
                       </div>
                     ))
                   )}
@@ -175,14 +187,13 @@ function Dashboard() {
             {/* PROFILE */}
             <div className="profile-wrapper">
               <div
-                className="circle-icon border-color-black ripple-icon interaction-press interaction-hover"
+                className="circle-icon border-color-black interaction-press interaction-hover"
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleProfile();
                 }}
               >
                 <md-icon>person</md-icon>
-                <md-ripple></md-ripple>
               </div>
 
               <div
@@ -194,8 +205,27 @@ function Dashboard() {
                 <div className="dropdown-content">
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Perfil</li>
-                    <li className="dropdown-item">Mi perfil</li>
-                    <li className="dropdown-item">Cambiar curso</li>
+
+                    <li
+                      className="dropdown-item interaction-hover interaction-press"
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        setModalOrigin({
+                          x: rect.left + rect.width / 2,
+                          y: rect.top + rect.height / 2
+                        });
+
+                        setIsProfileOpen(true);
+                        setOpenDropdown(null);
+                      }}
+                    >
+                      Mi perfil
+                    </li>
+
+                    <li className="dropdown-item interaction-hover interaction-press">
+                      Cambiar curso
+                    </li>
                   </ul>
 
                   <ul className="dropdown-section">
@@ -203,16 +233,27 @@ function Dashboard() {
                     <li className="dropdown-item">Logros</li>
                     <li className="dropdown-item">Mi progreso</li>
                   </ul>
+
+                  <ul className="dropdown-section">
+                    <li className="dropdown-title">Sesión</li>
+                    <li className="dropdown-item">Cerrar sesión</li>
+                  </ul>
                 </div>
               </div>
             </div>
+
           </div>
         </header>
 
-        {/* CONTENIDO DINÁMICO */}
         <main className="grid-main">
           <Outlet />
         </main>
+
+        <CreateProfileModal
+          isOpen={isProfileOpen}
+          onClose={() => setIsProfileOpen(false)}
+          origin={modalOrigin}
+        />
       </div>
     </div>
   );

@@ -133,7 +133,7 @@ function LoginPage() {
 
       console.log("Login success:", data);
 
-      // 🔥 GUARDAR TOKEN
+      // ✅ TOKEN CORRECTO
       localStorage.setItem("token", data.access_token);
 
       setModal({
