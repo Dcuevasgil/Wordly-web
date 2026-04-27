@@ -51,21 +51,29 @@
 
 
     /* ===================== */
-    /* 🤍 MODALES (TONOS BLANCOS) */
+    /* 🤍 MODALES            */
     /* ===================== */
 
-    --color-modal-bg: #ffffff;              /* fondo principal */
-    --color-modal-bg-soft: #f9fafb;         /* fondo secundario */
-    --color-modal-bg-hover: #f3f4f6;        /* hover suave */
+    /* Fondo principal */
+    --color-modal-bg: #ffffff;
 
-    --color-modal-border: #e5e7eb;          /* borde principal */
-    --color-modal-border-strong: #d1d5db;   /* borde más marcado */
+    /* Fondo secundario */
+    --color-modal-bg-soft: #f8fafc;
 
-    --color-modal-shadow: rgba(0, 0, 0, 0.15); /* sombra base */
-    --color-modal-shadow-strong: rgba(0, 0, 0, 0.25);
+    /* Hover */
+    --color-modal-bg-hover: #f1f5f9;
 
-    /* Overlay */
-    --color-modal-overlay: rgba(0, 0, 0, 0.4);
+    /* Bordes */
+    --color-modal-border: #e2e8f0;
+    --color-modal-border-strong: #cbd5e1;
+
+    /* Texto */
+    --color-modal-text: #0f172a;
+    --color-modal-text-light: #64748b;
+
+    /* Sombras */
+    --color-modal-shadow: rgba(0, 0, 0, 0.08);
+    --color-modal-shadow-strong: rgba(0, 0, 0, 0.15);
 
 }
 

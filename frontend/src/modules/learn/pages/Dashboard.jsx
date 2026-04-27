@@ -5,13 +5,14 @@ import { Outlet, NavLink } from "react-router-dom";
 import "../../../styles/base/reset.css";
 import "../../../Dashboard.css";
 
-// SVGs
+// SVG
 import Logo from "../../../assets/svg/dashboard/logo-dashboard.svg";
 
 // Components
 import CreateProfileModal from "../components/modals/CreateProfileModal";
 
 function Dashboard() {
+
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0 });
@@ -56,19 +57,15 @@ function Dashboard() {
   const notifications = generateNotifications();
 
   useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenDropdown(null);
-    };
-
+    const handleClickOutside = () => setOpenDropdown(null);
     document.addEventListener("click", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (
     <div className="grid">
+
       {/* SIDEBAR */}
       <nav className="left-column-style-1 flex direction-column gap-12 pad-16">
 
@@ -132,6 +129,8 @@ function Dashboard() {
 
       {/* MAIN */}
       <div className="right-column-style-1">
+
+        {/* HEADER */}
         <header className="dashboard-header flex direction-row items-center justify-around pad-12">
 
           <div className="header-left">
@@ -140,22 +139,27 @@ function Dashboard() {
             </span>
           </div>
 
-          <div className="header-center flex justify-center">
-            <div className="search-dashboard flex direction-row items-center gap-8 pad-10-20 rounded-full">
-              <md-icon>search</md-icon>
-              <input
-                className="search-text text-16 weight-500 color-white"
-                placeholder="Busca algo..."
-              />
-            </div>
+        </header>
+
+        {/* HEADER REAL */}
+        <header className="dashboard-header flex items-center justify-between pad-12">
+
+          <span className="title-dashboard text-28 weight-700 color-white">
+            Wordly
+          </span>
+
+          <div className="search-dashboard flex items-center gap-8 pad-10-20 rounded-full">
+            <md-icon>search</md-icon>
+            <input placeholder="Busca algo..." />
           </div>
 
           <div className="header-right flex direction-row gap-12">
 
             {/* NOTIFICATIONS */}
             <div className="notifications-wrapper">
+
               <div
-                className="circle-icon border-color-black ripple-icon interaction-press interaction-hover"
+                className="circle-icon border-color-black interaction-press interaction-hover"
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleNotifications();
@@ -182,10 +186,12 @@ function Dashboard() {
                   )}
                 </div>
               </div>
+
             </div>
 
             {/* PROFILE */}
             <div className="profile-wrapper">
+
               <div
                 className="circle-icon border-color-black interaction-press interaction-hover"
                 onClick={(e) => {
@@ -203,10 +209,11 @@ function Dashboard() {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="dropdown-content">
+
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Perfil</li>
 
-                    <li
+                    <li 
                       className="dropdown-item interaction-hover interaction-press"
                       onClick={(e) => {
                         const rect = e.currentTarget.getBoundingClientRect();
@@ -238,22 +245,28 @@ function Dashboard() {
                     <li className="dropdown-title">Sesión</li>
                     <li className="dropdown-item">Cerrar sesión</li>
                   </ul>
+
                 </div>
               </div>
+
             </div>
 
           </div>
+
         </header>
 
-        <main className="grid-main">
+        {/* CONTENIDO */}
+        <main className="dashboard-content">
           <Outlet />
         </main>
 
+        {/* MODAL PERFIL */}
         <CreateProfileModal
           isOpen={isProfileOpen}
           onClose={() => setIsProfileOpen(false)}
           origin={modalOrigin}
         />
+
       </div>
     </div>
   );

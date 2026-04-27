@@ -17,8 +17,6 @@
   padding: 20px; 
   
   height: 100vh; 
-  
-
 } 
 
 .right-column { 
@@ -47,7 +45,6 @@
 }
 
 
-
 /* DashboardHome */
 .dashboard-home {
   display: grid;
@@ -55,11 +52,23 @@
   gap: 20px;
 }
 
-
+/* GRID PRINCIPAL */
 .grid {
   display: grid;
   grid-template-columns: 500px 1fr;
   height: 100vh;
+}
+
+/* CONTENIDO CENTRAL */
+.dashboard-content {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 40px;
 }
 
 
@@ -101,12 +110,6 @@
   width: 90%;
   height: 85%;
 
-  /* position: relative;
-  top: 50%;
-  left: 50%;
-
-  transform: translate(-50%, -50%); */
-
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -119,20 +122,17 @@
 }
 
 
-
 .simple-container { 
-  width: 340px; 
-  height: 230px; 
-  
-  display: flex; 
-  flex-direction: column; 
-  align-items: flex-start; 
-  justify-content: center; 
-  
-  margin-top: 0;
-  padding: 0; 
-  
-  background: var(--color-info); 
+  width: 100%;
+  max-width: 400px;
+  height: 230px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  background: var(--color-info);
   border-radius: 20px; 
 }
 
@@ -141,16 +141,8 @@
   height: 720px;
   
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
-  
-  /* position: absolute;
-  top: 48%;
-  left: 20%;
-  transform: translate(-50%, -50%); */
-
-  /* transform: translate(-50%, -50%); */
 
   margin-top: 20px; 
   padding: 0; 
@@ -173,12 +165,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  /* transform: translate(-50%, -50%); */
-
   margin-top: 20px; 
   padding: 0; 
   
-  /* background: var(--color-first-card-modal-user);  */
   border-radius: 20px; 
 }
 
@@ -196,12 +185,9 @@
   left: 80%;
   transform: translate(-50%, -50%);
 
-  /* transform: translate(-50%, -50%); */
-
   margin-top: 20px; 
   padding: 0; 
   
-  /* background: var(--color-first-card-modal-user);  */
   border-radius: 20px; 
 }
 
@@ -217,10 +203,8 @@
   margin-top: 20px; 
   padding: 0; 
   
-  /* background: var(--color-info);  */
   border-radius: 20px; 
 }
-
 
 
 .settings-container {
