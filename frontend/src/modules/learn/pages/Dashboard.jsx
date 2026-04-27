@@ -5,223 +5,139 @@ import { useNavigate, Outlet } from "react-router-dom";
 import "../../../styles/base/reset.css";
 import "../../../Dashboard.css";
 
-// SVGs
+// SVG
 import Logo from "../../../assets/svg/dashboard/logo-dashboard.svg";
 
 // Components
 import CreateProfileModal from "../components/modals/CreateProfileModal";
 
 function Dashboard() {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0});
+  const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0 });
 
-  console.log("MODAL OPEN:", isProfileOpen);
-
-
-  const unreadMessages = [
-    { id: 1, from: "Juan" },
-    { id: 2, from: "María" }
+  const notifications = [
+    { id: 1, message: "Tienes 2 mensajes sin leer" },
+    { id: 2, message: "Tienes 3 revisiones pendientes" }
   ];
 
-  const pendingReviews = 0;
-
-  const generateNotifications = () => {
-    const resultNotifications = [];
-
-    if (unreadMessages.length > 0) {
-      resultNotifications.push({
-        id: "messages",
-        type: "messages",
-        message: `Tienes ${unreadMessages.length} sin leer`
-      });
-    }
-
-    if (pendingReviews > 0) {
-      resultNotifications.push({
-        id: "reviews",
-        type: "review",
-        message: `Tienes ${pendingReviews} revisiones pendientes`
-      });
-    }
-
-    return resultNotifications;
-  };
-
-  const toggleNotifications = () => {
-    setOpenDropdown((prev) =>
-      prev === "notifications" ? null : "notifications"
-    );
-  };
-
-  const toggleProfile = () => {
-    setOpenDropdown((prev) => (prev === "profile" ? null : "profile"));
-  };
-
-  const notifications = generateNotifications();
-
   useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenDropdown(null);
-    };
-
+    const handleClickOutside = () => setOpenDropdown(null);
     document.addEventListener("click", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (
-    <div className="grid">
+    <div className="grid font-dm-sans">
+
+      {/* SIDEBAR */}
       <nav className="left-column-style-1 flex direction-column gap-12 pad-16">
 
         <div
           className="nav-item flex direction-row items-center gap-8 interaction-press"
           onClick={() => navigate("/dashboard")}
         >
-          <span className="nav-icon flex justify-center items-center primary">
-            <img src={Logo} alt="Wordly logo in dashboard navigation" />
-          </span>
-
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Dashboard
-          </span>
+          <img src={Logo} alt="logo" className="nav-icon"/>
+          <span className="text-16 weight-600 color-black">Inicio</span>
         </div>
-
-        <div
-          className="nav-item flex direction-row items-center gap-8 interaction-press"
-          onClick={() => navigate("/dashboard")}
-        >
-          <span className="nav-icon flex justify-center items-center primary">
-            <img src={Logo} alt="Wordly logo in dashboard navigation" />
-          </span>
-
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Inicio
-          </span>
-        </div>
-
 
         <div
           className="nav-item flex direction-row items-center gap-8 interaction-press"
           onClick={() => navigate("/dashboard/settings")}
         >
-          <span className="nav-icon flex justify-center items-center primary">
-            <md-icon>settings</md-icon>
-          </span>
-
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Configuración
-          </span>
+          <md-icon>settings</md-icon>
+          <span className="text-16 weight-600 color-black">Configuración</span>
         </div>
 
         <div
           className="nav-item flex direction-row items-center gap-8 interaction-press"
           onClick={() => navigate("/dashboard/messages")}
         >
-          <span className="nav-icon flex justify-center items-center primary">
-            <md-icon>chat_bubble</md-icon>
-          </span>
-
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Mensajes
-          </span>
+          <md-icon>chat_bubble</md-icon>
+          <span className="text-16 weight-600 color-black">Chat</span>
         </div>
 
-        <div
-          className="nav-item flex direction-row items-center gap-8 interaction-press"
-          onClick={() => navigate("/dashboard/practice")}
-        >
-          <span className="nav-icon flex justify-center items-center primary">
-            <md-icon>create_outline</md-icon>
-          </span>
-
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Ejercicios para practicar
-          </span>
-        </div>
       </nav>
 
+      {/* MAIN */}
       <div className="right-column-style-1">
-        <header className="dashboard-header flex direction-row items-center justify-around pad-12">
-          <div className="header-left">
-            <span className="title-dashboard text-28 weight-700 color-white">
-              Wordly
-            </span>
-          </div>
 
-          <div className="header-center flex justify-center">
-            <div className="search-dashboard flex direction-row items-center gap-8 pad-10-20 rounded-full">
-              <md-icon>search</md-icon>
-              <input
-                className="search-text text-16 weight-500 color-white"
-                placeholder="Busca algo..."
-              />
-            </div>
+        {/* HEADER */}
+        <header className="dashboard-header flex items-center justify-between pad-12">
+
+          <span className="title-dashboard text-28 weight-700 color-white">
+            Wordly
+          </span>
+
+          <div className="search-dashboard flex items-center gap-8 pad-10-20 rounded-full">
+            <md-icon>search</md-icon>
+            <input placeholder="Busca algo..." />
           </div>
 
           <div className="header-right flex direction-row gap-12">
+
+            {/* NOTIFICATIONS */}
             <div className="notifications-wrapper">
+
               <div
-                className="circle-icon border-color-black ripple-icon interaction-press interaction-hover"
+                className="circle-icon interaction-press interaction-hover"
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleNotifications();
+                  setOpenDropdown(prev => prev === "notifications" ? null : "notifications");
                 }}
               >
                 <md-icon>notifications</md-icon>
-                <md-ripple></md-ripple>
               </div>
 
               <div
                 className={`dropdown dropdown--notifications ${
                   openDropdown === "notifications" ? "active" : ""
                 }`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="dropdown-content">
                   {notifications.length === 0 ? (
                     <p>No tienes notificaciones</p>
                   ) : (
-                    notifications.map((notification) => (
-                      <div key={notification.id} className="notification-item">
-                        {notification.message}
+                    notifications.map(n => (
+                      <div key={n.id} className="dropdown-item">
+                        {n.message}
                       </div>
                     ))
                   )}
                 </div>
               </div>
+
             </div>
 
+            {/* PROFILE */}
             <div className="profile-wrapper">
+
               <div
-                className="circle-icon border-color-black ripple-icon interaction-press interaction-hover"
+                className="circle-icon interaction-press interaction-hover"
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleProfile();
+                  setOpenDropdown(prev => prev === "profile" ? null : "profile");
                 }}
               >
                 <md-icon>person</md-icon>
-                <md-ripple></md-ripple>
               </div>
 
               <div
                 className={`dropdown dropdown--profile ${
                   openDropdown === "profile" ? "active" : ""
                 }`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="dropdown-content">
+
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Perfil</li>
+
                     <li 
                       className="dropdown-item interaction-hover interaction-press"
                       onClick={(e) => {
@@ -235,50 +151,47 @@ function Dashboard() {
                         setIsProfileOpen(true);
                         setOpenDropdown(null);
                       }}
-                      >
-                        Mi perfil
+                    >
+                      Mi perfil
                     </li>
-                    
-                    
-                    <li className="dropdown-item interaction-hover interaction-press">Cambiar curso</li>
+
+                    <li className="dropdown-item interaction-hover interaction-press">
+                      Cambiar curso
+                    </li>
                   </ul>
 
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Mi avance</li>
-                    <li className="dropdown-item interaction-hover interaction-press">Logros</li>
-                    <li className="dropdown-item interaction-hover interaction-press">Mi progreso</li>
+                    <li className="dropdown-item">Logros</li>
+                    <li className="dropdown-item">Mi progreso</li>
                   </ul>
 
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Sesión</li>
-                    <li className="dropdown-item interaction-hover interaction-press">Cerrar sesión</li>
-
-                    {/* <li className="dropdown-item interaction-hover interaction-press">Mi progreso</li> */}
-
-
+                    <li className="dropdown-item">Cerrar sesión</li>
                   </ul>
+
                 </div>
-
-
-                
-
-
-
-
               </div>
+
             </div>
+
           </div>
+
         </header>
 
-        <main className="grid-main">
+        {/* CONTENIDO */}
+        <main className="dashboard-content">
           <Outlet />
         </main>
 
+        {/* MODAL PERFIL */}
         <CreateProfileModal
           isOpen={isProfileOpen}
           onClose={() => setIsProfileOpen(false)}
           origin={modalOrigin}
         />
+
       </div>
     </div>
   );
