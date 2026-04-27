@@ -186,14 +186,20 @@
   top: 50%;
   left: 50%;
 
+  /* 🔥 TAMAÑO REAL */
   width: 90vw;
   height: 85vh;
 
-  transform: translate(-50%, -50%) scale(0.2);
-  opacity: 0;
+  /* ❌ elimina límites */
+  max-width: none;
+  max-height: none;
 
+  /* LAYOUT */
   display: flex;
   flex-direction: column;
+  gap: 16px;
+
+  padding: 24px;
 
   background: var(--color-modal-bg);
   border: 1px solid var(--color-modal-border);
@@ -201,11 +207,16 @@
 
   box-shadow: 0 10px 25px var(--color-modal-shadow);
 
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+
+  transform-origin: top right;
+
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
   overflow: hidden;
 
   z-index: 10000;
-
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .profile-overlay.active .profile-modal {
@@ -286,6 +297,7 @@
 
   display: flex;
   justify-content: flex-end;
+  gap: 20px;
 }
 
 .modal-footer button {
@@ -301,6 +313,17 @@
 }
 
 
+.modal-footer button:nth-child(1) {
+    background-color: var(--color-bg-btn-edit-profile);
+}
+
+
+.modal-footer button:nth-child(2) {
+    background-color: var(--color-bg-btn-save-changes-profile);
+}
+
+
+/* ANIMACIONES */
 
 .profile-overlay.active {
   opacity: 1;
@@ -311,47 +334,6 @@
 .profile-modal.active {
     opacity: 1;
     pointer-events: auto;
-}
-
-
-.profile-modal {
-  position: fixed;
-
-  top: 50%;
-  left: 50%;
-
-  /* 🔥 TAMAÑO REAL */
-  width: 90vw;
-  height: 85vh;
-
-  /* ❌ elimina límites */
-  max-width: none;
-  max-height: none;
-
-  /* LAYOUT */
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  padding: 24px;
-
-  background: var(--color-modal-bg);
-  border: 1px solid var(--color-modal-border);
-  border-radius: 20px;
-
-  box-shadow: 0 10px 25px var(--color-modal-shadow);
-
-  transform: translate(-50%, -50%) scale(0.2);
-  opacity: 0;
-
-  transform-origin: top right;
-
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* 🔥 IMPORTANTE */
-  overflow: hidden;
-
-  z-index: 10000;
 }
 
 

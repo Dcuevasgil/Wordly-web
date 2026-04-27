@@ -9,7 +9,7 @@ import "../../../Dashboard.css";
 import Logo from "../../../assets/svg/dashboard/logo-dashboard.svg";
 
 // Components
-import CreateProfileModal from "../components/modals/CreateProfileModal";
+import CreateProfileModal from "../components/profile/CreateProfileModal";
 
 function Dashboard() {
 

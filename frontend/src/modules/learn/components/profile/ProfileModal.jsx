@@ -7,9 +7,9 @@ export default function CreateProfileModal({
 }) {
 
     const [user, setUser] = useState({
-        name: "David",
-        level: "Intermedio",
-        streak: 56
+        name,
+        level,
+        streak,
     });
 
     const handleChange = (field, value) => {
@@ -23,6 +23,11 @@ export default function CreateProfileModal({
         console.log("Guardar usuario:", user);
         onClose();
     };
+
+    const handleEdit = () => {
+        console.log("Cambios realizados:", user);
+        onClose();
+    }
 
     return (
         <div 
@@ -70,22 +75,35 @@ export default function CreateProfileModal({
                             value={user.level}
                             onChange={(e) => handleChange("level", e.target.value)}
                         >
-                            <option>Principiante</option>
-                            <option>Intermedio</option>
-                            <option>Avanzado</option>
+                            <option value="defecto">Selecciona tu nivel</option>
+                            <option value="principiante">Principiante</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="avanzado">Avanzado</option>
                         </select>
                     </div>
 
                     {/* RACHA */}
                     <div className="modal-section">
                         <label>Racha</label>
-                        <input /><span></span>
+                        <span>
+                            <input 
+                                value={user.streak}
+                                onChange={(e) =>
+                                    setUser({ ...user, streak: e.target.value })
+                                }
+                            />
+                        </span>
                     </div>
 
                 </div>
 
                 {/* FOOTER */}
                 <div className="modal-footer">
+
+                    <button onClick={handleEdit}>
+                        Editar Perfil
+                    </button>
+
                     <button onClick={handleSave}>
                         Guardar cambios
                     </button>

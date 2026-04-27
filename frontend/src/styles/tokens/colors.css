@@ -75,6 +75,10 @@
     --color-modal-shadow: rgba(0, 0, 0, 0.08);
     --color-modal-shadow-strong: rgba(0, 0, 0, 0.15);
 
+
+    --color-bg-btn-edit-profile: #3B82F6;
+    --color-bg-btn-save-changes-profile: #1F2937;
+
 }
 
 .border-color-black {

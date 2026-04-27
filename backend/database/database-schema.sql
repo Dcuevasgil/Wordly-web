@@ -240,7 +240,23 @@ CREATE TABLE exercise_answers (
 
 
 
+
+-- users
+ALTER TABLE users ADD streak INT NOT NULL DEFAULT 0;
+ALTER TABLE users ADD last_activity_date DATE;
+
+
+
+
+
 -- Renames
+
+
+
+
+
+-- exercise_answer
+
 RENAME TABLE exercises_answer TO exercise_answers;
 
 
