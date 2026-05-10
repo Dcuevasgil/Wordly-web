@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 
 // CSS
 import "../../../styles/base/reset.css";
@@ -16,6 +16,7 @@ import ProgressModal from "../components/profile/ProgressModal";
 import LogoutConfirmModal from "../components/profile/LogoutConfirmModal";
 
 function Dashboard() {
+
   const navigate = useNavigate();
 
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -34,62 +35,39 @@ function Dashboard() {
   // De momento voy a hacer la prueba con este curso
   // Más adelante vendrá del backend
   const [selectedCourse, setSelectedCourse] = useState("english-general");
-
+  
   // Modal mi progreso
   const [isProgressOpen, setIsProgressOpen] = useState(false);
   const [progressOrigin, setProgressOrigin] = useState({ x: 0, y: 0 });
 
-  // Modal cerrar sesión
+  // Modal mi progreso
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [logoutOrigin, setLogoutOrigin] = useState({ x: 0, y: 0 });
 
-  // Punto de origen del modal perfil
+
+  // Punto de origen del modal
   const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0 });
 
-  const unreadMessages = [
-    { id: 1, from: "Juan" },
-    { id: 2, from: "María" }
+
+  const notifications = [
+    { id: 1, message: "Tienes 2 mensajes sin leer" },
+    { id: 2, message: "Tienes 3 revisiones pendientes" }
   ];
 
-  const pendingReviews = 0;
 
-  const generateNotifications = () => {
-    const resultNotifications = [];
 
-    if (unreadMessages.length > 0) {
-      resultNotifications.push({
-        id: "messages",
-        message: `Tienes ${unreadMessages.length} sin leer`
-      });
-    }
+  // Funciones
 
-    if (pendingReviews > 0) {
-      resultNotifications.push({
-        id: "reviews",
-        message: `Tienes ${pendingReviews} revisiones pendientes`
-      });
-    }
-
-    return resultNotifications;
-  };
-
-  const toggleNotifications = () => {
-    setOpenDropdown((prev) =>
-      prev === "notifications" ? null : "notifications"
-    );
-  };
-
-  const toggleProfile = () => {
-    setOpenDropdown((prev) => (prev === "profile" ? null : "profile"));
-  };
-
+  // Cerrar sesión
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
 
-  const notifications = generateNotifications();
 
+  
+
+  // UseEffects
   useEffect(() => {
     const handleClickOutside = () => setOpenDropdown(null);
     document.addEventListener("click", handleClickOutside);
@@ -98,70 +76,42 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="grid">
+    <div className="grid font-dm-sans">
 
       {/* SIDEBAR */}
       <nav className="left-column-style-1 flex direction-column gap-12 pad-16">
 
-        <NavLink 
-          to="/dashboard"
-          className={({ isActive }) => 
-            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
-          }
+        <div
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
+          onClick={() => navigate("/dashboard")}
         >
-          <span className="nav-icon flex justify-center items-center primary">
-            <img src={Logo} alt="Wordly logo" />
-          </span>
+          <img src={Logo} alt="logo" className="nav-icon"/>
+          <span className="text-16 weight-600 color-black">Inicio</span>
+        </div>
 
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Dashboard
-          </span>
-        </NavLink>
-
-        <NavLink 
-          to="/dashboard/settings"
-          className={({ isActive }) => 
-            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
-          }
+        <div
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
+          onClick={() => navigate("/dashboard/settings")}
         >
-          <span className="nav-icon flex justify-center items-center primary">
-            <md-icon>settings</md-icon>
-          </span>
+          <md-icon>settings</md-icon>
+          <span className="text-16 weight-600 color-black">Configuración</span>
+        </div>
 
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Configuración
-          </span>
-        </NavLink>
-
-        <NavLink 
-          to="/dashboard/messages"
-          className={({ isActive }) => 
-            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
-          }
+        <div
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
+          onClick={() => navigate("/dashboard/messages")}
         >
-          <span className="nav-icon flex justify-center items-center primary">
-            <md-icon>chat_bubble</md-icon>
-          </span>
+          <md-icon>chat_bubble</md-icon>
+          <span className="text-16 weight-600 color-black">Chat</span>
+        </div>
 
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Mensajes
-          </span>
-        </NavLink>
-
-        <NavLink 
-          to="/dashboard/practice"
-          className={({ isActive }) => 
-            `nav-item flex direction-row items-center gap-8 interaction-press ${isActive ? "is-active" : ""}`
-          }
+        <div
+          className="nav-item flex direction-row items-center gap-8 interaction-press"
+          onClick={() => navigate("/dashboard/practice")}
         >
-          <span className="nav-icon flex justify-center items-center primary">
-            <md-icon>create_outline</md-icon>
-          </span>
-
-          <span className="text-16 font-md-sans weight-600 color-black">
-            Ejercicios para practicar
-          </span>
-        </NavLink>
+          <md-icon>create-outline</md-icon>
+          <span className="text-16 weight-600 color-black">Ejercicios de práctica</span>
+        </div>
 
       </nav>
 
@@ -186,10 +136,10 @@ function Dashboard() {
             <div className="notifications-wrapper">
 
               <div
-                className="circle-icon border-color-black interaction-press interaction-hover"
+                className="circle-icon interaction-press interaction-hover"
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleNotifications();
+                  setOpenDropdown(prev => prev === "notifications" ? null : "notifications");
                 }}
               >
                 <md-icon>notifications</md-icon>
@@ -205,8 +155,8 @@ function Dashboard() {
                   {notifications.length === 0 ? (
                     <p>No tienes notificaciones</p>
                   ) : (
-                    notifications.map((n) => (
-                      <div key={n.id} className="notification-item">
+                    notifications.map(n => (
+                      <div key={n.id} className="dropdown-item">
                         {n.message}
                       </div>
                     ))
@@ -220,10 +170,10 @@ function Dashboard() {
             <div className="profile-wrapper">
 
               <div
-                className="circle-icon border-color-black interaction-press interaction-hover"
+                className="circle-icon interaction-press interaction-hover"
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleProfile();
+                  setOpenDropdown(prev => prev === "profile" ? null : "profile");
                 }}
               >
                 <md-icon>person</md-icon>
@@ -270,16 +220,15 @@ function Dashboard() {
                         setIsCourseOpen(true);
                         setOpenDropdown(null);
                       }}
-                    >
+                      >
                       Cambiar curso
                     </li>
                   </ul>
 
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Mi avance</li>
-
                     <li 
-                      className="dropdown-item interaction-hover interaction-press"
+                      className="dropdown-item"
                       onClick={(e) => {
                         const rect = e.currentTarget.getBoundingClientRect();
 
@@ -291,12 +240,12 @@ function Dashboard() {
                         setIsAchievementsOpen(true);
                         setOpenDropdown(null);
                       }}
-                    >
-                      Logros
-                    </li>
+                      >
+                        Logros
+                      </li>
 
                     <li 
-                      className="dropdown-item interaction-hover interaction-press"
+                      className="dropdown-item"
                       onClick={(e) => {
                         const rect = e.currentTarget.getBoundingClientRect();
 
@@ -308,16 +257,15 @@ function Dashboard() {
                         setIsProgressOpen(true);
                         setOpenDropdown(null);
                       }}
-                    >
-                      Mi progreso
-                    </li>
+                      >
+                        Mi progreso
+                      </li>
                   </ul>
 
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Sesión</li>
-
                     <li 
-                      className="dropdown-item interaction-hover interaction-press"
+                      className="dropdown-item"
                       onClick={(e) => {
                         const rect = e.currentTarget.getBoundingClientRect();
 
@@ -329,9 +277,9 @@ function Dashboard() {
                         setIsLogoutOpen(true);
                         setOpenDropdown(null);
                       }}
-                    >
-                      Cerrar sesión
-                    </li>
+                      >
+                        Cerrar sesión
+                      </li>
                   </ul>
 
                 </div>
