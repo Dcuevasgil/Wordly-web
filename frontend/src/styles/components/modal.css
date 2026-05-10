@@ -186,15 +186,12 @@
   top: 50%;
   left: 50%;
 
-  /* 🔥 TAMAÑO REAL */
   width: 90vw;
   height: 85vh;
 
-  /* ❌ elimina límites */
   max-width: none;
   max-height: none;
 
-  /* LAYOUT */
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -210,7 +207,7 @@
   transform: translate(-50%, -50%) scale(0.2);
   opacity: 0;
 
-  transform-origin: top right;
+  transform-origin: var(--origin-x, center) var(--origin-y, center);
 
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -222,6 +219,446 @@
 .profile-overlay.active .profile-modal {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
+}
+
+
+/* MODAL CAMBIAR CURSO */
+.course-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.course-card {
+  min-height: 180px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 20px;
+
+  border: 1px solid var(--color-modal-border);
+  border-radius: 18px;
+
+  background: var(--color-modal-bg-soft);
+  color: var(--color-text);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-3px);
+  background: var(--color-modal-bg-hover);
+}
+
+.course-card.active {
+  border-color: var(--color-primary);
+  background: rgba(109, 92, 246, 0.08);
+}
+
+.course-card md-icon {
+  font-size: 28px;
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-primary);
+
+  flex-shrink: 0;
+}
+
+.course-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.course-card p {
+  font-size: 14px;
+  color: var(--color-text-light);
+  line-height: 1.4;
+}
+
+
+/* MODAL LOGROS */
+.achievement-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.achievement-card {
+  min-height: 96px;
+
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center;
+  gap: 16px;
+
+  padding: 16px 18px;
+
+  border: 1px solid var(--color-modal-border);
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.achievement-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+.achievement-card md-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #e5e7eb;
+
+  font-size: 30px;
+
+  flex-shrink: 0;
+}
+
+.achievement-card h3 {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: var(--color-text);
+}
+
+.achievement-card p {
+  margin-top: 4px;
+
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.achievement-card span {
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.achievement-card.unlocked {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.achievement-card.unlocked md-icon {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.achievement-card.unlocked span {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.achievement-card.locked {
+  opacity: 0.75;
+}
+
+.achievement-card.locked md-icon {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+.achievement-card.locked span {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+/* MODAL DESBLOQUEAR LOGRO */
+.achievement-unlocked-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+
+  opacity: 0;
+  pointer-events: none;
+
+  z-index: 11000;
+
+  transition: opacity 0.25s ease;
+}
+
+.achievement-unlocked-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.achievement-unlocked-modal {
+  width: 90%;
+  max-width: 520px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 24px;
+
+  background: var(--color-modal-bg);
+  border: 1px solid var(--color-modal-border);
+  border-radius: 20px;
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+
+  transform: scale(0.92);
+  animation: achievementPop 0.28s ease forwards;
+}
+
+.achievement-unlocked-header {
+  border-bottom: 1px solid var(--color-modal-border);
+  padding-bottom: 14px;
+}
+
+.achievement-unlocked-body {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.achievement-unlocked-body md-icon {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #fef3c7;
+  color: #d97706;
+
+  font-size: 32px;
+}
+
+.achievement-unlocked-body h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.achievement-unlocked-body p {
+  margin-top: 6px;
+  color: var(--color-text-light);
+}
+
+.achievement-unlocked-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.achievement-unlocked-footer button {
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #1F2937;
+  color: white;
+
+  cursor: pointer;
+}
+
+@keyframes achievementPop {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* MODAL MI PROGRESO */
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.progress-card {
+  min-height: 140px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 18px;
+
+  border: 1px solid var(--color-modal-border);
+  border-radius: 16px;
+
+  background: var(--color-modal-bg-soft);
+}
+
+.progress-card span {
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.progress-card strong {
+  font-size: 32px;
+  color: var(--color-text);
+}
+
+.progress-card small {
+  color: var(--color-text-light);
+}
+
+.progress-activity {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.progress-activity div {
+  padding: 16px;
+
+  border: 1px solid var(--color-modal-border);
+  border-radius: 14px;
+
+  background: var(--color-modal-bg-soft);
+}
+
+.progress-activity span {
+  display: block;
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.progress-activity strong {
+  color: var(--color-text);
+}
+
+
+/* MODAL CERRAR SESIÓN */
+.logout-modal {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 90%;
+  max-width: 420px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  padding: 24px;
+
+  background: var(--color-modal-bg);
+  border: 1px solid var(--color-modal-border);
+  border-radius: 20px;
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.16);
+
+  transform:
+    translate(
+      calc(-50% + var(--origin-x, 50vw) - 50vw),
+      calc(-50% + var(--origin-y, 50vh) - 50vh)
+    )
+    scale(0.05);
+
+  opacity: 0;
+
+  z-index: 10000;
+
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-overlay.active .logout-modal {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.logout-modal-header {
+  border-bottom: 1px solid var(--color-modal-border);
+  padding-bottom: 12px;
+}
+
+.logout-modal-header h2 {
+  font-size: 22px;
+}
+
+.logout-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logout-modal-body p {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.logout-modal-body span {
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.logout-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.logout-modal-footer button {
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 10px;
+
+  font-family: var(--font-main);
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.logout-modal-footer button:nth-child(1) {
+  background: #3B82F6;
+  color: white;
+}
+
+.logout-modal-footer button:nth-child(2) {
+  background: #DC2626;
+  color: white;
 }
 
 

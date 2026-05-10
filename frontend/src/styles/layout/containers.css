@@ -51,8 +51,9 @@
 /* DashboardHome */
 .dashboard-home {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  width: 100%;
 }
 
 
@@ -66,6 +67,75 @@
 
   padding: 40px;
 }
+
+
+
+.dashboard-card {
+  width: 100%;
+  max-width: 260px;
+  min-height: 230px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 24px;
+
+  background: var(--color-info);
+  border-radius: 20px;
+
+  cursor: pointer;
+}
+
+
+.dashboard-card:nth-child(3) {
+  cursor: default;
+}
+
+
+.dashboard-card-title {
+  color: var(--color-white);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.dashboard-card-number {
+  color: var(--color-white);
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dashboard-card-text {
+  color: var(--color-white);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.dashboard-card-subtext {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+}
+
+.dashboard-card-button {
+  width: fit-content;
+
+  padding: 10px 18px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #1F2937;
+  color: white;
+
+  font-family: var(--font-main);
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+
 
 
 

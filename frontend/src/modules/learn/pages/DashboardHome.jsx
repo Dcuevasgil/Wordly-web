@@ -1,88 +1,61 @@
 import { useNavigate } from "react-router-dom";
 
 function DashboardHome() {
-
     const navigate = useNavigate();
 
     return (
         <div className="dashboard-home font-dm-sans">
 
-            {/* CARD 1 — LECCIONES */}
             <div 
-                className="simple-container pad-16 flex direction-column gap-12 interaction-hover interaction-press"
+                className="dashboard-card"
                 onClick={() => navigate("/dashboard/lessons")}
             > 
-                <h3 className="title text-8 weight-500">Lecciones</h3> 
+                <h3 className="dashboard-card-title">Lecciones</h3> 
 
-                <h1 className="text-24 weight-600 color-white">
-                    65%
-                </h1>
+                <h1 className="dashboard-card-number">65%</h1>
 
-                <span className="text-16 color-white">
-                    Completadas
-                </span>
-
-                <span className="text-16 color-white">
-                    13 / 20 lecciones
-                </span>
+                <span className="dashboard-card-text">Completadas</span>
+                <span className="dashboard-card-subtext">13 / 20 lecciones</span>
             </div> 
 
-
-            {/* CARD 2 — TEST */}
             <div 
-                className="simple-container pad-16 flex direction-column gap-12 interaction-hover interaction-press"
+                className="dashboard-card"
                 onClick={() => navigate("/dashboard/practice")}
             > 
-                <h3 className="title text-8 weight-500">Test</h3> 
+                <h3 className="dashboard-card-title">Test</h3> 
 
-                <h1 className="text-24 weight-600 color-white">
-                    43%
-                </h1>
+                <h1 className="dashboard-card-number">43%</h1>
 
-                <span className="text-16 color-white">
-                    Precisión media
-                </span>
-
-                <div className="flex direction-column gap-8">
-                    <span className="text-16 color-white">Errores: 4.8</span>
-                    <span className="text-16 color-white">Últimos: 4.4</span>
-                </div>
+                <span className="dashboard-card-text">Precisión media</span>
+                <span className="dashboard-card-subtext">Errores: 4.8</span>
+                <span className="dashboard-card-subtext">Últimos: 4.4</span>
             </div> 
 
-
-            {/* CARD 3 — REVISIONES */}
             <div 
-                className="simple-container pad-16 flex direction-column gap-12 interaction-hover interaction-press"
-                onClick={() => navigate("/dashboard/review")}
+                className="dashboard-card"
             >
-                <h3 className="title text-8 weight-500">Revisiones</h3>
+                <h3 className="dashboard-card-title">Revisiones</h3>
 
-                <h1 className="text-24 weight-600 color-white">
-                    3
-                </h1>
+                <h1 className="dashboard-card-number">3</h1>
 
-                <span className="text-16 color-white">
-                    Pendientes hoy
-                </span>
+                <span className="dashboard-card-text">Pendientes hoy</span>
 
-                <button className="button button-progress">
+                <button 
+                    className="dashboard-card-button"
+                    onClick={() => navigate("/dashboard/review")}
+                >
                     Revisar ahora
                 </button>
             </div>
 
+            <div className="dashboard-card">
+                <h3 className="dashboard-card-title">Racha diaria</h3>
 
-            {/* CARD 4 — RACHA */}
-            <div className="simple-container pad-16 flex direction-column gap-12 interaction-hover interaction-press">
-
-                <h3 className="title text-8 weight-500">Racha diaria</h3>
-
-                <h1 className="text-24 weight-600 color-white">
-                    56 días 🔥
+                <h1 className="dashboard-card-number">
+                    56 días🔥
                 </h1>
 
-                {/* <span className="text-16 color-white">
-                    Tu mejor marca: 60
-                </span> */}
+                <span className="dashboard-card-subtext">Tu mejor marca: 60</span>
             </div>
 
         </div>
