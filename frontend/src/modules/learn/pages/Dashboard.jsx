@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 // CSS
 import "../../../styles/base/reset.css";
@@ -9,12 +9,41 @@ import "../../../Dashboard.css";
 import Logo from "../../../assets/svg/dashboard/logo-dashboard.svg";
 
 // Components
-import CreateProfileModal from "../components/profile/CreateProfileModal";
+import ProfileModal from "../components/profile/ProfileModal";
+import ChangeCourseModal from "../components/profile/ChangeCourseModal";
+import AchievementsModal from "../components/achievements/AchievementsModal";
+import ProgressModal from "../components/profile/ProgressModal";
+import LogoutConfirmModal from "../components/profile/LogoutConfirmModal";
 
 function Dashboard() {
+  const navigate = useNavigate();
 
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  // Modal perfil
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  // Modal cambiar curso
+  const [isCourseOpen, setIsCourseOpen] = useState(false);
+  const [courseOrigin, setCourseOrigin] = useState({ x: 0, y: 0 });
+
+  // Modal logros
+  const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
+  const [achievementsOrigin, setAchievementsOrigin] = useState({ x: 0, y: 0 });
+
+  // De momento voy a hacer la prueba con este curso
+  // Más adelante vendrá del backend
+  const [selectedCourse, setSelectedCourse] = useState("english-general");
+
+  // Modal mi progreso
+  const [isProgressOpen, setIsProgressOpen] = useState(false);
+  const [progressOrigin, setProgressOrigin] = useState({ x: 0, y: 0 });
+
+  // Modal cerrar sesión
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [logoutOrigin, setLogoutOrigin] = useState({ x: 0, y: 0 });
+
+  // Punto de origen del modal perfil
   const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0 });
 
   const unreadMessages = [
@@ -54,6 +83,11 @@ function Dashboard() {
     setOpenDropdown((prev) => (prev === "profile" ? null : "profile"));
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   const notifications = generateNotifications();
 
   useEffect(() => {
@@ -78,6 +112,7 @@ function Dashboard() {
           <span className="nav-icon flex justify-center items-center primary">
             <img src={Logo} alt="Wordly logo" />
           </span>
+
           <span className="text-16 font-md-sans weight-600 color-black">
             Dashboard
           </span>
@@ -92,6 +127,7 @@ function Dashboard() {
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>settings</md-icon>
           </span>
+
           <span className="text-16 font-md-sans weight-600 color-black">
             Configuración
           </span>
@@ -106,6 +142,7 @@ function Dashboard() {
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>chat_bubble</md-icon>
           </span>
+
           <span className="text-16 font-md-sans weight-600 color-black">
             Mensajes
           </span>
@@ -120,6 +157,7 @@ function Dashboard() {
           <span className="nav-icon flex justify-center items-center primary">
             <md-icon>create_outline</md-icon>
           </span>
+
           <span className="text-16 font-md-sans weight-600 color-black">
             Ejercicios para practicar
           </span>
@@ -131,17 +169,6 @@ function Dashboard() {
       <div className="right-column-style-1">
 
         {/* HEADER */}
-        <header className="dashboard-header flex direction-row items-center justify-around pad-12">
-
-          <div className="header-left">
-            <span className="title-dashboard text-28 weight-700 color-white">
-              Wordly
-            </span>
-          </div>
-
-        </header>
-
-        {/* HEADER REAL */}
         <header className="dashboard-header flex items-center justify-between pad-12">
 
           <span className="title-dashboard text-28 weight-700 color-white">
@@ -230,20 +257,81 @@ function Dashboard() {
                       Mi perfil
                     </li>
 
-                    <li className="dropdown-item interaction-hover interaction-press">
+                    <li 
+                      className="dropdown-item interaction-hover interaction-press"
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        setCourseOrigin({
+                          x: rect.left + rect.width / 2,
+                          y: rect.top + rect.height / 2
+                        });
+
+                        setIsCourseOpen(true);
+                        setOpenDropdown(null);
+                      }}
+                    >
                       Cambiar curso
                     </li>
                   </ul>
 
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Mi avance</li>
-                    <li className="dropdown-item">Logros</li>
-                    <li className="dropdown-item">Mi progreso</li>
+
+                    <li 
+                      className="dropdown-item interaction-hover interaction-press"
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        setAchievementsOrigin({
+                          x: rect.left + rect.width / 2,
+                          y: rect.top + rect.height / 2
+                        });
+
+                        setIsAchievementsOpen(true);
+                        setOpenDropdown(null);
+                      }}
+                    >
+                      Logros
+                    </li>
+
+                    <li 
+                      className="dropdown-item interaction-hover interaction-press"
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        setProgressOrigin({
+                          x: rect.left + rect.width / 2,
+                          y: rect.top + rect.height / 2
+                        });
+
+                        setIsProgressOpen(true);
+                        setOpenDropdown(null);
+                      }}
+                    >
+                      Mi progreso
+                    </li>
                   </ul>
 
                   <ul className="dropdown-section">
                     <li className="dropdown-title">Sesión</li>
-                    <li className="dropdown-item">Cerrar sesión</li>
+
+                    <li 
+                      className="dropdown-item interaction-hover interaction-press"
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        setLogoutOrigin({
+                          x: rect.left + rect.width / 2,
+                          y: rect.top + rect.height / 2
+                        });
+
+                        setIsLogoutOpen(true);
+                        setOpenDropdown(null);
+                      }}
+                    >
+                      Cerrar sesión
+                    </li>
                   </ul>
 
                 </div>
@@ -261,10 +349,42 @@ function Dashboard() {
         </main>
 
         {/* MODAL PERFIL */}
-        <CreateProfileModal
+        <ProfileModal
           isOpen={isProfileOpen}
           onClose={() => setIsProfileOpen(false)}
           origin={modalOrigin}
+        />
+
+        {/* MODAL CAMBIAR CURSO */}
+        <ChangeCourseModal
+          isOpen={isCourseOpen}
+          onClose={() => setIsCourseOpen(false)}
+          origin={courseOrigin}
+        />
+
+        {/* MODAL LOGROS */}
+        <AchievementsModal
+          isOpen={isAchievementsOpen}
+          onClose={() => setIsAchievementsOpen(false)}
+          origin={achievementsOrigin}
+          selectedCourse={selectedCourse}
+        />
+
+        {/* MODAL MI PROGRESO */}
+        <ProgressModal
+          isOpen={isProgressOpen}
+          onClose={() => setIsProgressOpen(false)}
+          origin={progressOrigin}
+          selectedCourse={selectedCourse}
+          setSelectedCourse={setSelectedCourse}
+        />
+
+        {/* MODAL CERRAR SESIÓN */}
+        <LogoutConfirmModal
+          isOpen={isLogoutOpen}
+          onClose={() => setIsLogoutOpen(false)}
+          origin={logoutOrigin}
+          onConfirm={handleLogout}
         />
 
       </div>

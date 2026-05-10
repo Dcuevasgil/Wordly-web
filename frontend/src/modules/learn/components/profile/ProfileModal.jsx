@@ -1,15 +1,14 @@
 import { useState } from "react";
+import EditProfileModal from "./EditProfileModal";
 
-export default function CreateProfileModal({ 
-    isOpen, 
-    onClose, 
-    origin 
-}) {
+export default function ProfileModal({ isOpen, onClose, origin }) {
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [editOrigin, setEditOrigin] = useState({ x: 0, y: 0 });
 
     const [user, setUser] = useState({
-        name,
-        level,
-        streak,
+        name: "David",
+        level: "",
+        streak: 0,
     });
 
     const handleChange = (field, value) => {
@@ -24,93 +23,90 @@ export default function CreateProfileModal({
         onClose();
     };
 
-    const handleEdit = () => {
-        console.log("Cambios realizados:", user);
-        onClose();
-    }
+    const handleOpenEditModal = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+
+        setEditOrigin({
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+        });
+
+        setIsEditOpen(true);
+    };
 
     return (
-        <div 
-            className={`profile-overlay ${isOpen ? "active" : ""}`} 
-            onClick={onClose}
-        >
-  
-            <div
-                className="profile-modal modal-base"
-                style={{
-                    "--origin-x": `${origin.x}px`,
-                    "--origin-y": `${origin.y}px`
-                }}
-                onClick={(e) => e.stopPropagation()}
+        <>
+            <div 
+                className={`profile-overlay ${isOpen ? "active" : ""}`} 
+                onClick={onClose}
             >
+                <div
+                    className="profile-modal modal-base"
+                    style={{
+                        "--origin-x": `${origin.x}px`,
+                        "--origin-y": `${origin.y}px`
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="modal-header flex justify-between items-center">
+                        <h2>Mi perfil</h2>
 
-                {/* HEADER */}
-                <div className="modal-header flex justify-between items-center">
-                    <h2>Mi perfil</h2>
-
-                    <button 
-                        className="modal-close"
-                        onClick={onClose}
-                    >
-                        ✕
-                    </button>
-                </div>
-
-                <div className="modal-body flex direction-column gap-12">
-
-                    {/* NOMBRE */}
-                    <div className="modal-section">
-                        <label>Nombre</label>
-                        <input
-                            type="text"
-                            value={user.name}
-                            onChange={(e) => handleChange("name", e.target.value)}
-                        />
+                        <button className="modal-close" onClick={onClose}>
+                            ✕
+                        </button>
                     </div>
 
-                    {/* NIVEL */}
-                    <div className="modal-section">
-                        <label>Nivel</label>
-                        <select
-                            value={user.level}
-                            onChange={(e) => handleChange("level", e.target.value)}
-                        >
-                            <option value="defecto">Selecciona tu nivel</option>
-                            <option value="principiante">Principiante</option>
-                            <option value="intermedio">Intermedio</option>
-                            <option value="avanzado">Avanzado</option>
-                        </select>
-                    </div>
-
-                    {/* RACHA */}
-                    <div className="modal-section">
-                        <label>Racha</label>
-                        <span>
-                            <input 
-                                value={user.streak}
-                                onChange={(e) =>
-                                    setUser({ ...user, streak: e.target.value })
-                                }
+                    <div className="modal-body flex direction-column gap-12">
+                        <div className="modal-section">
+                            <label>Nombre</label>
+                            <input
+                                type="text"
+                                value={user.name}
+                                onChange={(e) => handleChange("name", e.target.value)}
                             />
-                        </span>
+                        </div>
+
+                        <div className="modal-section">
+                            <label>Nivel</label>
+                            <select
+                                value={user.level}
+                                onChange={(e) => handleChange("level", e.target.value)}
+                            >
+                                <option value="defecto">Selecciona tu nivel</option>
+                                <option value="principiante">Principiante</option>
+                                <option value="intermedio">Intermedio</option>
+                                <option value="avanzado">Avanzado</option>
+                            </select>
+                        </div>
+
+                        <div className="modal-section">
+                            <label>Racha</label>
+                            <input 
+                                value={`${user.streak} días 🔥`}
+                                readOnly
+                            />
+                        </div>
                     </div>
 
+                    <div className="modal-footer">
+                        <button onClick={handleOpenEditModal}>
+                            Editar Perfil
+                        </button>
+
+                        <button onClick={handleSave}>
+                            Guardar cambios
+                        </button>
+                    </div>
                 </div>
-
-                {/* FOOTER */}
-                <div className="modal-footer">
-
-                    <button onClick={handleEdit}>
-                        Editar Perfil
-                    </button>
-
-                    <button onClick={handleSave}>
-                        Guardar cambios
-                    </button>
-                </div>
-
             </div>
 
-        </div>
+            <EditProfileModal
+                isOpen={isEditOpen}
+                onClose={() => setIsEditOpen(false)}
+                origin={editOrigin}
+                user={user}
+                setUser={setUser}
+            />
+        </>
     );
 }
