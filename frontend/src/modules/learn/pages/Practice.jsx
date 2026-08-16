@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { getExercises, submitAnswer } from "../services/exerciseService";
 
 export default function Practice() {
 
@@ -9,32 +10,18 @@ export default function Practice() {
   const [result, setResult] = useState(null);
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const token = localStorage.getItem("token");
+  const startTime = useRef(Date.now());
 
-  const API_URL = "http://localhost:8000";
-
-
-  console.log("TOKEN:", token);
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/learning/exercises`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json"
-          }
-        });
-
-        const data = await res.json();
-
-        setExercises(data.data || []);
-        setLoading(false);
-
-        console.log(data)
-
-      } catch (error) {
-        console.error("Error fetching exercises:", error);
+        const data = await getExercises();
+        setExercises(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -44,33 +31,36 @@ export default function Practice() {
 
   const exercise = exercises[currentIndex];
 
-  const normalize = (text) =>
-    text
-      .toLowerCase()
-      .trim()
-      .replace(/[.,!?]/g, "")
-      .replace(/\s+/g, " ");
+  const handleAnswer = async (answer, answerId = null) => {
 
-  // 🔥 CHECK ANSWER (GENÉRICO)
-  const checkAnswer = (answer) => {
+    try {
 
-    const normalizedUser = normalize(answer);
+      const data = await submitAnswer({
+        exercise_id: exercise.id,
+        user_responses: [answer],
+        exercise_answer_id: answerId,
+        response_time_ms: Date.now() - startTime.current,
+      });
 
-    const isCorrect = exercise.correct_answers.some(
-      (a) => normalize(a) === normalizedUser
-    );
+      setResult({
+        isCorrect: data.is_correct,
+        feedback: data.is_correct ? "Correcto ✅" : "Incorrecto ❌",
+        correctAnswer: data.correct_answers[0],
+        explanation: data.explanation,
+      });
 
-    setResult({
-      isCorrect,
-      feedback: isCorrect ? "Correcto ✅" : "Incorrecto ❌",
-      correctAnswer: exercise.correct_answers[0],
-      explanation: exercise.explanation
-    });
-  };
+    } catch (err) {
+
+      setError(err.message);
+    
+    }
+
+  }
 
   const nextExercise = () => {
     setUserAnswer("");
     setResult(null);
+    startTime.current = Date.now();
 
     if (currentIndex < exercises.length - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -80,6 +70,7 @@ export default function Practice() {
   };
 
   if (loading) return <p>Cargando ejercicios...</p>;
+  if (error) return <p>Error: {error}</p>
   if (!exercise) return <p>No hay ejercicios disponibles</p>;
 
   return (
@@ -90,10 +81,11 @@ export default function Practice() {
       {/* 🧠 SINGLE CHOICE */}
       {exercise.type === "single-choice" && (
         <div style={{ marginTop: "16px" }}>
-          {exercise.correct_answers.map((answer, index) => (
+          {exercise.options.map((option) => (
             <button
-              key={index}
-              onClick={() => checkAnswer(answer)}
+              key={option.id}
+              onClick={() => handleAnswer(option.answer, option.id)}
+              disabled={result !== null}
               style={{
                 display: "block",
                 marginBottom: "8px",
@@ -103,7 +95,7 @@ export default function Practice() {
                 cursor: "pointer"
               }}
             >
-              {answer}
+              {option.answer}
             </button>
           ))}
         </div>
@@ -127,7 +119,8 @@ export default function Practice() {
           />
 
           <button
-            onClick={() => checkAnswer(userAnswer)}
+            onClick={() => handleAnswer(userAnswer)}
+            disabled={result !== null}
             style={{
               marginTop: "12px",
               padding: "10px 16px",

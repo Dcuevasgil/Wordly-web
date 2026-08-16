@@ -20,10 +20,6 @@ class LoginRequest extends FormRequest {
     public function messages()
     {
         return [
-            // Messages for name
-            // 'name.required' => 'Your name is required',
-            // 'name.string' => 'Your name must be a string',
-
             // Messages for email
             'email.required' => 'Your email is required',
             'email.email' => 'Your format of email is invalid',

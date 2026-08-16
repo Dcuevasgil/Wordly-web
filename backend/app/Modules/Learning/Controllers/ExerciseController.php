@@ -15,6 +15,9 @@ use App\Modules\Learning\Models\Exercise;
 
 use App\Http\Controllers\Controller;
 
+use App\Modules\Learning\Requests\SubmitExerciseAnswerRequest;
+use App\Modules\Learning\Services\ExerciseAttemptService;
+
 class ExerciseController extends Controller {
 
 
@@ -57,9 +60,11 @@ class ExerciseController extends Controller {
      * 6. Obtener la información necesaria de cada ejercicio:
      *    - id
      *    - question (frase a traducir)
-     *    - correct_answers (array de respuestas válidas)
-     *    - explanation (explicación del ejercicio)
-     *    - topic (tema)
+     *    - type (formato: single-choice / fill-blank)
+     *    - topic (tema concreto: past-simple, plurals, ...)
+     *    - options (todas las opciones de respuesta con su id)
+     * 
+     *    IMPORTANTE: no se envían ni las respuestas correctas ni la explicación. Ambas revelarían la solución antes de responder. Viajan en la respuesta de POST /exercises/attempt
      * 
      * 7. (Opcional - nivel pro)
      *    - Priorizar ejercicios en base a:
@@ -77,23 +82,16 @@ class ExerciseController extends Controller {
      *   "message": "Exercises retrieved successfully",
      *   "data": [
      *     {
-     *       "id": 1,
-     *       "question": "Voy a estudiar esta noche",
-     *       "correct_answers": [
-     *         "I am going to study tonight",
-     *         "I'm going to study tonight"
+     *       "id": 11,
+     *       "question": "¿Cuál es el paso simple de \"go\"?",
+     *       "type": single-choice,
+     *       "topic": "past-simple",
+     *       "options": [
+     *         { "id": 41, "answer": "went" },
+     *         { "id": 42, "answer": "goed" },
+     *         { "id": 43, "answer": "gone" },
+     *         { "id": 44, "answer": "going" },
      *       ],
-     *       "explanation": "Se usa 'going to' porque es un plan decidido.",
-     *       "topic": "future-going-to"
-     *     },
-     *     {
-     *       "id": 2,
-     *       "question": "Creo que lloverá",
-     *       "correct_answers": [
-     *         "I think it will rain"
-     *       ],
-     *       "explanation": "Se usa 'will' porque es una opinión.",
-     *       "topic": "future-will"
      *     }
      *   ]
      * }
@@ -170,18 +168,20 @@ class ExerciseController extends Controller {
                 ], 404);
             }
 
-            // 7. Transformar datos (IMPORTANTE)
+            // 7. Transformar datos
             $data = $exercises->map(function ($exercise) {
                 return [
                     'id' => $exercise->id_exercises,
                     'question' => $exercise->question,
-                    'correct_answers' => $exercise->answers
-                        ->where('is_correct_answer', true)
-                        ->pluck('answer')
-                        ->values(),
-                    'explanation' => $exercise->explanation,
+                    'type' => $exercise->type_exercise,
                     'topic' => $exercise->topic_exercise,
-                    'type' => $exercise->type_exercise
+                    'options' => $exercise->answers->map(function ($answer) {
+                        return [
+                            'id' => $answer->id_exercise_answers,
+                            'answer' => $answer->answer,
+                        ];
+                    }),
+                    
                 ];
             });
 
@@ -195,7 +195,7 @@ class ExerciseController extends Controller {
 
             return response()->json([
                 'error' => 'Server error while retrieving exercises',
-                'message' => $e->getMessage() // quítalo en producción
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -250,14 +250,16 @@ class ExerciseController extends Controller {
      *   "message": "Exercises retrieved successfully",
      *   "data": [
      *     {
-     *       "id": 1,
-     *       "question": "Voy a estudiar esta noche",
-     *       "correct_answers": [
-     *         "I am going to study tonight",
-     *         "I'm going to study tonight"
+     *       "id": 11,
+     *       "question": "¿Cuál es el paso simple de \"go\"?",
+     *       "type": single-choice,
+     *       "topic": "past-simple",
+     *       "options": [
+     *         { "id": 41, "answer": "went" },
+     *         { "id": 42, "answer": "goed" },
+     *         { "id": 43, "answer": "gone" },
+     *         { "id": 44, "answer": "going" },
      *       ],
-     *       "explanation": "Se usa 'going to' porque es un plan decidido.",
-     *       "topic": "future-going-to"
      *     }
      *   ]
      * }
@@ -331,16 +333,19 @@ class ExerciseController extends Controller {
             // 5. Transformar datos
             $data = $exercises->map(function ($exercise) {
                 return [
-                    'id' => $exercise->id_exercises,
-                    'question' => $exercise->question,
-                    'correct_answers' => $exercise->answers
-                        ->where('is_correct_answer', true)
-                        ->pluck('answer')
-                        ->values(),
-                    'explanation' => $exercise->explanation,
-                    'topic' => $exercise->topic_exercise
+                    "id" => $exercise->id_exercises,
+                    "question" => $exercise->question,
+                    "type" => $exercise->type_exercise,
+                    "topic" => $exercise->topic_exercise,
+                    "options" => $exercise->answers->map(function ($answer) {
+                        return [
+                            "id" => $answer->id_exercise_answers,
+                            "answer" => $answer->answer,
+                        ];
+                    })->values(),
                 ];
             });
+
 
             // 6. Respuesta final
             return response()->json([
@@ -357,7 +362,120 @@ class ExerciseController extends Controller {
     }
 
 
+    /**
+     * Endpoint /api/learning/exercises/attempt
+     * 
+     * Método
+     * POST
+     * 
+     * Ruta
+     * /api/learning/exercises/attempt
+     * 
+     * Autenticación
+     * Bearer Token (JWT)
+     * Header
+     * Authorization: Bearer {token}
+     * 
+     * Parámetros de entrada
+     * Body (JSON)
+     * - exercise_id (int, requerido) -> ejercicio respondido
+     * - user_responses (array de strings, requerido) -> respuestas del usuario.
+     * Hoy contiene un único elemento. El formato array permite ejercicios en cascada (multipaso) sin cambiar el contrato.
+     * Ejemplo: ["FUTURE"] -> en el futuro: ["FUTURE", "BE GOING TO"]
+     * - exercise_answer_id (int, opcional) -> id de la opción pulsada.
+     * Null en ejercicios de texto libre (fill-blank).
+     * - response_time_ms (int, requerido) -> tiempo de respuesta en milisegundos
+     * 
+     * Ejemplo de petición
+     * {
+     *   "exercise_id": 1,
+     *   "user_responses": ["I am going to study tonight"],
+     *   "exercise_answer_id": 3,
+     *   "response_time_ms": 4820
+     * }
+     * 
+     * 
+     * Qué debe hacer el endpoint
+     * 
+     * 1. Obtener el usuario autenticado a partir del token (nunca se acepta user_id desde el cliente)
+     * 
+     * 2. Validar el payload mediante SubmitExerciseAnswerRequest
+     * 
+     * 3. Cargar el ejercicio junto con sus respuestas posibles (relación answers -> tabla exercise_answers)
+     * 
+     * 4. Normalizar la respuesta del usuario y las respuestas correctas (trim + minúsculas) para evitar falsos negativos por mayúsculas o espacios sobrantes
+     * 
+     * 5. Comparar y determinar si la respuesta es correcta
+     * 
+     * 6. Registrar el intento en exercise_attempts:
+     * - user_response se guarda como JSON del array recibido
+     * - attempt_date la genera el servidor, nunca el cliente
+     * - is_user_response_correct se calcula, nunca llega del frontend
+     * 
+     * 7. Devolver el resultado para que el frontend pinte el feedback
+     * 
+     * 
+     * Respuesta esperada
+     * 201 Created
+     * 
+     * {
+     *   "is_correct": false,
+     *   "attempt_id": 42,
+     *   "response_time_ms": 4820,
+     *   "explanation": "\"go\" es un verbo irregular, su pasado es \"went\".",
+     *   "correct_answers": ["went"]
+     * }
+     * 
+     * 
+     * Posibles errores
+     * 
+     * Usuario no autenticado
+     * 401 Unauthorized
+     * {
+     *   "error": "Unauthorized"
+     * }
+     * 
+     * Datos de entrada inválidos
+     * 422 Unprocessable Entity
+     * 
+     * {
+     *   "message": "The given data was invalid."
+     *   "errors": {
+     *     "user_responses": ["You must submit at least one answer."]
+     *   }
+     * }
+     * 
+     * 
+     * El ejercicio indicado no existe
+     * 404 Not found
+     * 
+     * {
+     *   "error": "The especified exercise does not exist"
+     * }
+     * 
+     * Error interno del servidor
+     * 500 Internal Server Error
+     * 
+     * {
+     *   "Server error while saving the exercise attempt"
+     * }
+     */
 
+    public function submitAnswer(SubmitExerciseAnswerRequest $request, ExerciseAttemptService $service) {
+        
+        $result = $service->submitAnswer($request->validated(), $request->user()->getKey());
+
+        $attempt = $result['attempt'];
+        $exercise = $result['exercise'];
+
+        return response()->json([
+            'is_correct' => $attempt->is_user_response_correct,
+            'attempt_id' => $attempt->id_exercise_attempts,
+            'response_time_ms' => $attempt->response_time_ms,
+            'explanation' => $exercise->explanation,
+            'correct_answers' => $exercise->answers->where('is_correct_answers', true)->pluck('answer')->values(),
+        ], 201);
+    }
 
 
 

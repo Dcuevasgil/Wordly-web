@@ -183,6 +183,29 @@ CREATE TABLE word_attempts (
 );
 
 -- ==============================
+-- TABLA: intentos_ejercicios
+-- ==============================
+CREATE TABLE exercise_attempts (
+    id_exercise_attempts BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    exercise_id BIGINT NOT NULL,
+    exercise_answer_id BIGINT NULL,
+
+    user_response TEXT NOT NULL,
+    is_user_response_correct BOOLEAN NOT NULL,
+    
+    response_time_ms INT NOT NULL,
+    attempt_date TIMESTAMP NOT NULL,
+
+    register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE,
+    FOREIGN KEY (exercise_id) REFERENCES exercises(id_exercises) ON DELETE CASCADE,
+    FOREIGN KEY (exercise_answer_id) REFERENCES exercise_answers(id_exercises) ON DELETE CASCADE
+);
+
+-- ==============================
 -- TABLA: sesiones_estudio
 -- ==============================
 CREATE TABLE study_sessions (

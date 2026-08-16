@@ -16,6 +16,8 @@ export async function handleLogin(credentials) {
     });
 
     const data = await response.json();
+    console.log("RESPUESTA LOGIN:", data);
+    
 
     if (!response.ok) {
 
@@ -23,7 +25,13 @@ export async function handleLogin(credentials) {
 
     }
 
-    return credentials;
+    const token = data.data.access_token;
+
+    localStorage.setItem("token", token);
+    console.log("TOKEN GUARDADO:", localStorage.getItem("token"));
+    
+
+    return data.data;
 
 }
 
@@ -51,6 +59,10 @@ export async function handleRegister(userData) {
 
     }
 
-    return userData;
+    const token = data.data.access_token;
+
+    localStorage.setItem("token", token)
+
+    return data.data;
 
 }

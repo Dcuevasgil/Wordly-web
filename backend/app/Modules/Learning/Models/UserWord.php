@@ -11,11 +11,9 @@ class UserWord extends Model {
     protected $foreignKeyUsers = 'user_id';
     protected $foreignKeyWords = 'word_id';
 
-    
     const CREATED_AT = 'register_date';
     const UPDATED_AT = 'updated_date';
     public $timestamps = true;
-
 
     protected $fillable = [
         'times_correct',
@@ -27,10 +25,6 @@ class UserWord extends Model {
         'next_review',
         'mastered_level'
     ];
-
-    // protected $hidden = [
-    //     'password',
-    // ];
 
     protected $casts = [
         'register_date' => 'datetime',
