@@ -169,21 +169,7 @@ class ExerciseController extends Controller {
             }
 
             // 7. Transformar datos
-            $data = $exercises->map(function ($exercise) {
-                return [
-                    'id' => $exercise->id_exercises,
-                    'question' => $exercise->question,
-                    'type' => $exercise->type_exercise,
-                    'topic' => $exercise->topic_exercise,
-                    'options' => $exercise->answers->map(function ($answer) {
-                        return [
-                            'id' => $answer->id_exercise_answers,
-                            'answer' => $answer->answer,
-                        ];
-                    }),
-                    
-                ];
-            });
+            $data = $exercises->map(fn ($exercise) => $this->formatExercise($exercise));
 
             // 8. Respuesta final
             return response()->json([
@@ -331,22 +317,8 @@ class ExerciseController extends Controller {
             }
 
             // 5. Transformar datos
-            $data = $exercises->map(function ($exercise) {
-                return [
-                    "id" => $exercise->id_exercises,
-                    "question" => $exercise->question,
-                    "type" => $exercise->type_exercise,
-                    "topic" => $exercise->topic_exercise,
-                    "options" => $exercise->answers->map(function ($answer) {
-                        return [
-                            "id" => $answer->id_exercise_answers,
-                            "answer" => $answer->answer,
-                        ];
-                    })->values(),
-                ];
-            });
-
-
+            $data = $exercises->map(fn ($exercise) => $this->formatExercise($exercise));
+                
             // 6. Respuesta final
             return response()->json([
                 'message' => 'Exercises retrieved successfully',
@@ -478,5 +450,24 @@ class ExerciseController extends Controller {
     }
 
 
+
+    /**
+     * Formats an exercise for the API response.
+     * Correct answers and explanations are deliberately excluded.
+     */
+    private function formatExercise(Exercise $exercise): array {
+        return [
+            'id' => $exercise->id_exercises,
+            'question' => $exercise->question,
+            'type' => $exercise->type_exercise,
+            'topic' => $exercise->topic_exercise,
+            'options' => $exercise->answers->shuffle()->map(function ($answer) {
+                return [
+                    'id' => $answer->id_exercise_answers,
+                    'answer' => $answer->answer,
+                ];
+            })->values(),
+        ];
+    }
 
 }
