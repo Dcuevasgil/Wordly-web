@@ -95,35 +95,6 @@ function LoginPage() {
     setContentHeight(activeForm.offsetHeight + "px");
   }, [activeTab]);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) return; // no haces nada → te quedas en login
-
-      try {
-        const res = await fetch("/api/me", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-
-        if (res.status === 200) {
-          navigate("/dashboard");
-        } else {
-          localStorage.removeItem("token");
-        }
-
-      } catch (error) {
-        if (!localStorage.removeItem("token")){
-          console.log("The token could not be deleted successfully", error.message);
-        }
-      }
-    };
-
-    checkAuth();
-  }, [navigate]);
-
   // Handles
   const handleLogin = async () => {
 
