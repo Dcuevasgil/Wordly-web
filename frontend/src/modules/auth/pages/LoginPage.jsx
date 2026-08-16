@@ -18,6 +18,8 @@ import Trofeo from '../../../assets/svg/loginpage/trophy.svg';
 import Sobre from '../../../assets/svg/loginpage/mail.svg';
 import Candado from '../../../assets/svg/loginpage/lock-closed.svg';
 import Persona from '../../../assets/svg/loginpage/person.svg';
+import MostrarContraseña from '../../../assets/svg/loginpage/eye.svg';
+import OcultarContraseña from '../../../assets/svg/loginpage/eye-off.svg';
 
 // Components
 import ButtonLogin from "../components/ButtonLogin";
@@ -140,14 +142,12 @@ function LoginPage() {
       navigate("/dashboard");
 
     } catch (error) {
-
       console.log("Login failed:", error);  
       setModal({
         isOpen: true,
         message: error.message,
         type: "error"
-      })
-
+      });
     }
 
   }
@@ -284,6 +284,8 @@ function LoginPage() {
                   <Input 
 
                     icon={Candado}
+                    toggleIconOpen={MostrarContraseña}
+                    toggleIconClose={OcultarContraseña}
                     type="password"
                     placeholder="Contraseña"
                     name="password"
@@ -343,14 +345,16 @@ function LoginPage() {
                   />
 
                   <Input 
-                    
+
                     icon={Candado}
+                    toggleIconOpen={MostrarContraseña}
+                    toggleIconClose={OcultarContraseña}
                     type="password"
                     placeholder="Contraseña"
                     name="password"
                     value={registerForm.password}
                     onChange={(e) =>
-                      setRegisterForm({ ...registerForm, password: e.target.value })
+                      setLoginForm({ ...loginForm, password: e.target.value })
                     }
                   
                   />

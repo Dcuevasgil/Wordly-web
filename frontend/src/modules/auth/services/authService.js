@@ -1,17 +1,13 @@
 const API_URL = "http://localhost:8000/api";
 
 export async function handleLogin(credentials) {
-    // Respuesta de la API
+
     const response = await fetch(`${API_URL}/login`, {
         method: "POST",
-        
         headers: {
-
             "Content-Type": "application/json",
             "Accept": "application/json",
-
         },
-
         body: JSON.stringify(credentials),
     });
 
@@ -20,9 +16,7 @@ export async function handleLogin(credentials) {
     
 
     if (!response.ok) {
-
         throw new Error(data.message || "Login failed");
-
     }
 
     const token = data.data.access_token;
@@ -32,7 +26,6 @@ export async function handleLogin(credentials) {
     
 
     return data.data;
-
 }
 
 export async function handleRegister(userData) {

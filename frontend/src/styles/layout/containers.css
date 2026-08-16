@@ -17,8 +17,6 @@
   padding: 20px; 
   
   height: 100vh; 
-  
-
 } 
 
 .right-column { 
@@ -47,7 +45,6 @@
 }
 
 
-
 /* DashboardHome */
 .dashboard-home {
   display: grid;
@@ -56,7 +53,14 @@
   width: 100%;
 }
 
+/* GRID PRINCIPAL */
+.grid {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  height: 100vh;
+}
 
+/* CONTENIDO CENTRAL */
 .dashboard-content {
   width: 100%;
   height: 100%;
@@ -69,6 +73,13 @@
 }
 
 
+.container-logo-word {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+
+  padding: 20px;
+}
 
 .dashboard-card {
   width: 100%;
@@ -140,34 +151,45 @@
 
 
 
+.container-left-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-8xl);
+  margin-right: var(--space-2xl);
+  gap: 50px;
+}
 
 
+.container-title-home-1 {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 35%;
+  margin-left: 20px;
+}
 
 
-
-
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
 
 .box-container {
   width: 90%;
   height: 85%;
 
-  position: relative;
-  top: 50%;
-  left: 50%;
-
-  transform: translate(-50%, -50%);
-
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 100px;
 
   background: var(--color-white);
   border: 2px solid var(--color-border);
   border-radius: 40px;
 }
-
 
 
 .simple-container { 
@@ -189,16 +211,8 @@
   height: 720px;
   
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  
-  position: absolute;
-  top: 48%;
-  left: 20%;
-  transform: translate(-50%, -50%);
-
-  /* transform: translate(-50%, -50%); */
 
   margin-top: 20px; 
   padding: 0; 
@@ -221,12 +235,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  /* transform: translate(-50%, -50%); */
-
   margin-top: 20px; 
   padding: 0; 
   
-  /* background: var(--color-first-card-modal-user);  */
   border-radius: 20px; 
 }
 
@@ -244,12 +255,31 @@
   left: 80%;
   transform: translate(-50%, -50%);
 
-  /* transform: translate(-50%, -50%); */
-
   margin-top: 20px; 
   padding: 0; 
   
-  /* background: var(--color-first-card-modal-user);  */
   border-radius: 20px; 
 }
 
+.simple-container-style-4 { 
+  width: 340px; 
+  height: 230px; 
+  
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start; 
+  justify-content: center; 
+  
+  margin-top: 20px; 
+  padding: 0; 
+  
+  border-radius: 20px; 
+}
+
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+}

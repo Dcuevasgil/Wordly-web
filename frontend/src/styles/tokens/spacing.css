@@ -1,24 +1,10 @@
-:root {
+/* Separacion padding */
+.pad-16 { padding: 64px;}
+.pad-20 { padding: 80px;}
 
-
-    /* ===================== */
-    /* 📏 ESPACIADOS */
-    /* ===================== */
-
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --space-2xl: 48px;
-    --space-3xl: 52px;
-    --space-4xl: 60px;
-    --space-5xl: 65px;
-    --space-6xl: 72px;
-    --space-7xl: 80px;
-    --space-8xl: 92px;
+.pad-rig-20 { padding-right: 80px;}
 
 
 
 
-}
+.pad-10-20 { padding: 40px 80px;}

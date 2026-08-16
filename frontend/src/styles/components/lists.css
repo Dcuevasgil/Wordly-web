@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    width: fit-content;
+    list-style-position: inside;
 }
 
 .list-unorder .item {

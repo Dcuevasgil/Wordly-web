@@ -37,9 +37,10 @@
 @import './components/icons.css';
 @import './components/inputs.css';
 @import './components/lists.css';
+@import './components/modal.css';
+@import './components/navigation.css';
 @import './components/titles.css';
 @import './components/tabs.css';
-@import './components/modal.css';
 
 /* ===================== */
 /* 🔹 LAYOUT */

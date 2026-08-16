@@ -1,4 +1,4 @@
-.flex { display: flex;};
+.flex { display: flex;}
 
 /* Direccionado */
 .direction-row { flex-direction: row;}
@@ -12,11 +12,12 @@
 /* Alineado horizontal */
 .justify-center { justify-content: center;}
 .justify-start { justify-content: flex-start;}
-.justify-center { justify-content: flex-end;}
+.justify-end { justify-content: flex-end;}
 .justify-between { justify-content: space-between;}
 .justify-around { justify-content: space-around;}
 
 /* Separacion */
+.gap-4 { gap: 16px;}
 .gap-8 { gap: 32px;}
 .gap-12 { gap: 48px;}
 

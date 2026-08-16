@@ -32,3 +32,57 @@ base -> 16px
 .color-white { color: white;}
 .color-black { color: black;}
 
+
+
+
+.title-home {
+  display: flex;
+  align-self: center;
+  font-family: var(--font-main);
+  font-size: var(--text-xl);
+  color: var(--color-white);
+}
+
+.title-home-1 {
+  display: flex;
+  align-self: center;
+  font-family: var(--font-main);
+  font-size: var(--text-xl);
+  /* color: var(--); */
+}
+
+
+.paragraph {
+  display: flex;
+  
+  font-family: var(--font-main);
+  font-size: var(--text-md);
+  color: var(--color-white);
+
+  /* align-items: center; */
+}
+
+
+.title-home-2 {
+  display: flex;
+  
+  font-family: var(--font-main);
+  font-size: var(--text-xl);
+  color: var(--color-info);
+  margin-top: 15%;
+}
+
+
+.welcome {
+  text-align: center;
+  font-family: var(--font-main);
+  font-size: var(--text-lg);
+}
+
+
+
+.begin-your-journey {
+  text-align: center;
+  font-family: var(--font-main);
+  font-size: var(--text-lg);
+}

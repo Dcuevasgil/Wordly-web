@@ -27,3 +27,21 @@ md-ripple {
   border-radius: inherit;
   pointer-events: none;
 }
+
+.nav-icon {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+}
+
+.nav-icon img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  display: block;
+}
+
+.nav-icon.primary {
+  color: var(--color-primary);
+}
