@@ -354,7 +354,7 @@ function LoginPage() {
                     name="password"
                     value={registerForm.password}
                     onChange={(e) =>
-                      setLoginForm({ ...loginForm, password: e.target.value })
+                      setRegisterForm({ ...registerForm, password: e.target.value })
                     }
                   
                   />
