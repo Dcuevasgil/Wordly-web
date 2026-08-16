@@ -25,10 +25,10 @@ class ExerciseSeeder extends Seeder {
                 'topic_exercise' => 'plurals',
                 'type_exercise' => 'single-choice',
                 'answers' => [
-                    ['answer' => 'cats', 'is_correct_answer' => true],
-                    ['answer' => 'cates', 'is_correct_answer' => false],
-                    ['answer' => 'cat', 'is_correct_answer' => false],
-                    ['answer' => 'catz', 'is_correct_answer' => false],
+                    ["answer" => "cats", "is_correct_answer" => true],
+                    ["answer" => "cates", "is_correct_answer" => false],
+                    ["answer" => "cat's", "is_correct_answer" => false],
+                    ["answer" => "cat", "is_correct_answer" => false],
                 ]
             ],
             [
@@ -50,15 +50,15 @@ class ExerciseSeeder extends Seeder {
                 'type_exercise' => 'single-choice',
                 'answers' => [
                     ['answer' => 'Paraguas', 'is_correct_answer' => true],
-                    ['answer' => 'Sombrero', 'is_correct_answer' => false],
-                    ['answer' => 'Abrigo', 'is_correct_answer' => false],
+                    ['answer' => 'Impermeable', 'is_correct_answer' => false],
+                    ['answer' => 'Sombra', 'is_correct_answer' => false],
                     ['answer' => 'Bufanda', 'is_correct_answer' => false],
                 ]
             ],
             [
                 'question' => 'Elige la forma correcta: "She ___ to school every day."',
                 'explanation' => 'Con tercera persona del singular en presente simple se añade -s al verbo.',
-                'topic_exercise' => 'grammar',
+                'topic_exercise' => 'present-simple',
                 'type_exercise' => 'fill-blank',
                 'answers' => [
                     ['answer' => 'goes', 'is_correct_answer' => true],
@@ -75,8 +75,8 @@ class ExerciseSeeder extends Seeder {
                 'answers' => [
                     ['answer' => 'cold', 'is_correct_answer' => true],
                     ['answer' => 'warm', 'is_correct_answer' => false],
-                    ['answer' => 'cool', 'is_correct_answer' => false],
-                    ['answer' => 'heat', 'is_correct_answer' => false],
+                    ['answer' => 'boiling', 'is_correct_answer' => false],
+                    ['answer' => 'spicy', 'is_correct_answer' => false],
                 ]
             ],
             [
@@ -98,9 +98,9 @@ class ExerciseSeeder extends Seeder {
                 'type_exercise' => 'single-choice',
                 'answers' => [
                     ['answer' => 'Mariposa', 'is_correct_answer' => true],
-                    ['answer' => 'Abeja', 'is_correct_answer' => false],
-                    ['answer' => 'Mosca', 'is_correct_answer' => false],
+                    ['answer' => 'Polilla', 'is_correct_answer' => false],
                     ['answer' => 'Libélula', 'is_correct_answer' => false],
+                    ['answer' => 'Mosca', 'is_correct_answer' => false],
                 ]
             ],
             [
@@ -111,8 +111,8 @@ class ExerciseSeeder extends Seeder {
                 'answers' => [
                     ['answer' => 'are', 'is_correct_answer' => true],
                     ['answer' => 'is', 'is_correct_answer' => false],
-                    ['answer' => 'am', 'is_correct_answer' => false],
                     ['answer' => 'were', 'is_correct_answer' => false],
+                    ['answer' => 'be', 'is_correct_answer' => false],
                 ]
             ],
             [
@@ -123,7 +123,7 @@ class ExerciseSeeder extends Seeder {
                 'answers' => [
                     ['answer' => 'children', 'is_correct_answer' => true],
                     ['answer' => 'childs', 'is_correct_answer' => false],
-                    ['answer' => 'childes', 'is_correct_answer' => false],
+                    ['answer' => 'childrens', 'is_correct_answer' => false],
                     ['answer' => 'child', 'is_correct_answer' => false],
                 ]
             ],
