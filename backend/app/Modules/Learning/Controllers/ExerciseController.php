@@ -157,10 +157,6 @@ class ExerciseController extends Controller {
                 ->limit(10)
                 ->get();
             
-            Log::info('Total exercises in DB: ' . Exercise::count());
-
-            Log::info('Query SQL: ' . $query->toSql());
-
             // 6. Si no hay resultados
             if ($exercises->isEmpty()) {
                 return response()->json([
