@@ -33,6 +33,10 @@ class ExerciseAttemptService {
 
     private function checkAnswer(Exercise $exercise, array $userResponses): bool {
 
+        if ($userResponses === []) {
+            return false;
+        }
+
         $correctAnswers = $exercise->answers
             ->where('is_correct_answer', true)
             ->map(fn ($answer) => $this->normalize($answer->answer))

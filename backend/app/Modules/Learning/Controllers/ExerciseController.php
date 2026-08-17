@@ -439,9 +439,8 @@ class ExerciseController extends Controller {
         return response()->json([
             'is_correct' => $attempt->is_user_response_correct,
             'attempt_id' => $attempt->id_exercise_attempts,
-            'response_time_ms' => $attempt->response_time_ms,
             'explanation' => $exercise->explanation,
-            'correct_answers' => $exercise->answers->where('is_correct_answers', true)->pluck('answer')->values(),
+            'correct_answers' => $exercise->answers->where('is_correct_answer', true)->pluck('answer'),
         ], 201);
     }
 

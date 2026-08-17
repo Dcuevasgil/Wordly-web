@@ -15,7 +15,7 @@ class SubmitExerciseAnswerRequest extends FormRequest {
         return [
             'exercise_id' => ['required', 'integer', 'exists:exercises,id_exercises'],
 
-            'user_responses' => ['required', 'array', 'min:1'],
+            'user_responses' => ['present', 'array'],
             'user_responses.*' => ['required', 'string', 'max:255'],
 
             'exercise_answer_id' => [ 'nullable', 'integer', 'exists:exercise_answers,id_exercise_answers'],
@@ -26,7 +26,7 @@ class SubmitExerciseAnswerRequest extends FormRequest {
 
     public function messages(): array {
         return [
-            'user_responses.required' => 'You must submit al least one answer.',
+            'user_responses.present' => 'The user_responses field must be present.',
             'exercise_id.exists' => 'The specified exercise does not exist.'
         ];
     }
