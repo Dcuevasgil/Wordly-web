@@ -436,10 +436,14 @@ class ExerciseController extends Controller {
         $attempt = $result['attempt'];
         $exercise = $result['exercise'];
 
+        $chosenAnswer = $attempt->exercise_answer_id ? $exercise->answers->firstWhere('id_exercise_answers', $attempt->exercise_answer_id) : null;
+
+        $explanation = $chosenAnswer?->explanation ?? $exercise->explanation;
+
         return response()->json([
             'is_correct' => $attempt->is_user_response_correct,
             'attempt_id' => $attempt->id_exercise_attempts,
-            'explanation' => $exercise->explanation,
+            'explanation' => $explanation,
             'correct_answers' => $exercise->answers->where('is_correct_answer', true)->pluck('answer'),
         ], 201);
     }
