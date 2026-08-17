@@ -1,7 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { getExercises, submitAnswer } from "../services/exerciseService";
 
+const SECONDS_PER_QUESTION = 30;
+
 export default function Practice() {
+
+  
 
   const [exercises, setExercises] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,42 +13,63 @@ export default function Practice() {
   const [userAnswer, setUserAnswer] = useState("");
   const [result, setResult] = useState(null);
 
+  const [timeLeft, setTimeLeft] = useState(SECONDS_PER_QUESTION);  
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const startTime = useRef(Date.now());
 
   useEffect(() => {
+
+    let cancelled = false;
+
     const fetchExercises = async () => {
       try {
         const data = await getExercises();
-        setExercises(data);
+        if (!cancelled) setExercises(data);
       } catch (err) {
-        setError(err.message);
+        if (!cancelled) setError(err.message);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchExercises();
+
+    return () => { cancelled = true };
   }, []);
 
+  
   const exercise = exercises[currentIndex];
+
+  useEffect(() => {
+    
+    if (!exercise || result !== null || timeLeft <= 0) return;
+
+    const timerId = setTimeout(() => setTimeLeft(timeLeft -1), 1000);
+
+    return () => clearTimeout(timerId);
+  }, [exercise, result, timeLeft]);
+
 
   const handleAnswer = async (answer, answerId = null) => {
 
     try {
 
+      const isTimeout = answer === null;
+
       const data = await submitAnswer({
         exercise_id: exercise.id,
-        user_responses: [answer],
+        user_responses: isTimeout ? [] : [answer],
         exercise_answer_id: answerId,
         response_time_ms: Date.now() - startTime.current,
       });
 
       setResult({
         isCorrect: data.is_correct,
-        feedback: data.is_correct ? "Correcto ✅" : "Incorrecto ❌",
+        isTimeout,
+        feedback: isTimeout ? "Pregunta sin responder ⏱️" : (data.is_correct ? "Correcto ✅" : "Incorrecto ❌"),
         correctAnswer: data.correct_answers[0],
         explanation: data.explanation,
       });
@@ -57,9 +82,17 @@ export default function Practice() {
 
   }
 
+  useEffect(() => {
+    if (timeLeft > 0 || result !== null || !exercise) return;
+
+    handleAnswer(null);
+
+  }, [timeLeft, result, exercise]);
+
   const nextExercise = () => {
     setUserAnswer("");
     setResult(null);
+    setTimeLeft(SECONDS_PER_QUESTION);
     startTime.current = Date.now();
 
     if (currentIndex < exercises.length - 1) {
@@ -76,6 +109,7 @@ export default function Practice() {
   return (
     <div style={{ padding: "24px", maxWidth: "500px" }}>
 
+      <p>Tiempo restante: {timeLeft}s</p>
       <h2>{exercise.question}</h2>
 
       {/* 🧠 SINGLE CHOICE */}
