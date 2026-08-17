@@ -42,41 +42,44 @@ CREATE TABLE password_resets (
 );
 
 -- ==============================
--- TABLA: camino de aprendizaje
+-- TABLA: camino de aprendizaje (catálogo)
+-- Catálogo de caminos temáticos que existen en Wordly. Es una tabla de referencia: pocas filas, casi nunca cambia, y nadie la edita desde la aplicación (solo tú desde el panel de admin, cuando lo hagas)
 -- ==============================
-CREATE TABLE learning_path (
-    id_learning_path BIGINT AUTO_INCREMENT PRIMARY KEY,
-    
-    name VARCHAR(50) NOT NULL UNIQUE,
-    description TEXT NULL,
+CREATE TABLE learning_paths (
+    id_learning_paths BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    code VARCHAR(50) NOT NULL UNIQUE, -- identificador de cada camino
+    name VARCHAR(100) NOT NULL, -- el nombre bonito del camino
+    descripction TEXT NULL,
 
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
 );
 
+
 -- ==============================
--- TABLA: usuario_camino
+-- TABLA: matrícula usuario-camino
 -- ==============================
-CREATE TABLE user_path (
-    id_user_path BIGINT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE user_paths (
+    id_user_paths BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     learning_path_id BIGINT NOT NULL,
 
-	which_learning_path_is_active ENUM('general','developer') NOT NULL DEFAULT 'general',
+    level ENUM('basic', 'intermediate', 'advanced') NOT NULL,
+    self_assessment VARCHAR(50) NULL,
+
+    is_active BOOLEAN DEFAULT TRUE,
     progress_percentage DECIMAL(5,2) DEFAULT 0.00,
-    which_user_path_is_active BOOLEAN DEFAULT TRUE,
 
     start_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     last_access_date DATETIME NULL,
 
-
     FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE,
-    FOREIGN KEY (learning_path_id) REFERENCES learning_path(id_learning_path) ON DELETE CASCADE,
-
+    FOREIGN KEY (learning_path_id) REFERENCES learning_paths(id_learning_paths) ON DELETE CASCADE,
 
     UNIQUE(user_id, learning_path_id)
-
-);
+)
 
 
 -- ==============================
@@ -86,8 +89,8 @@ CREATE TABLE user_path (
 CREATE TABLE languages (
     id_languages BIGINT AUTO_INCREMENT PRIMARY KEY,
     
-    name VARCHAR(100) NOT NULL,
     code VARCHAR(10) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
     
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
