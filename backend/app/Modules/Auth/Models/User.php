@@ -4,6 +4,8 @@ namespace App\Modules\Auth\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Modules\Learning\Models\UserPath;
+
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,5 +54,12 @@ class User extends Authenticatable implements JWTSubject {
     // Factory
     protected static function newFactory() {
         return \Database\Factories\UserFactory::new();
+    }
+
+    // Relaciones con los modelos
+
+    // Learning path y user path
+    public function paths() {
+        return $this->hasMany(UserPath::class, 'user_id', 'id_users');
     }
 }
