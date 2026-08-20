@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('exercise_attempts', function (Blueprint $table) {
-            $table->bigIncrements('id_exercise_attempts');
+            $table->bigInteger('id_exercise_attempts')->autoIncrement();
 
-            $table->foreignId('user_id')
-                ->constrained('users', 'id_users')
-                ->onDelete('cascade');
+            $table->bigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id_users')->on('users')    ->onDelete('cascade');
 
             $table->bigInteger('exercise_id');
             $table->foreign('exercise_id')

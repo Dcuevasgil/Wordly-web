@@ -12,15 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('words', function (Blueprint $table) {
-            $table->bigIncrements('id_words');
+            $table->bigInteger('id_words')->autoIncrement();
 
-            $table->foreignId('origin_language_id')->constrained('languages', 'id_languages')->onDelete('cascade');
+            $table->bigInteger('origin_language_id');
             
             $table->string('text', 255);
             $table->integer('difficult')->default(1);
             
             $table->timestamp('register_date')->useCurrent();
             $table->timestamp('updated_date')->useCurrent()->useCurrentOnUpdate();
+
+            $table->foreign('origin_language_id')->references('id_languages')->on('languages')->onDelete('cascade');
         });
     }
 

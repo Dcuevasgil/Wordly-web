@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             // PK personalizada
-            $table->bigIncrements('id_languages');
+            $table->bigInteger('id_languages')->autoIncrement();
 
             // Campos
             $table->string('name', 100);

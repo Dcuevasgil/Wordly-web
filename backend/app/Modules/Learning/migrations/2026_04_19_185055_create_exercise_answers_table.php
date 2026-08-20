@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercises_answers', function (Blueprint $table) {
-            $table->bigIncrements('id_exercises');
-            $table->foreignId('exercise_id')->constrained('exercises', 'id_exercises')->cascadeOnDelete();
-
+        Schema::create('exercise_answers', function (Blueprint $table) {
+            $table->bigInteger('id_exercise_answers')->autoIncrement();
+            $table->bigInteger('exercise_id');
+            
             $table->text('answer');
             $table->boolean('is_correct_answer');
-
+            
             $table->text('explanation');
-
+            
             // Timestamps personalizados
             $table->dateTime('register_date')->useCurrent();
             $table->dateTime('updated_date')->useCurrent()->useCurrentOnUpdate();
+
+            $table->foreign('exercise_id')->references('id_exercises')->on('exercises')->onDelete('cascade');
         });
     }
 
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exercises_answers');
+        Schema::dropIfExists('exercise_answers');
     }
 };

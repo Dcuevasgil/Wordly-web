@@ -50,10 +50,10 @@ CREATE TABLE learning_paths (
 
     code VARCHAR(50) NOT NULL UNIQUE, -- identificador de cada camino
     name VARCHAR(100) NOT NULL, -- el nombre bonito del camino
-    descripction TEXT NULL,
+    description TEXT NULL,
 
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 
 );
 
@@ -63,7 +63,7 @@ CREATE TABLE learning_paths (
 -- ==============================
 CREATE TABLE user_paths (
     id_user_paths BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
     learning_path_id BIGINT NOT NULL,
 
     level ENUM('basic', 'intermediate', 'advanced') NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE user_paths (
     FOREIGN KEY (learning_path_id) REFERENCES learning_paths(id_learning_paths) ON DELETE CASCADE,
 
     UNIQUE(user_id, learning_path_id)
-)
+);
 
 
 -- ==============================

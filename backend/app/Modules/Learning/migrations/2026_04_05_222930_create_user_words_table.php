@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_words', function (Blueprint $table) {
-            $table->bigIncrements('id_user_words');
+            $table->bigInteger('id_user_words')->autoIncrement();
 
-            $table->foreignId('user_id')->constrained('users', 'id_users')->onDelete('cascade');
-            $table->foreignId('word_id')->constrained('words', 'id_words')->onDelete('cascade');
+            $table->bigInteger('user_id');
+            $table->bigInteger('word_id');
 
             $table->integer('times_correct')->default(0);
             $table->integer('times_failed')->default(0);
@@ -34,6 +34,9 @@ return new class extends Migration
 
             // UNIQUE (user_id, word_id)
             $table->unique(['user_id', 'word_id']);
+
+            $table->foreign('user_id')->references('id_users')->on('users')->onDelete('cascade');
+            $table->foreign('word_id')->references('id_words')->on('words')->onDelete('cascade');
         });
     }
 
