@@ -24,6 +24,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => 'El plural en inglés se forma añadiendo -s.',
                 'topic_exercise' => 'plurals',
                 'type_exercise' => 'single-choice',
+                'level' => 'basic',
                 'answers' => [
                     ["answer" => "cats", "is_correct_answer" => true],
                     ["answer" => "cates", "is_correct_answer" => false],
@@ -36,6 +37,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => '"go" es un verbo irregular, su pasado es "went".',
                 'topic_exercise' => 'past-simple',
                 'type_exercise' => 'single-choice',
+                'level' => 'basic',
                 'answers' => [
                     ['answer' => 'went', 'is_correct_answer' => true],
                     ['answer' => 'goed', 'is_correct_answer' => false],
@@ -48,6 +50,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => '"Umbrella" significa paraguas en español.',
                 'topic_exercise' => 'vocabulary-basics',
                 'type_exercise' => 'single-choice',
+                'level' => 'basic',
                 'answers' => [
                     ['answer' => 'Paraguas', 'is_correct_answer' => true],
                     ['answer' => 'Impermeable', 'is_correct_answer' => false],
@@ -60,6 +63,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => 'Con tercera persona del singular en presente simple se añade -s al verbo.',
                 'topic_exercise' => 'present-simple',
                 'type_exercise' => 'fill-blank',
+                'level' => 'basic',
                 'answers' => [
                     ['answer' => 'goes', 'is_correct_answer' => true],
                     ['answer' => 'go', 'is_correct_answer' => false],
@@ -72,6 +76,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => 'El opuesto de "hot" (caliente) es "cold" (frío).',
                 'topic_exercise' => 'opposites',
                 'type_exercise' => 'single-choice',
+                'level' => 'basic',
                 'answers' => [
                     ['answer' => 'cold', 'is_correct_answer' => true],
                     ['answer' => 'warm', 'is_correct_answer' => false],
@@ -84,6 +89,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => '"eat" es irregular, su pasado es "ate".',
                 'topic_exercise' => 'past-simple',
                 'type_exercise' => 'single-choice',
+                'level' => 'basic',
                 'answers' => [
                     ['answer' => 'ate', 'is_correct_answer' => true],
                     ['answer' => 'eated', 'is_correct_answer' => false],
@@ -96,6 +102,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => '"Butterfly" significa mariposa en español.',
                 'topic_exercise' => 'vocabulary-basics',
                 'type_exercise' => 'single-choice',
+                'level' => 'basic',
                 'answers' => [
                     ['answer' => 'Mariposa', 'is_correct_answer' => true],
                     ['answer' => 'Polilla', 'is_correct_answer' => false],
@@ -108,6 +115,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => 'Con "they" en presente continuo se usa "are".',
                 'topic_exercise' => 'present-continuous',
                 'type_exercise' => 'fill-blank',
+                'level' => 'intermediate',
                 'answers' => [
                     ['answer' => 'are', 'is_correct_answer' => true],
                     ['answer' => 'is', 'is_correct_answer' => false],
@@ -120,6 +128,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => '"child" es irregular, su plural es "children".',
                 'topic_exercise' => 'plurals',
                 'type_exercise' => 'single-choice',
+                'level' => 'basic',
                 'answers' => [
                     ['answer' => 'children', 'is_correct_answer' => true],
                     ['answer' => 'childs', 'is_correct_answer' => false],
@@ -136,6 +145,7 @@ class ExerciseSeeder extends Seeder {
                 'explanation' => $item['explanation'],
                 'topic_exercise' => $item['topic_exercise'],
                 'type_exercise' => $item['type_exercise'],
+                'level' => $item['level'],
             ]);
 
             $answers = array_map(function ($answer) use ($item) {

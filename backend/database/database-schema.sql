@@ -236,11 +236,11 @@ CREATE TABLE exercises (
     id_exercises BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 
     type_exercise VARCHAR(50) NOT NULL,
+    level ENUM('basic', 'intermediate', 'advanced') NOT NULL DEFAULT 'basic',
     topic_exercise VARCHAR(100) NOT NULL,
-
     question TEXT NOT NULL,
-
     explanation TEXT NOT NULL,
+
 
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -255,7 +255,7 @@ CREATE TABLE exercise_answers (
     exercise_id BIGINT NOT NULL,
 
     answer TEXT NOT NULL,
-    is_correct_answer BOOLEAN DEFAULT true,
+    is_correct_answer BOOLEAN DEFAULT FALSE,
 
     explanation TEXT NOT NULL,
 

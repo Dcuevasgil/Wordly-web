@@ -21,7 +21,8 @@ class Exercise extends Model {
         'type_exercise',
         'topic_exercise',
         'question',
-        'explanation'
+        'explanation',
+        'level',
     ];
 
     protected $casts = [
