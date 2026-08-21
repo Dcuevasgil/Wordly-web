@@ -16,7 +16,7 @@ class LearningPathSeeder extends Seeder {
             ['code' => 'general'],
             [
                 'name' => 'General',
-                'description' => 'Vocabulario general de inglés'
+                'description' => 'General English vocabulary'
             ]
         );
     }
