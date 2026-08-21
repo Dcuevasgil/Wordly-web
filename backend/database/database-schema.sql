@@ -259,6 +259,9 @@ CREATE TABLE exercise_answers (
 
     explanation TEXT NOT NULL,
 
+    register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
     FOREIGN KEY (exercise_id) REFERENCES exercises(id_exercises) ON DELETE CASCADE
 );
 
