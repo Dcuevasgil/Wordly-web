@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('exercise_id');
             
             $table->text('answer');
-            $table->boolean('is_correct_answer')->default(true);
+            $table->boolean('is_correct_answer')->default(false);
             
             $table->text('explanation');
             

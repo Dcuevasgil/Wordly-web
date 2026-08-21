@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use Database\Seeders\Modules\Learning\WordsSeeder;
+use Database\Seeders\Modules\Learning\LearningPathSeeder;
 use Database\Seeders\Modules\Learning\LanguagesSeeder;
+use Database\Seeders\Modules\Learning\WordsSeeder;
+use Database\Seeders\Modules\Learning\ExerciseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,9 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(
+        $this->call([
+            LearningPathSeeder::class,
             LanguagesSeeder::class,
-            WordsSeeder::class
-        );
+            WordsSeeder::class,
+            ExerciseSeeder::class,
+            
+        ]);
     }
 }
