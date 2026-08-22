@@ -5,11 +5,6 @@ namespace App\Modules\Learning\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Facades\JWTAuth;
-
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Log;
 
 use App\Modules\Learning\Models\Exercise;
 
@@ -17,6 +12,7 @@ use App\Http\Controllers\Controller;
 
 use App\Modules\Learning\Requests\SubmitExerciseAnswerRequest;
 use App\Modules\Learning\Services\ExerciseAttemptService;
+use App\Modules\Learning\Services\FilterUserProgressionService;
 
 class ExerciseController extends Controller {
 
@@ -277,54 +273,82 @@ class ExerciseController extends Controller {
      * }
      * 
      */
-    public function getExercisesByTopic(Request $request)
-    {
+    public function getExercisesByTopic(Request $request, FilterUserProgressionService $progression) {
         try {
             // 1. Obtener usuario autenticado
+            /** @var \App\Modules\Auth\Models\User $user */
             $user = Auth::user();
 
             if (!$user) {
                 return response()->json([
+                    'error_code' => 'unauthorized',
                     'error' => 'Unauthorized'
                 ], 401);
             }
 
             // 2. Obtener y validar topic (OBLIGATORIO)
-            $topic = $request->query('topic');
+            $topic = trim((string) $request->query('topic', ''));
 
-            if (!$topic || trim($topic) === '') {
+            if ($topic === '') {
                 return response()->json([
+                    'error_code' => 'topic_required',
                     'error' => 'Topic is required'
                 ], 400);
             }
 
             // 3. Obtener ejercicios filtrados por topic
+            $topicExists = Exercise::where('topic_exercise', $topic)->exists();
+
+            if (!$topicExists) {
+                return response()->json([
+                    'error_code' => 'topic_not_found',
+                    'error' => 'No exercises found for the specified topic',
+                ], 404);
+            }
+
+            // 4. User level -> accessible levels
+            $userPath = $user->paths()->where('is_active', true)->first();
+            $userLevel = $userPath?->level;
+
+            $accessibleLevels = $progression->getAccessibleLevels($userLevel);
+
+            if ($accessibleLevels === []) {
+                return response()->json([
+                    'error_code' => 'onboarding_required',
+                    'error' => 'User has no active learning path',
+                ], 403);
+            }
+
+            // 5. Exercises for the tipic within the user's reach
             $exercises = Exercise::with('answers')
                 ->where('topic_exercise', $topic)
+                ->whereIn('level', $accessibleLevels)
                 ->inRandomOrder()
                 ->limit(10)
                 ->get();
 
-            // 4. Si no hay resultados
+            // 6. Topic exists, but nothing available for this level yet
             if ($exercises->isEmpty()) {
                 return response()->json([
-                    'error' => 'No exercises found for the specified topic'
-                ], 404);
+                    'message' => 'No exercises available for your level yet',
+                    'reason' => 'empty_for_level',
+                    'user_level' => $userLevel,
+                    'data' => []
+                ], 200);
             }
 
-            // 5. Transformar datos
-            $data = $exercises->map(fn ($exercise) => $this->formatExercise($exercise));
-                
-            // 6. Respuesta final
+            // 7. Format and respond
             return response()->json([
                 'message' => 'Exercises retrieved successfully',
-                'data' => $data
+                'user_level' => $userLevel,
+                'data' => $exercises->map(fn ($exercise) => $this->formatExercise($exercise)),
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
+                'error_code' => 'server_error',
                 'error' => 'Server error while retrieving exercises',
-                'message' => $e->getMessage() // quitar en producción
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
