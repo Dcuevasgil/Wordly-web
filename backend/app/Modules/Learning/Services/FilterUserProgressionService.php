@@ -15,7 +15,7 @@ class FilterUserProgressionService {
     private readonly array $levels;
 
     public function __construct(?array $levels = null) {
-        $this->levels = $levels ?? config('filter_quiz.levels', []);
+        $this->levels = $levels ?? config('filter-quiz.levels', []);
     }
 
     /**
