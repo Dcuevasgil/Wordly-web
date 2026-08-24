@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class LearningPath extends Model
 {
+
+    public const DEFAULT_CODE = 'general';
     
     protected $table = 'learning_paths';
     protected $primaryKey = 'id_learning_paths';
