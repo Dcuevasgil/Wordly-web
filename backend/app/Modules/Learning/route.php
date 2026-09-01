@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Modules\Learning\Controllers\UserWordController;
 use App\Modules\Learning\Controllers\ExerciseController;
 use App\Modules\Learning\Controllers\OnboardingController;
+use App\Modules\Learning\Controller\AssessmentController;
 
 Route::middleware('auth:api')->prefix('learning')->group(function () {
 
@@ -28,4 +29,12 @@ Route::middleware('auth:api')->prefix('learning')->group(function () {
 
     // Al registrarse, le permite al usuario seleccionar su nivel de progreso
     Route::post('/onboarding', [OnboardingController::class, 'createEnrollment']);
+
+    /* AssessmentController */
+
+    // Devuelve los ejercicios del examen de nivel
+    Route::get('/assessment', [AssessmentController::class, 'getAssessment']);
+
+    // Recibe las respuestas, calcula el nivel y lo asigna al usuario
+    Route::post('/assessment', [AssessmentController::class, 'submitAssessment']);
 });

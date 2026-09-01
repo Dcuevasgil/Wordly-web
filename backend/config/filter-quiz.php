@@ -35,6 +35,15 @@ return [
                 'sounds_natural',
             ]
         ]
-    ]
+    ],
+
+    'assessment' => [
+        'total_exercises' => 12,
+        'per_level' => 4,
+        'thresholds' => [
+            'intermediate' => 33,
+            'advanced' => 67,
+        ]
+    ],
 
 ];

@@ -8,12 +8,13 @@ class ExerciseAnswer extends Model {
 
     protected $table = 'exercise_answers';
     protected $primaryKey = 'id_exercise_answers';
-    protected $foreignKeyExercise = 'exercise_id';
 
     public $timestamps = false;
 
 
     protected $fillable = [
+        'id_exercise_answers',
+        'exercise_id',
         'answer',
         'is_correct_answer',
         'explanation'

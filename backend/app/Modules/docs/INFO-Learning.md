@@ -154,10 +154,37 @@ Gestiona sesiones
 
 ## 🌐 Endpoints
 
-- GET /api/learning/next-word
-- POST /api/learning/answer
-- GET /api/learning/progress
-- POST /api/learning/study-session/start
-- POST /api/learning/study-session/finish
+- `GET /api/learning/next-word`
+- `POST /api/learning/answer`
+- `GET /api/learning/progress`
+- `POST /api/learning/study-session/start`
+- `POST /api/learning/study-session/finish`
 
 ---
+
+## 📝 Examen de nivel (assessment)
+
+### Objetivo
+
+Calcular el nivel real del usuario a partir de sus respuestas y asignarlo en `user_paths.level`.
+
+### Decisiones tomadas
+
+- **Cálculo por umbral global** (% de aciertos totales). Alternativa por bloques descartada para el MVP
+- **Sin persistencia** (opción 3): no se guarda el examen ni las respuestas. El nivel anterior se sobrescribe sin dejar rastro.
+- El examen es **el mismo para todos**: no depende del nivel declarado por el usuario en el onboarding.
+- EL reparto de ejercicios por nivel debe ser **fijo y equilibrado**, porque con umbral global el resultado depende directamente de la composición.
+
+## 🌐 Endpoints
+- `GET /api/learning/assessment` -> devuelve los ejercicios del examen
+- `POST /api/learning/assessment` -> recibe respuestas, calcula y asigna nivel
+
+### Pendiente
+- [] Reparto exacto de ejercicios por nivel
+- [] Umbrales concretos (%) para basic / intermediate / advanced
+- [] Cómo se validan las respuestas sin persistir el examen
+
+### Deuda consistente
+- Sin historial de examenes -> si se necesita, retrofit a tabla `assessments`
+- No se puede limitar el número de intentos (no hay registro)
+- `ExerciseSeeder` sigue borrando ejercicios al re-sembrar
