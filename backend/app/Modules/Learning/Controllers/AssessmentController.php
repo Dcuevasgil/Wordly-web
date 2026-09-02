@@ -5,6 +5,7 @@ namespace App\Modules\Learning\Controllers;
 use App\Http\Controllers\Controller;
 
 use App\Modules\Learning\Models\Exercise;
+use App\Modules\Learning\Models\UserPath;
 use App\Modules\Learning\Requests\AssessmentRequest;
 use App\Modules\Learning\Resources\ExerciseResource;
 use App\Modules\Learning\Services\AssessmentService;
@@ -53,6 +54,19 @@ class AssessmentController extends Controller {
      * Receives the submitted answers, resolves the level and assigns it.
      */
     public function submitAssessment(AssessmentRequest $request): JsonResponse {
+
+        $userId = $request->user()->id_users;
+
+        $hasEnrollment = UserPath::where('user_id', $userId)
+            ->where('is_active', true)
+            ->exists();
+        
+        if (!$hasEnrollment) {
+            return response()->json([
+                'error_code' => 'onboarding_required',
+                'message' => 'You must complete onboarding before taking the assessment.'
+            ], 403);
+        }
 
         $result = $this->service->evaluate(
             $request->user()->id_users,
