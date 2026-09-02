@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Modules\Learning\Controllers\UserWordController;
 use App\Modules\Learning\Controllers\ExerciseController;
 use App\Modules\Learning\Controllers\OnboardingController;
-use App\Modules\Learning\Controller\AssessmentController;
+use App\Modules\Learning\Controllers\AssessmentController;
 
 Route::middleware('auth:api')->prefix('learning')->group(function () {
 
