@@ -143,7 +143,7 @@ class ExerciseSeeder extends Seeder {
             ],
             [
                 'code' => 'present-perfect-01',
-                'question' => 'Elige la forma correcta: "I ___ never been to Japan"',
+                'question' => 'Elige la forma correcta: "I ___ never been to Japan."',
                 'explanation' => 'El present perfect se forma con have/has + participio. Con "I" se usa "have"',
                 'topic_exercise' => 'present-perfect',
                 'type_exercise' => 'single-choice',
@@ -185,7 +185,7 @@ class ExerciseSeeder extends Seeder {
             ],
             [
                 'code' => 'reported-speech-01',
-                'question' => 'Elige la forma correcta: She said that she ___ tired."',
+                'question' => 'Elige la forma correcta: "She said that she ___ tired."',
                 'explanation' => 'En el estilo indirecto el presente "am/is" retrocede a pasado: "was".',
                 'topic_exercise' => 'reported-speech',
                 'type_exercise' => 'single-choice',
@@ -199,7 +199,7 @@ class ExerciseSeeder extends Seeder {
             ],
             [
                 'code' => 'relative-clauses-01',
-                'question' => 'Elige la forma correcta: The woman ___ lives next door is a doctor."',
+                'question' => 'Elige la forma correcta: "The woman ___ lives next door is a doctor."',
                 'explanation' => 'Para personas se usa "who". "Which" es para cosas y "whose" indica posesión.',
                 'topic_exercise' => 'relative-clauses',
                 'type_exercise' => 'single-choice',
