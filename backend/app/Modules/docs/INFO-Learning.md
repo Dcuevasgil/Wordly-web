@@ -165,26 +165,55 @@ Gestiona sesiones
 ## 📝 Examen de nivel (assessment)
 
 ### Objetivo
-
 Calcular el nivel real del usuario a partir de sus respuestas y asignarlo en `user_paths.level`.
 
 ### Decisiones tomadas
+- **Cálculo por umbral global** (% de aciertos totales). Alternativa por bloques descartada para el MVP.
+- **Sin persistencia**: no se guarda el examen ni las respuestas. El nivel anterior se sobrescribe sin dejar rastro. El examen tampoco escribe en `exercise_attempts`.
+- El examen es **el mismo para todos**: no depende del nivel declarado en el onboarding.
+- **Reparto fijo**: 4 ejercicios por nivel (12 en total). Con umbral global el resultado depende directamente de la composición.
+- **Selección aleatoria** (`inRandomOrder()`) dentro de cada nivel. Hoy solo tiene efecto en `basic`, que es el único con más de 4 ejercicios disponibles.
+- **Fallo ruidoso** si algún nivel no llega a 4 ejercicios: `RuntimeException`. Un examen incompleto rompería los umbrales en silencio.
+- **`error_code: onboarding_required`** (403) si el usuario no tiene matrícula activa. Mismo código que `getExercisesByTopic()`.
 
-- **Cálculo por umbral global** (% de aciertos totales). Alternativa por bloques descartada para el MVP
-- **Sin persistencia** (opción 3): no se guarda el examen ni las respuestas. El nivel anterior se sobrescribe sin dejar rastro.
-- El examen es **el mismo para todos**: no depende del nivel declarado por el usuario en el onboarding.
-- EL reparto de ejercicios por nivel debe ser **fijo y equilibrado**, porque con umbral global el resultado depende directamente de la composición.
+### Configuración
+`config/filter-quiz.php` → clave `assessment`:
+- `total_exercises`: 12
+- `per_level`: 4
+- `thresholds`: intermediate 33, advanced 67 (inclusivos)
 
-## 🌐 Endpoints
-- `GET /api/learning/assessment` -> devuelve los ejercicios del examen
-- `POST /api/learning/assessment` -> recibe respuestas, calcula y asigna nivel
+`levels` en ese mismo archivo es la fuente única de la jerarquía de niveles.
 
-### Pendiente
-- [] Reparto exacto de ejercicios por nivel
-- [] Umbrales concretos (%) para basic / intermediate / advanced
-- [] Cómo se validan las respuestas sin persistir el examen
+### Endpoints
+- `GET /api/learning/assessment` → devuelve los 12 ejercicios (sin soluciones)
+- `POST /api/learning/assessment` → recibe respuestas, calcula y asigna nivel
 
-### Deuda consistente
-- Sin historial de examenes -> si se necesita, retrofit a tabla `assessments`
+### Contenido
+14 ejercicios en total: 6 basic, 4 intermediate, 4 advanced.
+
+**Criterio de nivel**: orden del temario de inglés, no dificultad percibida.
+El nivel es propiedad del **tema** (`topic_exercise`), no del ejercicio individual:
+dos ejercicios del mismo topic no pueden estar en niveles distintos.
+
+Columna `code` (`VARCHAR(50) UNIQUE`) como identificador estable. Formato `topic-NN`.
+Mismo patrón que `languages.code` y `learning_paths.code`: `code` es el identificador
+máquina, `question` es el texto que puede cambiar sin romper nada.
+
+`ExerciseSeeder` es idempotente vía `updateOrCreate`. Las respuestas se identifican
+por `exercise_id` + `answer`. Verificado: dos pasadas seguidas dejan 14 ejercicios
+y 56 respuestas.
+
+### Deuda abierta
+- Sin historial de exámenes → si se necesita, retrofit a tabla `assessments`
 - No se puede limitar el número de intentos (no hay registro)
-- `ExerciseSeeder` sigue borrando ejercicios al re-sembrar
+- Preguntas en blanco: hoy `required`. Si se permiten → `nullable`
+- Ventana entre el `exists()` del controller y el `update()` del servicio: la matrícula
+  podría desaparecer en medio. Irrelevante en MVP, pero la comprobación en el servicio
+  seguiría siendo la red de seguridad correcta
+- `config()` devuelve `null` silenciosamente si la clave no existe. Un typo en el nombre
+  de una clave produjo un examen de 14 preguntas con un 200. Las claves leídas en runtime
+  deberían validarse
+- **Este documento describe estructura que no existe**: `LearningController`,
+  `NextWordService`, `EvaluateAnswerService`, `StudySessionService`,
+  `SubmitAnswerRequest` y los endpoints `next-word` / `progress` / `study-session`
+  no están implementados. Pendiente reescritura completa del documento
