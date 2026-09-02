@@ -141,6 +141,76 @@ class ExerciseSeeder extends Seeder {
                     ['answer' => 'child', 'is_correct_answer' => false],
                 ]
             ],
+            [
+                'code' => 'present-perfect-01',
+                'question' => 'Elige la forma correcta: "I ___ never been to Japan"',
+                'explanation' => 'El present perfect se forma con have/has + participio. Con "I" se usa "have"',
+                'topic_exercise' => 'present-perfect',
+                'type_exercise' => 'single-choice',
+                'level' => 'intermediate',
+                'answers' => [
+                    ['answer' => 'have', 'is_correct_answer' => true],
+                    ['answer' => 'has', 'is_correct_answer' => false],
+                    ['answer' => 'am', 'is_correct_answer' => false],
+                    ['answer' => 'had', 'is_correct_answer' => false],
+                ]
+            ],
+            [
+                'code' => 'conditionals-01',
+                'question' => 'Elige la forma correcta: "If I ___ more time, I would travel more."',
+                'explanation' => 'El segundo condicional se usa past simple en la cláusula "if" y "would" en la principal.',
+                'topic_exercise' => 'conditionals',
+                'type_exercise' => 'single-choice',
+                'level' => 'advanced',
+                'answers' => [
+                    ['answer' => 'had', 'is_correct_answer' => true],
+                    ['answer' => 'have', 'is_correct_answer' => false],
+                    ['answer' => 'would have', 'is_correct_answer' => false],
+                    ['answer' => 'will have', 'is_correct_answer' => false],
+                ]
+            ],
+            [
+                'code' => 'passive-voice-01',
+                'question' => 'Elige la forma correcta: "The letter ___ yesterday."',
+                'explanation' => 'La pasiva en pasado se forma con was/were + participio. "Letter" es singular, así que "was"',
+                'topic_exercise' => 'passive-voice',
+                'type_exercise' => 'single-choice',
+                'level' => 'advanced',
+                'answers' => [
+                    ['answer' => 'was sent', 'is_correct_answer' => true],
+                    ['answer' => 'sent', 'is_correct_answer' => false],
+                    ['answer' => 'were sent', 'is_correct_answer' => false],
+                    ['answer' => 'is sent', 'is_correct_answer' => false],
+                ]
+            ],
+            [
+                'code' => 'reported-speech-01',
+                'question' => 'Elige la forma correcta: She said that she ___ tired."',
+                'explanation' => 'En el estilo indirecto el presente "am/is" retrocede a pasado: "was".',
+                'topic_exercise' => 'reported-speech',
+                'type_exercise' => 'single-choice',
+                'level' => 'advanced',
+                'answers' => [
+                    ['answer' => 'was', 'is_correct_answer' => true],
+                    ['answer' => 'is', 'is_correct_answer' => false],
+                    ['answer' => 'has been', 'is_correct_answer' => false],
+                    ['answer' => 'were', 'is_correct_answer' => false],
+                ]
+            ],
+            [
+                'code' => 'relative-clauses-01',
+                'question' => 'Elige la forma correcta: The woman ___ lives next door is a doctor."',
+                'explanation' => 'Para personas se usa "who". "Which" es para cosas y "whose" indica posesión.',
+                'topic_exercise' => 'relative-clauses',
+                'type_exercise' => 'single-choice',
+                'level' => 'advanced',
+                'answers' => [
+                    ['answer' => 'who', 'is_correct_answer' => true],
+                    ['answer' => 'which', 'is_correct_answer' => false],
+                    ['answer' => 'whose', 'is_correct_answer' => false],
+                    ['answer' => 'what', 'is_correct_answer' => false],
+                ]
+            ],
         ];
 
         foreach ($exercises as $item) {
