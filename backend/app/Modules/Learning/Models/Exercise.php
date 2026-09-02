@@ -18,6 +18,7 @@ class Exercise extends Model {
 
 
     protected $fillable = [
+        'code',
         'type_exercise',
         'topic_exercise',
         'question',
