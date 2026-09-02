@@ -4,117 +4,146 @@
 namespace Database\Seeders\Modules\Learning;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Modules\Learning\Models\Language;
+use App\Modules\Learning\Models\Word;
 
 class WordsSeeder extends Seeder {
 
 
     public function run(): void {
 
+        $originId = Language::where('code', 'en')->value('id_languages');
+        $targetId = Language::where('code', 'es')->value('id_languages');
+
+        if (!$originId || !$targetId) {
+            throw new \RuntimeException('Languages "en" and "es" must be seeded first.');
+        }
+
         $words = [
             [
                 'text' => 'house', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'casa', 
+                'example' => 'I live in a small house.'
             ],
             [
                 'text' => 'car', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'coche', 
+                'example' => 'My car is very old.'
             ],
             [
                 'text' => 'dog', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'perro', 
+                'example' => 'The dog is sleeping.'
             ],
             [
                 'text' => 'cat', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'gato', 
+                'example' => 'The cat is on the table.'
             ],
             [
                 'text' => 'book', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'libro', 
+                'example' => 'I read a book every week.'
             ],
             [
                 'text' => 'water', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'agua', 
+                'example' => 'I drink water every morning.'
             ],
             [
                 'text' => 'food', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'comida', 
+                'example' => 'The food is on the table.'
             ],
             [
                 'text' => 'sun', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'sol', 
+                'example' => 'The sun is very bright today.'
             ],
             [
                 'text' => 'moon', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'luna', 
+                'example' => 'The moon is full tonight.'
             ],
             [
                 'text' => 'tree', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'árbol', 
+                'example' => 'There is a tree in the garden.'
             ],
             [
                 'text' => 'run', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'correr', 
+                'example' => 'I run every morning.'
             ],
             [
                 'text' => 'walk', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'caminar', 
+                'example' => 'We walk to school together.'
             ],
             [
                 'text' => 'eat', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'comer', 
+                'example' => 'They eat dinner at eight.'
             ],
             [
                 'text' => 'drink', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'beber', 
+                'example' => 'She likes to drink tea.'
             ],
             [
                 'text' => 'sleep', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'dormir', 
+                'example' => 'I sleep eight hours a night.'
             ],
             [
                 'text' => 'write', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'escribir', 
+                'example' => 'He writes letters to his family.'
             ],
             [
                 'text' => 'read', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'leer', 
+                'example' => 'She reads before going to bed.'
             ],
             [
                 'text' => 'speak', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'hablar', 
+                'example' => 'I speak two languages.'
             ],
             [
                 'text' => 'listen', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'escuchar', 
+                'example' => 'They listen to music every day.'
             ],
             [
                 'text' => 'learn', 
-                'origin_language_id' => 1, 
-                'difficult' => 1
+                'translation' => 'aprender', 
+                'example' => 'We learn something new every day.'
             ],
         ];
 
-        DB::table('words')->insert($words);
+        foreach ($words as $item) {
+            
+            $word = Word::updateOrCreate(
+                [
+                    'text' => $item['text'],
+                    'origin_language_id' => $originId,
+                ],
+                [
+                    'difficult' => 1,
+                ]
+            );
+
+            $word->translations()->updateOrCreate(
+                [
+                    'target_language_id' => $targetId,
+                ],
+                [
+                    'translation' => $item['translation'],
+                    'example' => $item['example'],
+                ]
+            );
+        }
     }
 
 }

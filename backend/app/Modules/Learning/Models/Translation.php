@@ -18,6 +18,7 @@ class Translation extends Model {
 
 
     protected $fillable = [
+        'target_language_id',
         'translation',
         'example'
     ];

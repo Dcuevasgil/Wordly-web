@@ -20,6 +20,7 @@ class Word extends Model {
 
 
     protected $fillable = [
+        'origin_language_id',
         'text',
         'difficult'
     ];
