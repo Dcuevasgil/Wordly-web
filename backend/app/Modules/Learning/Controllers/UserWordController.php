@@ -10,6 +10,9 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Learning\Models\UserWord;
+use App\Modules\Learning\Resources\UserWordResource;
+use Illuminate\Http\JsonResponse;
 
 class UserWordController extends Controller {
 
@@ -90,59 +93,26 @@ class UserWordController extends Controller {
      * }
      * 
      */
-    public function reviewWords() {
+    public function reviewWords(Request $request): JsonResponse {
 
-        try {
+        $userId = $request->user()->id_users;
+        $limit = config('learning.review.words_per_session', 10);
 
-            // 1. User Authentication
-            $user = JWTAuth::parseToken()->authenticate();
-
-            $id_user = $user->id_users;
-
-            // Search pending words
-            $words = DB::table('user_words')
-                ->join('words', 'user_words.word_id', '=', 'words.id_words')
-                ->join('translations', 'words.id_words', '=', 'translations.word_id')
-                ->where('user_id', $id_user)
-                ->where(function ($query) {
-                    $query->where('user_words.next_review', '<=', now())
-                        ->orWhereNull('user_words.next_review');
-                })
-                ->select(
-                    'words.id_words as id_word',
-                    'words.text as word',
-                    'translations.translation',
-                    'user_words.next_review'
-                )
-                ->limit(10)
-                ->get();
-            
-            if ($words->isEmpty()) {
-                return response()->json([
-                    'message' => 'No words to review',
-                    'data' => []
-                ], 200);
-            }
-
-            return response()->json([
-                'message' => 'Words retrieved successfully',
-                'data' =>$words
-            ]);
-
-        } catch (\Tymon\JwtAuth\Exceptions\JWTException $e) {
-            
-            return response()->json([
-                'error' => 'Unauthorized',
-                'detail' => $e->getMessage()
-            ], 401);
-            
-        } catch (\Exception $e) {
-
-            return response()->json([
-                'error' => 'Server error while retrieving words'
-            ], 500);
-
-        }
+        $words = UserWord::with(['word.translations'])
+            ->where('user_id', $userId)
+            ->where(function ($query) {
+                $query->whereNull('next_review')
+                    ->orWhere('next_review', '<=', now());
+            })
+            ->orderByRaw('next_review IS NULL DESC')
+            ->orderBy('next_review')
+            ->limit($limit)
+            ->get();
+        
+        return response()->json([
+            'total' => $words->count(),
+            'data' => UserWordResource::collection($words),
+        ]);
 
     }
 

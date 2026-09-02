@@ -30,5 +30,12 @@ class UserWord extends Model {
         'register_date' => 'datetime',
         'update_date' => 'datetime',
     ];
+
+    // Relaciones con tablas
+
+    // Words
+    public function word() {
+        return $this->belongsTo(Word::class, 'word_id', 'id_words');
+    }
     
 }

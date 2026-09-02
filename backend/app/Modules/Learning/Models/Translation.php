@@ -8,8 +8,8 @@ class Translation extends Model {
 
     protected $table = 'translations';
     protected $primaryKey = 'id_translations';
-    protected $foreignKeyLanguage = 'target_language_id';
-    protected $foreignKeyWords = 'word_id';
+    // protected $foreignKeyLanguage = 'target_language_id';
+    // protected $foreignKeyWords = 'word_id';
 
     
     const CREATED_AT = 'register_date';
