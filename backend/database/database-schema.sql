@@ -265,6 +265,44 @@ CREATE TABLE exercise_answers (
     FOREIGN KEY (exercise_id) REFERENCES exercises(id_exercises) ON DELETE CASCADE
 );
 
+
+-- ==============================
+-- TABLA: conversaciones del chat
+-- ==============================
+CREATE TABLE chat_conversations (
+    id_chat_conversations BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+
+    title VARCHAR(150) NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+
+    register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE
+);
+
+
+-- ==============================
+-- TABLA: mensajes del chat
+-- ==============================
+CREATE TABLE chat_messages (
+    id_chat_messages BIGINT AUTO_INCREMENT PRIMARY KEY,
+    conversation_id BIGINT NOT NULL,
+
+    role ENUM('user', 'assistant') NOT NULL,
+    content TEXT NOT NULL,
+
+    model VARCHAR(50) NULL,
+    tokens_used INT NULL,
+    latency_ms INT NULL,
+
+    register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (conversation_id) REFERENCES chat_conversations(id_chat_conversations) ON DELETE CASCADE
+);
+
+
 -- Alter tables
 
 
@@ -273,21 +311,36 @@ CREATE TABLE exercise_answers (
 -- users
 ALTER TABLE users ADD streak INT NOT NULL DEFAULT 0;
 ALTER TABLE users ADD last_activity_date DATE;
+ALTER TABLE wordly.exercises AUTO_INCREMENT = 1;
 
 
+-- 1. Quitar las tres FK
+ALTER TABLE exercise_attempts DROP FOREIGN KEY exercise_attempts_user_id_foreign;
+ALTER TABLE user_paths DROP FOREIGN KEY user_paths_ibfk_1;
+ALTER TABLE user_words DROP FOREIGN KEY user_words_user_id_foreign;
+
+-- 2. La PK de users a signed
+ALTER TABLE users MODIFY id_users BIGINT NOT NULL AUTO_INCREMENT;
+
+-- 3. Las columnas hijas a signed
+ALTER TABLE exercise_attempts MODIFY user_id BIGINT NOT NULL;
+ALTER TABLE user_paths MODIFY user_id BIGINT NOT NULL;
+ALTER TABLE user_words MODIFY user_id BIGINT NOT NULL;
+
+-- 4. Recrear las FK
+ALTER TABLE exercise_attempts ADD CONSTRAINT exercise_attempts_user_id_foreign
+  FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE;
+ALTER TABLE user_paths ADD CONSTRAINT user_paths_user_id_foreign
+  FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE;
+ALTER TABLE user_words ADD CONSTRAINT user_words_user_id_foreign
+  FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE;
 
 
 
 -- Renames
-
-
-
-
-
--- exercise_answer
-
-RENAME TABLE exercises_answer TO exercise_answers;
+RENAME TABLE exercises_answers TO exercise_answers;
 
 
 -- Indices
 CREATE INDEX idx_password_reset_token ON password_resets(reset_token);
+CREATE INDEX idx_chat_messages_conversation ON chat_messages(conversation_id, register_date);
