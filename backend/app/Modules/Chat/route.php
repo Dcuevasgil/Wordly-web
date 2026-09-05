@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route; 
+use Illuminate\Support\Facades\Route;
+
+// Controllers
+use App\Modules\Chat\Controllers\ChatController;
 
 
+Route::prefix('chat')->middleware('auth:api')->group(function () {
 
-
-/**
- * Protected routes (JWT required)
- */
-
-Route::middleware('auth:api')->group(function () {
-
+    Route::post('/message', [ChatController::class, 'sendMessage']);
 
 });
