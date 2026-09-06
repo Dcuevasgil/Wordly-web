@@ -2,6 +2,8 @@
 
 namespace App\Modules\Chat\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use App\Modules\Chat\Models\ChatConversation;
 use App\Modules\Chat\Models\ChatMessage;
 use App\Modules\Chat\Prompts\ConversationPrompt;
@@ -46,6 +48,23 @@ class ChatService {
             return $conversation->fresh()->load('messages');
         });
 
+    }
+
+    public function listConversations(int $userId): LengthAwarePaginator {
+        return ChatConversation::where('user_id', $userId)
+            ->select('id_chat_conversations', 'title', 'updated_date')            
+            ->orderByDesc('updated_date')
+            ->paginate(config('chat.conversations_per_page'));
+    }
+
+
+    public function getConversationMessages(int $userId, int $conversationId): Collection {
+
+        $conversation = $this->resolveConversation($userId, $conversationId);
+
+        return $conversation->messages()
+            ->orderBy('id_chat_messages')
+            ->get();
     }
 
     private function createConversation(int $userId, string $firstMessage): ChatConversation {

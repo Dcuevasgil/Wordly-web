@@ -52,4 +52,12 @@ return [
     */
     'vocabulary_window' => 20,
 
+    /* 
+    |-----------------------------------------------------
+    | Conversations per page
+    |-----------------------------------------------------
+    | Page size for the conversation list endpoint.
+    */
+    'conversations_per_page' => 20,
+
 ];
