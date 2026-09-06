@@ -4,11 +4,21 @@ namespace App\Modules\Chat\Services;
 
 use App\Modules\Chat\Models\ChatConversation;
 use App\Modules\Chat\Models\ChatMessage;
+use App\Modules\Chat\Prompts\ConversationPrompt;
+use App\Modules\Learning\Services\UserContextService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use RuntimeException;
 
 class ChatService {
+
+
+    public function __construct(
+        private readonly OllamaClient $ollama,
+        private readonly ConversationPrompt $prompt,
+        private readonly UserContextService $userContext,
+    ) {}
+
 
     public function sendMessage(int $userId, string $content, ?int $conversationId = null): ChatConversation {
 
@@ -17,19 +27,18 @@ class ChatService {
             $conversation = $conversationId === null ? $this->createConversation($userId, $content) : $this->resolveConversation($userId, $conversationId);
 
             $conversation->messages()->create([
-
                 'role' => ChatMessage::ROLE_USER,
-
                 'content' => $content,
-
             ]);
 
+            $reply = $this->generateReply($userId, $conversation);
+
             $conversation->messages()->create([
-
                 'role' => ChatMessage::ROLE_ASSISTANT,
-
-                'content' => $this->generateReply($content),
-
+                'content' => $reply['content'],
+                'model' => $reply['model'],
+                'tokens_used' => $reply['tokens_used'],                
+                'latency_ms' => $reply['latency_ms'],
             ]);
 
             $conversation->touch();
@@ -42,11 +51,8 @@ class ChatService {
     private function createConversation(int $userId, string $firstMessage): ChatConversation {
 
         return ChatConversation::create([
-
             'user_id' => $userId,
-
             'title' => $this->buildTitle($firstMessage),
-
         ]);
     }
 
@@ -70,10 +76,36 @@ class ChatService {
     }
 
     /**
-     * Placeholder reply. Will be replaced by the AI provider call.
+     * Builds the payload for the model: system prompt with the learner's
+     * level and vocabulary, followed by the recent history of the
+     * conversation. History is capped at chat.history_window.
+     * 
+     * @return array{content: string, model: string, tokens_used: ?int, latency_ms: ?int}
      */
-    private function generateReply(string $userMessage): string {
-        return 'Fixed assistant reply. AI provider not connected yet.';
+    private function generateReply(int $userId, ChatConversation $conversation): array {
+
+        $systemPrompt = $this->prompt->build(
+            $this->userContext->getCurrentLevel($userId),
+            $this->userContext->getVocabularySample($userId, config('chat.vocabulary_window')),
+        );
+
+        $history = $conversation->messages()
+            ->orderByDesc('id_chat_messages')
+            ->limit(config('chat.history_window'))
+            ->get()
+            ->reverse()
+            ->map(fn (ChatMessage $message) => [
+                'role' => $message->role,
+                'content' => $message->content,
+            ])
+            ->values()
+            ->all();
+
+
+        return $this->ollama->chat([
+            ['role' => 'system', 'content' => $systemPrompt],
+            ...$history,
+        ]);
     }
 
 }
