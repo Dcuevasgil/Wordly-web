@@ -2,7 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function authHeaders() {
     return {
-        "Authorization": `Bearer ${localStorage.getItem("item")}`,
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
         "Accept": "application/json",
     };
 }

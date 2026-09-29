@@ -12,6 +12,8 @@ export function useChat() {
 
     async function send(content) {
 
+        // Nada que enviar, o ya hay un envío en curso
+        if (!content?.trim() || isSending) return;
 
         setIsSending(true);
         setError(null);

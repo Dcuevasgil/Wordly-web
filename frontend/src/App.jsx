@@ -5,9 +5,9 @@ import LoginPage from "./modules/auth/pages/LoginPage";
 import Dashboard from "./modules/learn/pages/Dashboard";
 import DashboardHome from "./modules/learn/pages/DashboardHome";
 import Settings from "./modules/learn/pages/Settings";
-import Messages from "./modules/learn/pages/Messages";
 import Practice from "./modules/learn/pages/Practice";
 
+import ChatPage from "./modules/chat/pages/ChatPage";
 
 import PrivateRoute from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
@@ -34,7 +34,7 @@ function App() {
 
             <Route index element={<DashboardHome />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="messages" element={<Messages />} />
+            <Route path="chat" element={<ChatPage />} />
             <Route path="practice" element={<Practice />} />
 
           </Route>
