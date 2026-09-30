@@ -56,3 +56,7 @@
 /* ===================== */
 
 @import './utilities/typography.css';
+
+body {
+    user-select: none;
+}

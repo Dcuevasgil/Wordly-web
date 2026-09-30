@@ -99,7 +99,7 @@ function Dashboard() {
 
         <div
           className="nav-item flex direction-row items-center gap-8 interaction-press"
-          onClick={() => navigate("/dashboard/messages")}
+          onClick={() => navigate("/dashboard/chat")}
         >
           <md-icon>chat_bubble</md-icon>
           <span className="text-16 weight-600 color-black">Chat</span>
