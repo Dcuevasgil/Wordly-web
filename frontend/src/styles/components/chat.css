@@ -5,7 +5,7 @@
 .chat-container {
     width: 100%;
     max-width: 800px;
-    height: 100%;
+    height: calc(100vh - 240px);
 
     display: flex;
     flex-direction: column;
@@ -101,6 +101,50 @@
     color: var(--color-danger);
     font-family: var(--font-main);
     font-size: var(--text-sm);
+}
+
+/* Burbuja de "escribiendo" */
+.chat-typing-bubble {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.chat-typing-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+    background: var(--color-text-light);
+
+    animation: chatTypingBounce 1.2s infinite ease-in-out;
+}
+
+.chat-typing-dot:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.chat-typing-dot:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes chatTypingBounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+
+    30% {
+        transform: translateY(-6px);
+        opacity: 1;
+    }
+}
+
+/* Quien tenga desactivadas las animaciones en su sistema ve los puntos quietos */
+@media (prefers-reduced-motion: reduce) {
+    .chat-typing-dot {
+        animation: none;
+    }
 }
 
 
