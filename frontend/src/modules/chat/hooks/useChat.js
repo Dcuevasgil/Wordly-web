@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { sendMessage as sendMessageRequest } from "../services/chatService";
+import { getChatErrorText } from "../utils/chatErrors";
 
 export function useChat() {
 
@@ -7,16 +8,12 @@ export function useChat() {
     const [messages, setMessages] = useState([]);
     const [conversationId, setConversationId] = useState(null);
     const [isSending, setIsSending] = useState(false);
-    const [error, setError] = useState(null);
 
 
     async function send(content) {
 
         // Nada que enviar, o ya hay un envío en curso
         if (!content?.trim() || isSending) return;
-
-        // Guardamos la lista actual por si hay que deshacer
-        const previousMessages = messages;
 
         // Mensaje provisional: se pinta ya, sin esperar al backend
         const optimisticMessage = {
@@ -27,7 +24,6 @@ export function useChat() {
 
         setMessages((current) => [...current, optimisticMessage]);
         setIsSending(true);
-        setError(null);
 
         try {
             const data = await sendMessageRequest(content, conversationId);
@@ -37,9 +33,15 @@ export function useChat() {
             setMessages(data.messages);
 
         } catch (err) {
-            // Si falla, quitamos el mensaje provisional
-            setMessages(previousMessages);
-            setError(err.message);
+            // Tu mensaje se queda y debajo aparece la burbuja de error
+            const errorMessage = {
+                id: `error-${Date.now()}`,
+                role: "error",
+                content: getChatErrorText(err),
+                status: err.status ?? null,
+            };
+
+            setMessages((current) => [...current, errorMessage]);
 
         } finally {
             setIsSending(false);
@@ -48,5 +50,5 @@ export function useChat() {
     }
 
 
-    return { messages, conversationId, isSending, error, send };
+    return { messages, conversationId, isSending, send };
 }

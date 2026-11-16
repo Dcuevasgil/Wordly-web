@@ -37,6 +37,7 @@ export default function MessageList({ messages, isSending }) {
                     key={message.id}
                     role={message.role}
                     content={message.content}
+                    status={message.status}
                 />
             ))}
 
